@@ -1,0 +1,44 @@
+{
+  "source_dataset": "lukebarousse/data_jobs",
+  "source_dataset_url": "https://huggingface.co/datasets/lukebarousse/data_jobs",
+  "source_csv_url": "https://huggingface.co/datasets/lukebarousse/data_jobs/resolve/main/data_jobs.csv",
+  "original_rows": 785741,
+  "source_file_bytes": 231152089,
+  "sample_rows": 100000,
+  "sample_method": "Stratified reservoir sample by derived MSBA relevance label.",
+  "random_seed": 2411,
+  "target_per_label": 25000,
+  "train_rows": 80000,
+  "validation_rows": 20000,
+  "label_counts_in_full_source_by_rules": {
+    "unclear": 219988,
+    "medium_fit": 163538,
+    "low_fit": 363901,
+    "high_fit": 38314
+  },
+  "label_counts_in_sample": {
+    "medium_fit": 25000,
+    "low_fit": 25000,
+    "high_fit": 25000,
+    "unclear": 25000
+  },
+  "split_counts": {
+    "train": 80000,
+    "validation": 20000
+  },
+  "split_label_counts": {
+    "train": {
+      "medium_fit": 20000,
+      "low_fit": 20000,
+      "high_fit": 20000,
+      "unclear": 20000
+    },
+    "validation": {
+      "medium_fit": 5000,
+      "unclear": 5000,
+      "low_fit": 5000,
+      "high_fit": 5000
+    }
+  },
+  "weak_label_note": "Labels are derived from transparent MSBA advisor-screening rules over real posting metadata. They are weak labels for a baseline, not final human judgments."
+}
