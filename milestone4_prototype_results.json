@@ -1,0 +1,131 @@
+{
+  "project": "NLP-assisted job opportunity matching for MSBA international students",
+  "prototype_pattern": "retrieval plus grounded template generation",
+  "source": {
+    "source_dataset": "lukebarousse/data_jobs",
+    "source_dataset_url": "https://huggingface.co/datasets/lukebarousse/data_jobs",
+    "source_csv_url": "https://huggingface.co/datasets/lukebarousse/data_jobs/resolve/main/data_jobs.csv",
+    "original_rows": 785741,
+    "source_file_bytes": 231152089,
+    "sample_rows": 100000,
+    "sample_method": "Stratified reservoir sample by derived MSBA relevance label.",
+    "random_seed": 2411,
+    "target_per_label": 25000,
+    "train_rows": 80000,
+    "validation_rows": 20000,
+    "label_counts_in_full_source_by_rules": {
+      "unclear": 219988,
+      "medium_fit": 163538,
+      "low_fit": 363901,
+      "high_fit": 38314
+    },
+    "label_counts_in_sample": {
+      "medium_fit": 25000,
+      "low_fit": 25000,
+      "high_fit": 25000,
+      "unclear": 25000
+    },
+    "split_counts": {
+      "train": 80000,
+      "validation": 20000
+    },
+    "split_label_counts": {
+      "train": {
+        "medium_fit": 20000,
+        "low_fit": 20000,
+        "high_fit": 20000,
+        "unclear": 20000
+      },
+      "validation": {
+        "medium_fit": 5000,
+        "unclear": 5000,
+        "low_fit": 5000,
+        "high_fit": 5000
+      }
+    },
+    "weak_label_note": "Labels are derived from transparent MSBA advisor-screening rules over real posting metadata. They are weak labels for a baseline, not final human judgments."
+  },
+  "baseline_reference": {
+    "milestone2_full_validation_accuracy": 0.7926,
+    "milestone2_full_validation_macro_f1": 0.7850365898328939,
+    "same_eval_hashed_centroid_accuracy": 0.7965,
+    "same_eval_hashed_centroid_macro_f1": 0.7913760105063191
+  },
+  "milestone3_reference": {
+    "adaptation_strategy": "true_peft_lora_transformer",
+    "accuracy": 0.8745,
+    "macro_f1": 0.8725113393716598,
+    "note": "Best Milestone 3 adaptation experiment; used as the stronger classifier direction for the final system."
+  },
+  "prototype_evaluation": {
+    "validation_rows": 4000,
+    "validation_per_label": 1000,
+    "retrieval_top_k": 7,
+    "metrics": {
+      "accuracy": 0.8005,
+      "macro_f1": 0.8008682848134999,
+      "per_label": {
+        "high_fit": {
+          "precision": 0.9297752808988764,
+          "recall": 0.993,
+          "f1": 0.9603481624758221
+        },
+        "medium_fit": {
+          "precision": 0.892128279883382,
+          "recall": 0.612,
+          "f1": 0.7259786476868327
+        },
+        "low_fit": {
+          "precision": 0.5960559796437659,
+          "recall": 0.937,
+          "f1": 0.728615863141524
+        },
+        "unclear": {
+          "precision": 0.9792284866468842,
+          "recall": 0.66,
+          "f1": 0.7885304659498208
+        }
+      },
+      "confusion": {
+        "high_fit": {
+          "high_fit": 993,
+          "medium_fit": 0,
+          "low_fit": 1,
+          "unclear": 6
+        },
+        "medium_fit": {
+          "high_fit": 3,
+          "medium_fit": 612,
+          "low_fit": 380,
+          "unclear": 5
+        },
+        "low_fit": {
+          "high_fit": 49,
+          "medium_fit": 11,
+          "low_fit": 937,
+          "unclear": 3
+        },
+        "unclear": {
+          "high_fit": 23,
+          "medium_fit": 63,
+          "low_fit": 254,
+          "unclear": 660
+        }
+      }
+    },
+    "grounding": {
+      "retrieval_success_rate": 1.0,
+      "support_hit_at_5": 0.8995,
+      "mean_retrieved_per_input": 7.0,
+      "generation_policy": "Template generation may only cite retrieved fields; authorization is always reported as not grounded unless source text contains it."
+    }
+  },
+  "architecture": [
+    "Input: advisor/student query or raw job posting text",
+    "Preprocess: normalize title, skills, location, schedule, and posting text",
+    "Retrieve: sparse inverted index over 80,000 training postings",
+    "Decide: apply a transparent role-fit rubric; retrieval supplies grounding and comparable examples",
+    "Generate: template output that cites retrieved posting fields and flags missing authorization evidence",
+    "Evaluate: accuracy, macro F1, retrieval success, and support hit@5 against weak labels"
+  ]
+}

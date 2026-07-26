@@ -1,0 +1,105 @@
+{
+  "source": {
+    "source_dataset": "lukebarousse/data_jobs",
+    "source_dataset_url": "https://huggingface.co/datasets/lukebarousse/data_jobs",
+    "source_csv_url": "https://huggingface.co/datasets/lukebarousse/data_jobs/resolve/main/data_jobs.csv",
+    "original_rows": 785741,
+    "source_file_bytes": 231152089,
+    "sample_rows": 100000,
+    "sample_method": "Stratified reservoir sample by derived MSBA relevance label.",
+    "random_seed": 2411,
+    "target_per_label": 25000,
+    "train_rows": 80000,
+    "validation_rows": 20000,
+    "label_counts_in_full_source_by_rules": {
+      "unclear": 219988,
+      "medium_fit": 163538,
+      "low_fit": 363901,
+      "high_fit": 38314
+    },
+    "label_counts_in_sample": {
+      "medium_fit": 25000,
+      "low_fit": 25000,
+      "high_fit": 25000,
+      "unclear": 25000
+    },
+    "split_counts": {
+      "train": 80000,
+      "validation": 20000
+    },
+    "split_label_counts": {
+      "train": {
+        "medium_fit": 20000,
+        "low_fit": 20000,
+        "high_fit": 20000,
+        "unclear": 20000
+      },
+      "validation": {
+        "medium_fit": 5000,
+        "unclear": 5000,
+        "low_fit": 5000,
+        "high_fit": 5000
+      }
+    },
+    "weak_label_note": "Labels are derived from transparent MSBA advisor-screening rules over real posting metadata. They are weak labels for a baseline, not final human judgments."
+  },
+  "model": {
+    "name": "TF-IDF 1-2 gram nearest-centroid baseline",
+    "max_features": 25000,
+    "min_df": 5,
+    "train_rows": 80000,
+    "validation_rows": 20000
+  },
+  "metrics": {
+    "accuracy": 0.7926,
+    "macro_f1": 0.7850365898328939,
+    "per_label": {
+      "high_fit": {
+        "precision": 0.7991042866282789,
+        "recall": 0.9992,
+        "f1": 0.8880199075719872
+      },
+      "low_fit": {
+        "precision": 0.8591778591778592,
+        "recall": 0.8444,
+        "f1": 0.8517248335686907
+      },
+      "medium_fit": {
+        "precision": 0.7506854680767724,
+        "recall": 0.7666,
+        "f1": 0.7585592717197704
+      },
+      "unclear": {
+        "precision": 0.7513412017167382,
+        "recall": 0.5602,
+        "f1": 0.6418423464711275
+      }
+    },
+    "confusion": {
+      "high_fit": {
+        "high_fit": 4996,
+        "low_fit": 0,
+        "medium_fit": 4,
+        "unclear": 0
+      },
+      "low_fit": {
+        "high_fit": 244,
+        "low_fit": 4222,
+        "medium_fit": 363,
+        "unclear": 171
+      },
+      "medium_fit": {
+        "high_fit": 389,
+        "low_fit": 22,
+        "medium_fit": 3833,
+        "unclear": 756
+      },
+      "unclear": {
+        "high_fit": 623,
+        "low_fit": 670,
+        "medium_fit": 906,
+        "unclear": 2801
+      }
+    }
+  }
+}

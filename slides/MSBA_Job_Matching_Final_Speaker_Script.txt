@@ -1,0 +1,25 @@
+Final Presentation Speaker Script - MSBA Job Matching NLP System
+
+Slide 1
+This project is an NLP system for job-posting screening. The user is a graduate business career advisor supporting MSBA international students. The system takes a real query or posting, retrieves similar real postings, predicts role fit, and returns evidence for human review.
+
+Slide 2
+The business problem is the advisor's decision. Advisors need to decide which postings to forward, hold, or investigate. A label alone is not enough, because the advisor needs to see why the system thinks a posting is relevant.
+
+Slide 3
+The system uses retrieval to keep the recommendation grounded. It accepts an input query, retrieves similar postings from 80,000 training rows, applies a transparent MSBA role-fit rubric, and generates a constrained recommendation using only retrieved fields.
+
+Slide 4
+The demo query asks for entry-level US analytics or business analyst opportunities for MSBA international students with SQL, Python, Excel, Tableau, or Power BI. The output recommends reviewing retrieved postings first and shows evidence such as title, company, location, skills, and label.
+
+Slide 5
+The final system reaches about 80.0 percent accuracy and 80.1 percent macro F1. The true PEFT LoRA experiment from Milestone 3 reaches 87.5 percent accuracy and 87.3 percent macro F1 as a classifier, but the final system adds evidence, grounding, and an authorization guardrail. That is why it is more appropriate as an advisor-facing prototype.
+
+Slide 6
+The edge case is authorization. If a student asks whether a role definitely supports OPT or H-1B and the posting has no authorization text, the system refuses to infer eligibility and routes that question to advisor review.
+
+Slide 7
+The business case is faster screening with safer escalation. The system can reduce first-pass review work by surfacing likely matches and evidence, while keeping the advisor in control for ambiguous and sensitive cases.
+
+Slide 8
+The next step is better labels and real authorization text. I would pilot this with de-identified Career Center postings, collect advisor corrections, and evaluate high-fit precision, authorization extraction accuracy, and workload reduction.

@@ -1,0 +1,9 @@
+Demo Recording Script
+
+1. Open the GitHub README and state the use case: MSBA career-advisor job-posting triage.
+2. Run the normal demo command: `python -m msba_job_matcher.app --input-json demo/sample_query.json --output outputs/final_demo_output.json`.
+3. Show that the output includes a recommendation, retrieved evidence, and the authorization caveat.
+4. Run the edge case command: `python -m msba_job_matcher.app --input-json demo/edge_case_query.json --output outputs/final_edge_case_output.json`.
+5. Point out that the system refuses to infer OPT, CPT, H-1B, or sponsorship when the posting lacks evidence.
+6. Show `outputs/final_evaluation_results.json`: accuracy 0.800, macro F1 0.801.
+7. Close with the recommendation: pilot with de-identified Career Center postings and advisor corrections.

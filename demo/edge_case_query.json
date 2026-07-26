@@ -1,0 +1,4 @@
+{
+  "query": "Student asks if an employer definitely sponsors OPT/H-1B, but the posting only says data role and does not provide work authorization text.",
+  "edge_case": "authorization missing"
+}

@@ -1,0 +1,98 @@
+{
+  "input": {
+    "user": "Graduate business career advisor",
+    "query": "Find entry-level US analytics or business analyst opportunities for MSBA international students with SQL, Python, Excel, Tableau, or Power BI skills. Flag cases where authorization evidence is missing.",
+    "student_profile": {
+      "program": "MSBA",
+      "career_goal": "data analyst, business analyst, BI analyst, or operations analytics",
+      "skills": [
+        "SQL",
+        "Python",
+        "Excel",
+        "Tableau",
+        "Power BI"
+      ],
+      "location_preference": "United States, Bay Area or remote preferred",
+      "authorization_need": "CPT/OPT evidence must be reviewed by an advisor"
+    }
+  },
+  "system_output": {
+    "headline": "Review 3 of the retrieved postings first; they match analytics role-fit signals.",
+    "recommended_action": "Advisor review before forwarding to students",
+    "grounding_caveat": "Do not infer CPT, OPT, or sponsorship from this dataset. The public source does not include reliable authorization text, so every recommendation keeps authorization as a human-review item.",
+    "retrieved_evidence": [
+      {
+        "posting_id": "HF-125063",
+        "source_title": "Entry level / Busines Data Analyst (Remote)",
+        "company": "Lumos Stratgy",
+        "location": "San Francisco, CA",
+        "grounded_fit_label": "high_fit",
+        "evidence": [
+          "title/location: Entry level / Busines Data Analyst (Remote) at Lumos Stratgy in San Francisco, CA",
+          "skills: sql, python, r, excel, tableau, power bi",
+          "authorization evidence is not available in this public source"
+        ]
+      },
+      {
+        "posting_id": "HF-6065",
+        "source_title": "Entry Level Data Analyst",
+        "company": "SkiHomeRealty",
+        "location": "Anywhere",
+        "grounded_fit_label": "high_fit",
+        "evidence": [
+          "title/location: Entry Level Data Analyst at SkiHomeRealty in Anywhere",
+          "skills: sql, python, r, tableau, power bi",
+          "authorization evidence is not available in this public source"
+        ]
+      },
+      {
+        "posting_id": "HF-3101",
+        "source_title": "Entry Level Business Analyst/Data Analyst",
+        "company": "Alipro",
+        "location": "Tysons, VA",
+        "grounded_fit_label": "high_fit",
+        "evidence": [
+          "title/location: Entry Level Business Analyst/Data Analyst at Alipro in Tysons, VA",
+          "skills: sql, python, aws, excel, tableau, flow",
+          "authorization evidence is not available in this public source"
+        ]
+      },
+      {
+        "posting_id": "HF-441656",
+        "source_title": "Entry Level Data Analyst - US Army (13J)",
+        "company": "United States Army",
+        "location": "Long Beach, CA",
+        "grounded_fit_label": "unclear",
+        "evidence": [
+          "title/location: Entry Level Data Analyst - US Army (13J) at United States Army in Long Beach, CA",
+          "skills: skills not listed",
+          "authorization evidence is not available in this public source"
+        ]
+      },
+      {
+        "posting_id": "HF-411650",
+        "source_title": "Business Analyst in BI Analytics Guild",
+        "company": "Swedbank",
+        "location": "Anywhere",
+        "grounded_fit_label": "unclear",
+        "evidence": [
+          "title/location: Business Analyst in BI Analytics Guild at Swedbank in Anywhere",
+          "skills: sql, sap",
+          "authorization evidence is not available in this public source"
+        ]
+      },
+      {
+        "posting_id": "HF-377765",
+        "source_title": "Senior Data Analyst United States Remote",
+        "company": "Altium Limited",
+        "location": "California, MO",
+        "grounded_fit_label": "low_fit",
+        "evidence": [
+          "title/location: Senior Data Analyst United States Remote at Altium Limited in California, MO",
+          "skills: sql, python, r, excel, tableau, power bi",
+          "authorization evidence is not available in this public source"
+        ]
+      }
+    ]
+  }
+}

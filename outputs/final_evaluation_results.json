@@ -1,0 +1,57 @@
+{
+  "sample_rows": 4000,
+  "sample_per_label": 1000,
+  "metrics": {
+    "accuracy": 0.80025,
+    "macro_f1": 0.8005632207383573,
+    "per_label": {
+      "high_fit": {
+        "precision": 0.9289055191768008,
+        "recall": 0.993,
+        "f1": 0.959884001933301
+      },
+      "medium_fit": {
+        "precision": 0.891970802919708,
+        "recall": 0.611,
+        "f1": 0.7252225519287834
+      },
+      "low_fit": {
+        "precision": 0.5960559796437659,
+        "recall": 0.937,
+        "f1": 0.728615863141524
+      },
+      "unclear": {
+        "precision": 0.9792284866468842,
+        "recall": 0.66,
+        "f1": 0.7885304659498208
+      }
+    },
+    "confusion": {
+      "high_fit": {
+        "high_fit": 993,
+        "medium_fit": 0,
+        "low_fit": 1,
+        "unclear": 6
+      },
+      "medium_fit": {
+        "high_fit": 4,
+        "medium_fit": 611,
+        "low_fit": 380,
+        "unclear": 5
+      },
+      "low_fit": {
+        "high_fit": 49,
+        "medium_fit": 11,
+        "low_fit": 937,
+        "unclear": 3
+      },
+      "unclear": {
+        "high_fit": 23,
+        "medium_fit": 63,
+        "low_fit": 254,
+        "unclear": 660
+      }
+    }
+  },
+  "note": "Labels are weak labels derived from transparent advisor-screening rules."
+}

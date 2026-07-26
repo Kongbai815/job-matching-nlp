@@ -1,0 +1,118 @@
+{
+  "input": "Student asks if an employer definitely sponsors OPT/H-1B, but the posting only says data role and does not provide work authorization text.",
+  "predicted_query_label": "unclear",
+  "rubric_scores": {
+    "high_fit": 0.0,
+    "medium_fit": 0.0,
+    "low_fit": 0.0,
+    "unclear": 6.5
+  },
+  "headline": "Review 2 retrieved postings first; they have analytics role-fit signals.",
+  "recommended_action": "Advisor review before forwarding",
+  "grounding_caveat": "Do not infer CPT, OPT, or sponsorship from this public dataset. Authorization evidence must be reviewed separately.",
+  "retrieved_evidence": [
+    {
+      "rank": 6,
+      "score": 3.5458356250276353,
+      "posting_id": "HF-690529",
+      "company": "Employer & Individual",
+      "role_title": "Remote Data Analyst",
+      "location": "Las Vegas, NV",
+      "job_country": "United States",
+      "skills": [
+        "sql",
+        "excel",
+        "outlook"
+      ],
+      "grounded_fit_label": "high_fit",
+      "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+      "authorization_evidence": "not available in public source"
+    },
+    {
+      "rank": 4,
+      "score": 3.621095651422781,
+      "posting_id": "HF-509017",
+      "company": "If Insurance Baltic",
+      "role_title": "Data Scientist",
+      "location": "Riga, Latvia",
+      "job_country": "Latvia",
+      "skills": [
+        "sql",
+        "python",
+        "azure",
+        "databricks"
+      ],
+      "grounded_fit_label": "medium_fit",
+      "label_reason": "Analytics role with relevant skills, but weaker fit due to location, title, or project context.",
+      "authorization_evidence": "not available in public source"
+    },
+    {
+      "rank": 5,
+      "score": 3.5640100179400394,
+      "posting_id": "HF-324628",
+      "company": "SEARCH OPT MEDIA INC.",
+      "role_title": "Digital Analyst | Hybrid Set up",
+      "location": "Philippines",
+      "job_country": "Philippines",
+      "skills": [
+        "excel"
+      ],
+      "grounded_fit_label": "unclear",
+      "label_reason": "Posting has some useful metadata but does not clearly map to the advisor triage target.",
+      "authorization_evidence": "not available in public source"
+    },
+    {
+      "rank": 1,
+      "score": 4.576389353942874,
+      "posting_id": "HF-523660",
+      "company": "Employer details provided on application.",
+      "role_title": "Senior Data Analyst",
+      "location": "Singapore",
+      "job_country": "Singapore",
+      "skills": [
+        "sql",
+        "r",
+        "python",
+        "powerbi"
+      ],
+      "grounded_fit_label": "low_fit",
+      "label_reason": "Role is senior, engineering-heavy, or less aligned with entry-level MSBA advisor forwarding.",
+      "authorization_evidence": "not available in public source"
+    },
+    {
+      "rank": 2,
+      "score": 4.0427556854862985,
+      "posting_id": "HF-505613",
+      "company": "NEEDS COMPANY PROFILE IF WE FIND JOBS - Digible",
+      "role_title": "Data Engineer",
+      "location": "Anywhere",
+      "job_country": "United States",
+      "skills": [
+        "python",
+        "sql",
+        "git"
+      ],
+      "grounded_fit_label": "low_fit",
+      "label_reason": "Role is senior, engineering-heavy, or less aligned with entry-level MSBA advisor forwarding.",
+      "authorization_evidence": "not available in public source"
+    },
+    {
+      "rank": 3,
+      "score": 3.854638646264453,
+      "posting_id": "HF-97628",
+      "company": "Smart Folks Inc",
+      "role_title": "Data Engineer at Austin, TX || On site to Austin, TX || NO OPT CPT...",
+      "location": "Austin, TX",
+      "job_country": "United States",
+      "skills": [
+        "python",
+        "aws",
+        "spark",
+        "kafka"
+      ],
+      "grounded_fit_label": "low_fit",
+      "label_reason": "Role is senior, engineering-heavy, or less aligned with entry-level MSBA advisor forwarding.",
+      "authorization_evidence": "not available in public source"
+    }
+  ]
+}
