@@ -18,8 +18,8 @@ This repository contains the MSBA job-matching NLP project milestone notebooks a
 - `true_peft_lora_results.json`
 - Zero-shot macro F1: 0.8147
 - Few-shot macro F1: 0.8285
-- True PEFT LoRA macro F1: 0.6432
-- Recommendation: use few-shot/prototype adaptation now; revisit PEFT LoRA after stronger human-reviewed labels and a stronger training setup.
+- True PEFT LoRA macro F1: 0.8725
+- Recommendation: use PEFT LoRA as the strongest adaptation strategy, with few-shot/prototype logic as a transparent fallback for uncertain postings.
 
 ## Data
 
