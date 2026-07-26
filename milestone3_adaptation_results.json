@@ -1,0 +1,235 @@
+{
+  "project": "NLP-assisted job opportunity matching for MSBA international students",
+  "task": "Classify each job posting as high_fit, medium_fit, low_fit, or unclear.",
+  "source": {
+    "source_dataset": "lukebarousse/data_jobs",
+    "source_dataset_url": "https://huggingface.co/datasets/lukebarousse/data_jobs",
+    "source_csv_url": "https://huggingface.co/datasets/lukebarousse/data_jobs/resolve/main/data_jobs.csv",
+    "original_rows": 785741,
+    "source_file_bytes": 231152089,
+    "sample_rows": 100000,
+    "sample_method": "Stratified reservoir sample by derived MSBA relevance label.",
+    "random_seed": 2411,
+    "target_per_label": 25000,
+    "train_rows": 80000,
+    "validation_rows": 20000,
+    "label_counts_in_full_source_by_rules": {
+      "unclear": 219988,
+      "medium_fit": 163538,
+      "low_fit": 363901,
+      "high_fit": 38314
+    },
+    "label_counts_in_sample": {
+      "medium_fit": 25000,
+      "low_fit": 25000,
+      "high_fit": 25000,
+      "unclear": 25000
+    },
+    "split_counts": {
+      "train": 80000,
+      "validation": 20000
+    },
+    "split_label_counts": {
+      "train": {
+        "medium_fit": 20000,
+        "low_fit": 20000,
+        "high_fit": 20000,
+        "unclear": 20000
+      },
+      "validation": {
+        "medium_fit": 5000,
+        "unclear": 5000,
+        "low_fit": 5000,
+        "high_fit": 5000
+      }
+    },
+    "weak_label_note": "Labels are derived from transparent MSBA advisor-screening rules over real posting metadata. They are weak labels for a baseline, not final human judgments."
+  },
+  "experiment_design": {
+    "random_seed": 2411,
+    "few_shot_per_label": 16,
+    "adapter_train_per_label": 500,
+    "validation_per_label": 1000,
+    "few_shot_rows": 64,
+    "adapter_train_rows": 2000,
+    "validation_rows": 4000,
+    "labels": [
+      "high_fit",
+      "medium_fit",
+      "low_fit",
+      "unclear"
+    ],
+    "hash_dim": 2048,
+    "low_rank_adapter_rank": 16
+  },
+  "strategies": {
+    "zero_shot_prompt_rubric": {
+      "description": "Prompt-style label definitions with no task examples; implemented as an offline rubric classifier.",
+      "training_rows": 0,
+      "metrics": {
+        "accuracy": 0.8145,
+        "macro_f1": 0.8147111717902089,
+        "per_label": {
+          "high_fit": {
+            "precision": 0.9640776699029127,
+            "recall": 0.993,
+            "f1": 0.9783251231527094
+          },
+          "medium_fit": {
+            "precision": 0.8709677419354839,
+            "recall": 0.621,
+            "f1": 0.7250437828371278
+          },
+          "low_fit": {
+            "precision": 0.6172680412371134,
+            "recall": 0.958,
+            "f1": 0.7507836990595612
+          },
+          "unclear": {
+            "precision": 0.9730496453900709,
+            "recall": 0.686,
+            "f1": 0.8046920821114371
+          }
+        },
+        "confusion": {
+          "high_fit": {
+            "high_fit": 993,
+            "medium_fit": 0,
+            "low_fit": 2,
+            "unclear": 5
+          },
+          "medium_fit": {
+            "high_fit": 2,
+            "medium_fit": 621,
+            "low_fit": 371,
+            "unclear": 6
+          },
+          "low_fit": {
+            "high_fit": 12,
+            "medium_fit": 22,
+            "low_fit": 958,
+            "unclear": 8
+          },
+          "unclear": {
+            "high_fit": 23,
+            "medium_fit": 70,
+            "low_fit": 221,
+            "unclear": 686
+          }
+        }
+      }
+    },
+    "few_shot_prompt_prototypes": {
+      "description": "Sixteen examples per label used as in-context exemplars; implemented as prototype matching plus label rubric calibration.",
+      "training_rows": 64,
+      "metrics": {
+        "accuracy": 0.8285,
+        "macro_f1": 0.8285379744955271,
+        "per_label": {
+          "high_fit": {
+            "precision": 0.9640776699029127,
+            "recall": 0.993,
+            "f1": 0.9783251231527094
+          },
+          "medium_fit": {
+            "precision": 0.8669410150891632,
+            "recall": 0.632,
+            "f1": 0.7310584152689416
+          },
+          "low_fit": {
+            "precision": 0.6422818791946309,
+            "recall": 0.957,
+            "f1": 0.7686746987951807
+          },
+          "unclear": {
+            "precision": 0.9747003994673769,
+            "recall": 0.732,
+            "f1": 0.8360936607652769
+          }
+        },
+        "confusion": {
+          "high_fit": {
+            "high_fit": 993,
+            "medium_fit": 0,
+            "low_fit": 2,
+            "unclear": 5
+          },
+          "medium_fit": {
+            "high_fit": 2,
+            "medium_fit": 632,
+            "low_fit": 362,
+            "unclear": 4
+          },
+          "low_fit": {
+            "high_fit": 12,
+            "medium_fit": 21,
+            "low_fit": 957,
+            "unclear": 10
+          },
+          "unclear": {
+            "high_fit": 23,
+            "medium_fit": 76,
+            "low_fit": 169,
+            "unclear": 732
+          }
+        }
+      }
+    },
+    "lora_style_low_rank_adapter": {
+      "description": "CPU-friendly low-rank adapter over frozen hashed text features; notebook also includes PEFT LoRA cell for Colab/GPU.",
+      "training_rows": 2000,
+      "metrics": {
+        "accuracy": 0.867,
+        "macro_f1": 0.865190327045177,
+        "per_label": {
+          "high_fit": {
+            "precision": 0.897737556561086,
+            "recall": 0.992,
+            "f1": 0.9425178147268409
+          },
+          "medium_fit": {
+            "precision": 0.8375826251180358,
+            "recall": 0.887,
+            "f1": 0.8615832928606119
+          },
+          "low_fit": {
+            "precision": 0.908008658008658,
+            "recall": 0.839,
+            "f1": 0.8721413721413721
+          },
+          "unclear": {
+            "precision": 0.8223684210526315,
+            "recall": 0.75,
+            "f1": 0.7845188284518829
+          }
+        },
+        "confusion": {
+          "high_fit": {
+            "high_fit": 992,
+            "medium_fit": 2,
+            "low_fit": 1,
+            "unclear": 5
+          },
+          "medium_fit": {
+            "high_fit": 8,
+            "medium_fit": 887,
+            "low_fit": 14,
+            "unclear": 91
+          },
+          "low_fit": {
+            "high_fit": 26,
+            "medium_fit": 69,
+            "low_fit": 839,
+            "unclear": 66
+          },
+          "unclear": {
+            "high_fit": 79,
+            "medium_fit": 101,
+            "low_fit": 70,
+            "unclear": 750
+          }
+        }
+      }
+    }
+  }
+}

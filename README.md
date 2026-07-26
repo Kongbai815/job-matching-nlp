@@ -1,15 +1,23 @@
-# ISBA 2411 Milestone 2 - Project Baseline & Representation
+# ISBA 2411 NLP Job-Matching Project
 
-This repository contains the Milestone 2 submission for the MSBA job-matching NLP project.
+This repository contains the MSBA job-matching NLP project milestone notebooks and supporting data.
 
-## Notebook
+## Milestone 2 - Baseline & Representation
 
 - `MSBA_Job_Matching_Milestone2.ipynb`
-- GitHub notebook URL: `https://github.com/Kongbai815/job-matching-nlp/blob/main/MSBA_Job_Matching_Milestone2.ipynb`
-
-## Required PDF Copy
-
 - `MSBA_Job_Matching_Milestone2_Notebook_Copy.pdf`
+- TF-IDF validation accuracy: 0.7926
+- TF-IDF macro F1: 0.7850
+
+## Milestone 3 - Model Adaptation
+
+- `MSBA_Job_Matching_Milestone3_Model_Adaptation.ipynb`
+- `MSBA_Job_Matching_Milestone3_Notebook_Copy.pdf`
+- `MSBA_Job_Matching_Milestone3_500_Word_Analysis.txt`
+- `milestone3_adaptation_results.json`
+- Zero-shot macro F1: 0.8147
+- Few-shot macro F1: 0.8285
+- LoRA-style low-rank adapter macro F1: 0.8652
 
 ## Data
 
@@ -20,12 +28,3 @@ This repository contains the Milestone 2 submission for the MSBA job-matching NL
 - Labels: `high_fit`, `medium_fit`, `low_fit`, `unclear`
 
 The CSV is included so the notebook can run without relying on a local-only file path.
-
-## Baseline Result
-
-- TF-IDF validation accuracy: 0.7926
-- TF-IDF macro F1: 0.7850
-
-## Submission Note
-
-Canvas requires the GitHub notebook URL plus a PDF copy. The notebook first cell includes the GitHub URL before export.
