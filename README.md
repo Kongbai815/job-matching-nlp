@@ -15,9 +15,11 @@ This repository contains the MSBA job-matching NLP project milestone notebooks a
 - `MSBA_Job_Matching_Milestone3_Notebook_Copy.pdf`
 - `MSBA_Job_Matching_Milestone3_500_Word_Analysis.txt`
 - `milestone3_adaptation_results.json`
+- `true_peft_lora_results.json`
 - Zero-shot macro F1: 0.8147
 - Few-shot macro F1: 0.8285
-- LoRA-style low-rank adapter macro F1: 0.8652
+- True PEFT LoRA macro F1: 0.6432
+- Recommendation: use few-shot/prototype adaptation now; revisit PEFT LoRA after stronger human-reviewed labels and a stronger training setup.
 
 ## Data
 

@@ -48,10 +48,8 @@
   "experiment_design": {
     "random_seed": 2411,
     "few_shot_per_label": 16,
-    "adapter_train_per_label": 500,
     "validation_per_label": 1000,
     "few_shot_rows": 64,
-    "adapter_train_rows": 2000,
     "validation_rows": 4000,
     "labels": [
       "high_fit",
@@ -59,8 +57,21 @@
       "low_fit",
       "unclear"
     ],
-    "hash_dim": 2048,
-    "low_rank_adapter_rank": 16
+    "peft_lora_train_rows": 2000,
+    "peft_lora_validation_rows": 4000,
+    "peft_lora_train_per_label": 500,
+    "peft_lora_base_model": "google/bert_uncased_L-2_H-128_A-2",
+    "peft_lora_device": "cpu",
+    "peft_lora_epochs": 1,
+    "peft_lora_learning_rate": 0.0005,
+    "peft_lora_rank": 8,
+    "peft_lora_alpha": 16,
+    "peft_lora_dropout": 0.05,
+    "peft_lora_target_modules": [
+      "query",
+      "value"
+    ],
+    "peft_lora_runtime_seconds": 14.3
   },
   "strategies": {
     "zero_shot_prompt_rubric": {
@@ -175,59 +186,55 @@
         }
       }
     },
-    "lora_style_low_rank_adapter": {
-      "description": "CPU-friendly low-rank adapter over frozen hashed text features; notebook also includes PEFT LoRA cell for Colab/GPU.",
+    "true_peft_lora_transformer": {
+      "description": "True PEFT LoRA fine-tuning on google/bert_uncased_L-2_H-128_A-2; query/value adapters trained on CPU for one epoch.",
       "training_rows": 2000,
       "metrics": {
-        "accuracy": 0.867,
-        "macro_f1": 0.865190327045177,
+        "accuracy": 0.64425,
+        "macro_f1": 0.6432101686693239,
         "per_label": {
           "high_fit": {
-            "precision": 0.897737556561086,
-            "recall": 0.992,
-            "f1": 0.9425178147268409
+            "precision": 0.6313276026743075,
+            "recall": 0.661,
+            "f1": 0.6458231558378115,
+            "support": 1000.0
           },
           "medium_fit": {
-            "precision": 0.8375826251180358,
-            "recall": 0.887,
-            "f1": 0.8615832928606119
+            "precision": 0.5094017094017094,
+            "recall": 0.596,
+            "f1": 0.5493087557603686,
+            "support": 1000.0
           },
           "low_fit": {
-            "precision": 0.908008658008658,
-            "recall": 0.839,
-            "f1": 0.8721413721413721
+            "precision": 0.8637931034482759,
+            "recall": 0.501,
+            "f1": 0.6341772151898735,
+            "support": 1000.0
           },
           "unclear": {
-            "precision": 0.8223684210526315,
-            "recall": 0.75,
-            "f1": 0.7845188284518829
+            "precision": 0.6807980049875312,
+            "recall": 0.819,
+            "f1": 0.7435315478892419,
+            "support": 1000.0
           }
-        },
-        "confusion": {
-          "high_fit": {
-            "high_fit": 992,
-            "medium_fit": 2,
-            "low_fit": 1,
-            "unclear": 5
-          },
-          "medium_fit": {
-            "high_fit": 8,
-            "medium_fit": 887,
-            "low_fit": 14,
-            "unclear": 91
-          },
-          "low_fit": {
-            "high_fit": 26,
-            "medium_fit": 69,
-            "low_fit": 839,
-            "unclear": 66
-          },
-          "unclear": {
-            "high_fit": 79,
-            "medium_fit": 101,
-            "low_fit": 70,
-            "unclear": 750
-          }
+        }
+      },
+      "peft_details": {
+        "base_model": "google/bert_uncased_L-2_H-128_A-2",
+        "device": "cpu",
+        "epochs": 1,
+        "learning_rate": 0.0005,
+        "batch_size": 16,
+        "max_length": 128,
+        "runtime_seconds": 14.3,
+        "lora": {
+          "r": 8,
+          "lora_alpha": 16,
+          "lora_dropout": 0.05,
+          "target_modules": [
+            "query",
+            "value"
+          ]
         }
       }
     }
