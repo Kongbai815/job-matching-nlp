@@ -107,6 +107,26 @@ def safe_skills(value):
     return [s.strip() for s in raw.split(";") if s.strip()]
 
 
+def extract_authorization_evidence(row):
+    """Return only explicit authorization language present in the posting."""
+    source = " ".join(
+        str(row.get(field, ""))
+        for field in ("role_title", "posting_text")
+        if str(row.get(field, "")).lower() not in {"", "nan", "none", "null"}
+    )
+    patterns = [
+        (r"\bno\s+opt(?:\s*/\s*|\s+)cpt\b", "explicit source text: no OPT/CPT"),
+        (r"\bno\s+cpt(?:\s*/\s*|\s+)opt\b", "explicit source text: no CPT/OPT"),
+        (r"\bno\s+(?:visa\s+)?sponsorship\b", "explicit source text: no sponsorship"),
+        (r"\bsponsorship\s+(?:is\s+)?not\s+(?:available|provided)\b", "explicit source text: sponsorship not available"),
+        (r"\b(?:visa\s+)?sponsorship\s+(?:is\s+)?(?:available|provided)\b", "explicit source text: sponsorship available"),
+    ]
+    for pattern, evidence in patterns:
+        if re.search(pattern, source, flags=re.I):
+            return evidence
+    return "not available in public source"
+
+
 def compute_metrics(y_true, y_pred):
     confusion = {label: {pred: 0 for pred in LABELS} for label in LABELS}
     for true, pred in zip(y_true, y_pred):
@@ -184,7 +204,7 @@ class JobMatchingSystem:
             "skills": skills[:8],
             "grounded_fit_label": row.get("relevance_label"),
             "label_reason": row.get("label_reason"),
-            "authorization_evidence": "not available in public source",
+            "authorization_evidence": extract_authorization_evidence(row),
         }
 
     def predict_label(self, text):
@@ -202,12 +222,27 @@ class JobMatchingSystem:
             if review_count
             else "No strong match found; route this query to manual advisor review."
         )
+        explicit_authorization_count = sum(
+            item["authorization_evidence"] != "not available in public source"
+            for item in ordered
+        )
+        if explicit_authorization_count:
+            grounding_caveat = (
+                "Authorization language is reported only when it appears explicitly in retrieved source text. "
+                "An advisor must verify the original posting; no eligibility is inferred."
+            )
+        else:
+            grounding_caveat = (
+                "Do not infer CPT, OPT, or sponsorship from this public dataset. "
+                "Authorization evidence must be reviewed separately."
+            )
         return {
             "input": query,
             "predicted_query_label": predicted_label,
             "rubric_scores": scores,
             "headline": headline,
             "recommended_action": "Advisor review before forwarding",
-            "grounding_caveat": "Do not infer CPT, OPT, or sponsorship from this public dataset. Authorization evidence must be reviewed separately.",
+            "grounding_caveat": grounding_caveat,
+            "explicit_authorization_evidence_count": explicit_authorization_count,
             "retrieved_evidence": ordered,
         }

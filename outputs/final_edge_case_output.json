@@ -9,11 +9,12 @@
   },
   "headline": "Review 2 retrieved postings first; they have analytics role-fit signals.",
   "recommended_action": "Advisor review before forwarding",
-  "grounding_caveat": "Do not infer CPT, OPT, or sponsorship from this public dataset. Authorization evidence must be reviewed separately.",
+  "grounding_caveat": "Authorization language is reported only when it appears explicitly in retrieved source text. An advisor must verify the original posting; no eligibility is inferred.",
+  "explicit_authorization_evidence_count": 1,
   "retrieved_evidence": [
     {
       "rank": 6,
-      "score": 3.545835625027635,
+      "score": 3.5458356250276353,
       "posting_id": "HF-690529",
       "company": "Employer & Individual",
       "role_title": "Remote Data Analyst",
@@ -48,7 +49,7 @@
     },
     {
       "rank": 5,
-      "score": 3.5640100179400402,
+      "score": 3.5640100179400394,
       "posting_id": "HF-324628",
       "company": "SEARCH OPT MEDIA INC.",
       "role_title": "Digital Analyst | Hybrid Set up",
@@ -81,7 +82,7 @@
     },
     {
       "rank": 2,
-      "score": 4.042755685486298,
+      "score": 4.0427556854862985,
       "posting_id": "HF-505613",
       "company": "NEEDS COMPANY PROFILE IF WE FIND JOBS - Digible",
       "role_title": "Data Engineer",
@@ -112,7 +113,7 @@
       ],
       "grounded_fit_label": "low_fit",
       "label_reason": "Role is senior, engineering-heavy, or less aligned with entry-level MSBA advisor forwarding.",
-      "authorization_evidence": "not available in public source"
+      "authorization_evidence": "explicit source text: no OPT/CPT"
     }
   ]
 }

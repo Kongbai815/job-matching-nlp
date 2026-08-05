@@ -10,10 +10,11 @@
   "headline": "Review 5 retrieved postings first; they have analytics role-fit signals.",
   "recommended_action": "Advisor review before forwarding",
   "grounding_caveat": "Do not infer CPT, OPT, or sponsorship from this public dataset. Authorization evidence must be reviewed separately.",
+  "explicit_authorization_evidence_count": 0,
   "retrieved_evidence": [
     {
       "rank": 1,
-      "score": 5.969470422957529,
+      "score": 5.96947042295753,
       "posting_id": "HF-469758",
       "company": "HireMatch",
       "role_title": "Data Analyst",
@@ -74,7 +75,7 @@
     },
     {
       "rank": 6,
-      "score": 4.742113995356323,
+      "score": 4.742113995356324,
       "posting_id": "HF-623523",
       "company": "MASTERSERO",
       "role_title": "Data Analyst",

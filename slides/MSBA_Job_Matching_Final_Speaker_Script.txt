@@ -1,25 +1,37 @@
-Final Presentation Speaker Script - MSBA Job Matching NLP System
+MSBA Job Matching - Final Presentation Speaker Script
 
-Slide 1
-This project is an NLP system for job-posting screening. The user is a graduate business career advisor supporting MSBA international students. The system takes a real query or posting, retrieves similar real postings, predicts role fit, and returns evidence for human review.
+Slide 1 - A grounded advisor decision-support system
+Our project helps a graduate business career advisor screen job opportunities for MSBA international students. The system does not make hiring or immigration decisions. It makes the first review faster by retrieving comparable postings, estimating role fit, and showing the evidence an advisor should inspect.
 
-Slide 2
-The business problem is the advisor's decision. Advisors need to decide which postings to forward, hold, or investigate. A label alone is not enough, because the advisor needs to see why the system thinks a posting is relevant.
+Slide 2 - The real decision is what to forward, hold, or investigate
+The advisor sees many postings with inconsistent titles and incomplete descriptions. Analytics fit may appear in the title, skills, location, or schedule. Work authorization is a separate issue and is often missing. We frame the task as four-way triage: high fit, medium fit, low fit, or unclear, followed by human review.
 
-Slide 3
-The system uses retrieval to keep the recommendation grounded. It accepts an input query, retrieves similar postings from 80,000 training rows, applies a transparent MSBA role-fit rubric, and generates a constrained recommendation using only retrieved fields.
+Slide 3 - We used 100,000 real postings from a 785,741-row source
+We created a reproducible stratified sample of 100,000 public job records, with 25,000 rows per label. Eighty thousand rows form the retrieval corpus and 20,000 are held out. The labels are transparent weak labels, which makes the pipeline feasible but also creates a limitation that we report throughout the project.
 
-Slide 4
-The demo query asks for entry-level US analytics or business analyst opportunities for MSBA international students with SQL, Python, Excel, Tableau, or Power BI. The output recommends reviewing retrieved postings first and shows evidence such as title, company, location, skills, and label.
+Slide 4 - The project improved through four measured stages
+Milestone 2 established static TF-IDF and contextual representation baselines. Milestone 3 compared zero-shot, few-shot, and true PEFT LoRA adaptation; LoRA was the best pure classifier. Milestone 4 added retrieval, grounded output, and risk controls. The final deliverable packages the full workflow, documentation, evaluation, demo, and governance appendix.
 
-Slide 5
-The final system reaches about 80.0 percent accuracy and 80.1 percent macro F1. The true PEFT LoRA experiment from Milestone 3 reaches 87.5 percent accuracy and 87.3 percent macro F1 as a classifier, but the final system adds evidence, grounding, and an authorization guardrail. That is why it is more appropriate as an advisor-facing prototype.
+Slide 5 - Retrieval keeps each recommendation inspectable
+The system accepts an advisor query, retrieves the top six real postings from the 80,000-row index, applies a transparent role-fit rubric, and generates a recommendation from retrieved fields. The output includes title, company, location, skills, label reason, and a separate authorization caveat.
 
-Slide 6
-The edge case is authorization. If a student asks whether a role definitely supports OPT or H-1B and the posting has no authorization text, the system refuses to infer eligibility and routes that question to advisor review.
+Slide 6 - A normal run surfaces plausible entry-level analytics roles
+For the entry-level analytics query, the system retrieves real analyst and business analyst postings and ranks high- or medium-fit evidence first. The advisor sees the source fields instead of receiving only a label. This supports a concrete decision: which opportunities deserve review before being forwarded.
 
-Slide 7
-The business case is faster screening with safer escalation. The system can reduce first-pass review work by surfacing likely matches and evidence, while keeping the advisor in control for ambiguous and sensitive cases.
+Slide 7 - Edge cases trigger review rather than unsupported claims
+We also tested a senior engineering role, an authorization query, and thin metadata. The authorization case is the most important governance test. One retrieved title explicitly says No OPT/CPT, and the updated system surfaces that negative evidence. When no explicit phrase exists, it states that evidence is unavailable and routes the question to an advisor.
 
-Slide 8
-The next step is better labels and real authorization text. I would pilot this with de-identified Career Center postings, collect advisor corrections, and evaluate high-fit precision, authorization extraction accuracy, and workload reduction.
+Slide 8 - The final system adds evidence while preserving measured quality
+The final evaluation on 4,000 balanced validation rows is 80.0% accuracy and 80.1% macro F1. On the same subset, macro F1 improves by +0.009. Retrieval succeeds for 100 percent of inputs and support hit at five is 90.0%. The LoRA model remains the strongest classifier, but the final system is more useful for the advisor because it provides evidence and guardrails.
+
+Slide 9 - The remaining errors define the deployment policy
+High-fit F1 is 0.960. The main errors are medium-fit to low-fit and unclear to low-fit. These conservative mistakes could hide viable opportunities. Therefore, low or unclear results should enter a review queue rather than become automatic rejections. We also need human-reviewed labels before making stronger production claims.
+
+Slide 10 - Pilot as decision support, then measure business value
+Our recommendation is a limited Career Center pilot using de-identified postings. We would measure high-fit precision, advisor time saved, override rate, and authorization extraction accuracy. The current system is ready as an end-to-end decision-support prototype. It is not ready to act as an automated gatekeeper, and that boundary is a core part of the product design.
+
+Q&A preparation
+- Why not deploy the LoRA classifier alone? It has higher classification quality, but it does not by itself provide retrieved evidence or the authorization guardrail required by the workflow.
+- Are the labels ground truth? No. They are transparent weak labels. The next milestone after this course project is human annotation by advisors.
+- Does the system determine sponsorship? No. It explicitly refuses to infer authorization when source text is absent.
+- What is the business metric? The pilot should measure advisor minutes per posting, high-fit precision, and override rate.

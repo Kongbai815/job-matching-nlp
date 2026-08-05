@@ -1,21 +1,38 @@
 # Governance and Risk Appendix
 
-## Risk 1: Authorization hallucination
+## 1. Unsupported Authorization Claims
 
-The public dataset does not contain reliable CPT, OPT, H-1B, or sponsorship text. The system must not infer authorization eligibility. Mitigation: every output includes a caveat that authorization evidence is missing unless source text explicitly provides it.
+**Affected users:** international students and career advisors.
 
-## Risk 2: Weak-label overconfidence
+**Failure mode:** the system infers CPT, OPT, H-1B, or sponsorship eligibility from a posting that does not contain reliable authorization text.
 
-Current labels are rule-derived, not human-reviewed. Mitigation: the output is framed as advisor support, and recommendations require human review before forwarding.
+**Mitigation:** authorization is separated from role fit; the generator surfaces only explicit phrases and otherwise uses a missing-evidence caveat; the advisor must verify eligibility. In four saved workflow cases covering 20 retrieved records, the check found 0 unsupported authorization claims.
 
-## Risk 3: Bias toward certain titles and geographies
+## 2. Weak-Label Bias
 
-Title and country rules may favor US analyst titles and miss international or nonstandard analytics roles. Mitigation: report performance by label and collect advisor corrections.
+**Affected users:** candidates whose viable roles contain engineering vocabulary, unusual titles, or incomplete metadata.
 
-## Risk 4: Privacy
+**Failure mode:** transparent weak-label rules over-penalize a posting and push a medium or unclear opportunity into low fit.
 
-This capstone uses public postings only. If Career Center data is added, de-identify student and employer contact information before training or evaluation.
+**Mitigation:** report per-label performance, expose retrieved evidence, prohibit automatic rejection, and collect de-identified advisor corrections. The largest observed confusions are medium_fit -> low_fit (380) and unclear -> low_fit (254).
 
-## Failure modes
+## 3. Privacy
 
-Missing skills can produce `unclear`; senior technical roles can be over-filtered; authorization details are not available in the public source. All are routed to advisor review rather than automated forwarding.
+**Affected users:** students and employers in future Career Center data.
+
+**Failure mode:** resumes, emails, or internal posting notes expose personal or confidential information.
+
+**Mitigation:** the current prototype uses public posting data only. A pilot must de-identify student text, minimize stored fields, restrict access, and define retention periods before ingestion.
+
+## 4. Automation Harm and Misuse
+
+**Failure mode:** staff treat the label as a hiring decision or eligibility determination.
+
+**Mitigation:** frame the product as prioritization support, keep the advisor as the final decision maker, log model evidence and overrides, and audit outcomes by label and relevant user group.
+
+## Known Limitations
+
+- Labels are weak labels, not human-reviewed ground truth.
+- The retriever is lexical and can miss paraphrases.
+- The public dataset cannot validate authorization extraction.
+- Business value such as time saved has not yet been measured in a live advisor workflow.

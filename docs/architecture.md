@@ -1,11 +1,22 @@
 # Architecture
 
-The final system uses a retrieval-plus-grounded-output architecture.
+## End-to-End Flow
 
-- `msba_job_matcher.core.JobMatchingSystem` loads the 100k project CSV.
-- It builds an inverted index over the 80k train postings.
-- For a query, it retrieves similar postings using weighted sparse terms.
-- A transparent rubric predicts the query-level fit label.
-- The generator is a deterministic template that cites only retrieved source fields.
+1. The advisor supplies a free-text search request or raw posting text.
+2. Text is tokenized into unigrams and bigrams; common workflow words are removed.
+3. A sparse inverted index retrieves the top six comparable postings from 80,000 training records.
+4. A transparent rubric predicts `high_fit`, `medium_fit`, `low_fit`, or `unclear`.
+5. The generator assembles a recommendation from retrieved title, company, location, skills, label, and reason fields.
+6. Explicit authorization phrases are surfaced; missing evidence triggers a caveat and advisor escalation.
 
-This design prioritizes reproducibility and governance over black-box automation.
+## Component Boundaries
+
+- `msba_job_matcher/core.py`: retrieval, role-fit rubric, grounded response, and metrics.
+- `msba_job_matcher/app.py`: command-line input/output interface.
+- `msba_job_matcher/evaluate.py`: balanced validation evaluation.
+- `demo/*.json`: reproducible normal and edge inputs.
+- `outputs/*.json`: saved system runs, evaluation metrics, and casebook evidence.
+
+## Design Decision
+
+The final system uses deterministic, evidence-bound generation. This is intentionally conservative: the public dataset can support role-fit evidence but cannot reliably support work-authorization claims. The architecture therefore separates role-fit triage from authorization review.

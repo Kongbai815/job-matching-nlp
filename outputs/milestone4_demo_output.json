@@ -1,98 +1,108 @@
 {
-  "input": {
-    "user": "Graduate business career advisor",
-    "query": "Find entry-level US analytics or business analyst opportunities for MSBA international students with SQL, Python, Excel, Tableau, or Power BI skills. Flag cases where authorization evidence is missing.",
-    "student_profile": {
-      "program": "MSBA",
-      "career_goal": "data analyst, business analyst, BI analyst, or operations analytics",
-      "skills": [
-        "SQL",
-        "Python",
-        "Excel",
-        "Tableau",
-        "Power BI"
-      ],
-      "location_preference": "United States, Bay Area or remote preferred",
-      "authorization_need": "CPT/OPT evidence must be reviewed by an advisor"
-    }
+  "case_id": "entry_level_analytics",
+  "business_use": "Forward candidates after advisor review",
+  "query": "Find entry-level US data analyst, business analyst, or BI roles for an MSBA student with SQL, Python, Excel, Tableau, and Power BI. Remote or Bay Area preferred.",
+  "predicted_query_label": "high_fit",
+  "rubric_scores": {
+    "high_fit": 4.3,
+    "medium_fit": 2.3,
+    "low_fit": 0.0,
+    "unclear": 0.0
   },
-  "system_output": {
-    "headline": "Review 3 of the retrieved postings first; they match analytics role-fit signals.",
-    "recommended_action": "Advisor review before forwarding to students",
-    "grounding_caveat": "Do not infer CPT, OPT, or sponsorship from this dataset. The public source does not include reliable authorization text, so every recommendation keeps authorization as a human-review item.",
-    "retrieved_evidence": [
-      {
-        "posting_id": "HF-125063",
-        "source_title": "Entry level / Busines Data Analyst (Remote)",
-        "company": "Lumos Stratgy",
-        "location": "San Francisco, CA",
-        "grounded_fit_label": "high_fit",
-        "evidence": [
-          "title/location: Entry level / Busines Data Analyst (Remote) at Lumos Stratgy in San Francisco, CA",
-          "skills: sql, python, r, excel, tableau, power bi",
-          "authorization evidence is not available in this public source"
-        ]
-      },
-      {
-        "posting_id": "HF-6065",
-        "source_title": "Entry Level Data Analyst",
-        "company": "SkiHomeRealty",
-        "location": "Anywhere",
-        "grounded_fit_label": "high_fit",
-        "evidence": [
-          "title/location: Entry Level Data Analyst at SkiHomeRealty in Anywhere",
-          "skills: sql, python, r, tableau, power bi",
-          "authorization evidence is not available in this public source"
-        ]
-      },
-      {
-        "posting_id": "HF-3101",
-        "source_title": "Entry Level Business Analyst/Data Analyst",
-        "company": "Alipro",
-        "location": "Tysons, VA",
-        "grounded_fit_label": "high_fit",
-        "evidence": [
-          "title/location: Entry Level Business Analyst/Data Analyst at Alipro in Tysons, VA",
-          "skills: sql, python, aws, excel, tableau, flow",
-          "authorization evidence is not available in this public source"
-        ]
-      },
-      {
-        "posting_id": "HF-441656",
-        "source_title": "Entry Level Data Analyst - US Army (13J)",
-        "company": "United States Army",
-        "location": "Long Beach, CA",
-        "grounded_fit_label": "unclear",
-        "evidence": [
-          "title/location: Entry Level Data Analyst - US Army (13J) at United States Army in Long Beach, CA",
-          "skills: skills not listed",
-          "authorization evidence is not available in this public source"
-        ]
-      },
-      {
-        "posting_id": "HF-411650",
-        "source_title": "Business Analyst in BI Analytics Guild",
-        "company": "Swedbank",
-        "location": "Anywhere",
-        "grounded_fit_label": "unclear",
-        "evidence": [
-          "title/location: Business Analyst in BI Analytics Guild at Swedbank in Anywhere",
-          "skills: sql, sap",
-          "authorization evidence is not available in this public source"
-        ]
-      },
-      {
-        "posting_id": "HF-377765",
-        "source_title": "Senior Data Analyst United States Remote",
-        "company": "Altium Limited",
-        "location": "California, MO",
-        "grounded_fit_label": "low_fit",
-        "evidence": [
-          "title/location: Senior Data Analyst United States Remote at Altium Limited in California, MO",
-          "skills: sql, python, r, excel, tableau, power bi",
-          "authorization evidence is not available in this public source"
-        ]
-      }
-    ]
-  }
+  "headline": "Review 6 retrieved postings first; they have analytics role-fit signals.",
+  "recommended_action": "Advisor review before forwarding",
+  "grounding_caveat": "Do not infer CPT, OPT, or sponsorship from this public dataset. Authorization evidence must be reviewed separately.",
+  "explicit_authorization_evidence_count": 0,
+  "retrieved_evidence": [
+    {
+      "rank": 1,
+      "score": 8.0538,
+      "posting_id": "HF-469758",
+      "role_title": "Data Analyst",
+      "company": "HireMatch",
+      "location": "Anywhere",
+      "skills": [
+        "sql",
+        "python",
+        "r",
+        "excel",
+        "tableau",
+        "power bi"
+      ],
+      "grounded_fit_label": "high_fit",
+      "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+      "authorization_evidence": "not available in public source"
+    },
+    {
+      "rank": 2,
+      "score": 7.9507,
+      "posting_id": "HF-178197",
+      "role_title": "Data Analyst II, Bay Area - Remote",
+      "company": "Astreya",
+      "location": "Anywhere",
+      "skills": [
+        "sql",
+        "go",
+        "excel",
+        "sheets"
+      ],
+      "grounded_fit_label": "high_fit",
+      "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+      "authorization_evidence": "not available in public source"
+    },
+    {
+      "rank": 3,
+      "score": 6.8576,
+      "posting_id": "HF-250208",
+      "role_title": "Data Analyst (US REMOTE)",
+      "company": "LeanTaaS",
+      "location": "Anywhere",
+      "skills": [
+        "sql",
+        "python",
+        "tableau",
+        "excel"
+      ],
+      "grounded_fit_label": "high_fit",
+      "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+      "authorization_evidence": "not available in public source"
+    },
+    {
+      "rank": 4,
+      "score": 6.7555,
+      "posting_id": "HF-219271",
+      "role_title": "Data Analyst",
+      "company": "HMP Global",
+      "location": "Anywhere",
+      "skills": [
+        "sql",
+        "r",
+        "python",
+        "excel",
+        "tableau",
+        "power bi"
+      ],
+      "grounded_fit_label": "high_fit",
+      "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+      "authorization_evidence": "not available in public source"
+    },
+    {
+      "rank": 5,
+      "score": 6.5646,
+      "posting_id": "HF-335991",
+      "role_title": "Data Analyst - Bay Area, Chicago, Austin, Research Triangle Park ...",
+      "company": "Cisco Meraki",
+      "location": "Chicago, IL",
+      "skills": [
+        "sql",
+        "oracle",
+        "looker",
+        "tableau",
+        "sap"
+      ],
+      "grounded_fit_label": "high_fit",
+      "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+      "authorization_evidence": "not available in public source"
+    }
+  ]
 }
