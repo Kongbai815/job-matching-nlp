@@ -1,37 +1,49 @@
 MSBA Job Matching - Final Presentation Speaker Script
+Target speaking time: 7-8 minutes
 
-Slide 1 - A grounded advisor decision-support system
-Our project helps a graduate business career advisor screen job opportunities for MSBA international students. The system does not make hiring or immigration decisions. It makes the first review faster by retrieving comparable postings, estimating role fit, and showing the evidence an advisor should inspect.
+Slide 1 - MSBA Job Matching
+Our project is a grounded NLP decision-support system for graduate business career advisors. It accepts real job-search requests or individual postings, retrieves comparable jobs, estimates MSBA role fit, and shows the evidence behind the result. The system is intentionally not an automated hiring or immigration decision maker. Its job is to make the advisor's first screen faster, more consistent, and easier to audit.
 
-Slide 2 - The real decision is what to forward, hold, or investigate
-The advisor sees many postings with inconsistent titles and incomplete descriptions. Analytics fit may appear in the title, skills, location, or schedule. Work authorization is a separate issue and is often missing. We frame the task as four-way triage: high fit, medium fit, low fit, or unclear, followed by human review.
+Slide 2 - Separate fit, uncertainty, and risk
+The business decision is not simply whether a posting looks relevant. The advisor needs to decide whether to forward it, hold it, or investigate it. A strong analytics match can be forwarded for review. Senior or engineering-heavy roles should be held. Missing fields or authorization uncertainty require investigation. Role fit and work authorization interact in the workflow, but they are separate prediction tasks, so the system never treats a high role-fit score as proof of eligibility.
 
-Slide 3 - We used 100,000 real postings from a 785,741-row source
-We created a reproducible stratified sample of 100,000 public job records, with 25,000 rows per label. Eighty thousand rows form the retrieval corpus and 20,000 are held out. The labels are transparent weak labels, which makes the pipeline feasible but also creates a limitation that we report throughout the project.
+Slide 3 - Data volume is no longer the bottleneck
+The original public source contains 785,741 postings. We built a reproducible, stratified 100,000-row project sample and held out 20,000 rows. For the final classifier, exact-text deduplication reduced the 80,000-row training split to 77,135 unique texts. That is already enough data for this task. The important missing data is not another hundred thousand public postings; it is advisor-reviewed role-fit labels and representative authorization language. The current authorization field is unavailable throughout the public sample.
 
-Slide 4 - The project improved through four measured stages
-Milestone 2 established static TF-IDF and contextual representation baselines. Milestone 3 compared zero-shot, few-shot, and true PEFT LoRA adaptation; LoRA was the best pure classifier. Milestone 4 added retrieval, grounded output, and risk controls. The final deliverable packages the full workflow, documentation, evaluation, demo, and governance appendix.
+Slide 4 - What each milestone taught us
+Milestone 2 compared TF-IDF and MiniLM representations. Milestone 3 compared zero-shot, few-shot, and true PEFT LoRA adaptation, with LoRA reaching 87.3 percent macro F1 on the weak-label benchmark. Milestone 4 turns those experiments into a real input-to-output workflow. For the final system, we also audited duplicates, trained on the full deduplicated split, tested novel-text and unseen-company slices, and packaged the model, tests, documentation, outputs, slides, and demo.
 
-Slide 5 - Retrieval keeps each recommendation inspectable
-The system accepts an advisor query, retrieves the top six real postings from the 80,000-row index, applies a transparent role-fit rubric, and generates a recommendation from retrieved fields. The output includes title, company, location, skills, label reason, and a separate authorization caveat.
+Slide 5 - Final architecture
+The final pipeline has five stages. First, it routes the input as either a search request or a job posting. Second, search mode retrieves from the 80,000-row corpus with explicit country, remote, and entry-level constraints plus duplicate suppression. Third, posting mode uses a word-and-character TF-IDF LinearSVC trained on 77,135 rows. Fourth, governance gates override unsafe certainty when fields are missing or authorization restrictions appear. Finally, the advisor receives cited posting evidence and a recommended action.
 
-Slide 6 - A normal run surfaces plausible entry-level analytics roles
-For the entry-level analytics query, the system retrieves real analyst and business analyst postings and ranks high- or medium-fit evidence first. The advisor sees the source fields instead of receiving only a label. This supports a concrete decision: which opportunities deserve review before being forwarded.
+Slide 6 - Normal search run
+This is a real run for entry-level US analytics roles with SQL, Python, Excel, Tableau, or Power BI. The system retrieves six postings, and the top five satisfy the requested US constraint. The search sentence itself is correctly treated as a request, not mislabeled as a job posting. Each result includes title, company, location, retrieval score, model fit, skills, and source-derived reasoning. Authorization remains a separate review item unless the posting contains explicit language.
 
-Slide 7 - Edge cases trigger review rather than unsupported claims
-We also tested a senior engineering role, an authorization query, and thin metadata. The authorization case is the most important governance test. One retrieved title explicitly says No OPT/CPT, and the updated system surfaces that negative evidence. When no explicit phrase exists, it states that evidence is unavailable and routes the question to an advisor.
+Slide 7 - Four edge cases
+We ran a small casebook instead of showing only the easiest example. Search mode returns candidates without inventing a posting label. A senior engineering posting is labeled low fit and held. An analytics posting can receive high role fit while an explicit No OPT or CPT statement still forces review and a Hold action. Finally, a thin posting is predicted medium fit by the model, but missing company, location, country, and schedule fields override the displayed result to unclear. These are product rules, not cosmetic warnings.
 
-Slide 8 - The final system adds evidence while preserving measured quality
-The final evaluation on 4,000 balanced validation rows is 80.0% accuracy and 80.1% macro F1. On the same subset, macro F1 improves by +0.009. Retrieval succeeds for 100 percent of inputs and support hit at five is 90.0%. The LoRA model remains the strongest classifier, but the final system is more useful for the advisor because it provides evidence and guardrails.
+Slide 8 - Why the final classifier changed
+The Milestone 2 baseline reached 78.5 percent macro F1, and the 2,000-row LoRA experiment reached 87.3 percent. We then compared word-only, character-only, and combined TF-IDF LinearSVC models using the full available training split. The combined model reached 98.4 percent macro F1 on the fixed 4,000-row set and 97.9 percent on the full novel-text slice. It trains in under one minute and produces a 3.8-megabyte artifact. For this structured weak-label task, using the available data mattered more than adding model complexity.
 
-Slide 9 - The remaining errors define the deployment policy
-High-fit F1 is 0.960. The main errors are medium-fit to low-fit and unclear to low-fit. These conservative mistakes could hide viable opportunities. Therefore, low or unclear results should enter a review queue rather than become automatic rejections. We also need human-reviewed labels before making stronger production claims.
+Slide 9 - Interpret 98.4 percent carefully
+The fixed test contains 65 errors: 3 high-fit, 13 medium-fit, 8 low-fit, and 41 unclear cases. More importantly, this benchmark measures agreement with transparent weak labels, not accuracy against advisor judgment. We also checked unseen-company and novel-text subsets, both near 98 percent macro F1, which reduces simple memorization concerns but does not prove real-world validity. Deployment therefore remains human-in-the-loop. The next evaluation needs 500 to 1,000 advisor labels, a separate authorization benchmark, and time-based external validation.
 
-Slide 10 - Pilot as decision support, then measure business value
-Our recommendation is a limited Career Center pilot using de-identified postings. We would measure high-fit precision, advisor time saved, override rate, and authorization extraction accuracy. The current system is ready as an end-to-end decision-support prototype. It is not ready to act as an automated gatekeeper, and that boundary is a core part of the product design.
+Slide 10 - Recommendation
+Our recommendation is to stop expanding the weak-label corpus and start collecting decision-grade evidence. A limited Career Center pilot should measure high-fit precision, advisor time saved, override rate, and authorization extraction accuracy. The next data investment is 500 to 1,000 advisor-reviewed postings plus hundreds of real authorization examples. The prototype is ready to support and document advisor review. It is not ready to reject opportunities or make eligibility decisions automatically, and preserving that boundary is part of the system design.
 
 Q&A preparation
-- Why not deploy the LoRA classifier alone? It has higher classification quality, but it does not by itself provide retrieved evidence or the authorization guardrail required by the workflow.
-- Are the labels ground truth? No. They are transparent weak labels. The next milestone after this course project is human annotation by advisors.
-- Does the system determine sponsorship? No. It explicitly refuses to infer authorization when source text is absent.
-- What is the business metric? The pilot should measure advisor minutes per posting, high-fit precision, and override rate.
+
+Q: Why not train on all 785,741 rows?
+A: The learning curve still improves through 80,000 training rows, but the remaining gap is label validity. More weak labels would strengthen agreement with the labeling rules without proving agreement with advisors. The next useful sample is smaller and human-reviewed.
+
+Q: Why use a linear model after LoRA?
+A: The LoRA result is real and remains an important adaptation experiment. The final word-and-character model can use the full training split cheaply, improves macro F1 from 0.873 to 0.984 on the same weak-label task, trains in under a minute, and is easier to reproduce.
+
+Q: Does the system decide work authorization or sponsorship?
+A: No. It reports explicit source text when present, states when evidence is unavailable, and forces advisor review for restrictions. There were zero unsupported authorization claims across the four-case governance test.
+
+Q: Is 98.4 percent production accuracy?
+A: No. It is weak-label agreement on a fixed benchmark. The deck and documentation label it that way, and production claims require advisor-reviewed external validation.
+
+Q: What is the business success metric?
+A: High-fit precision and advisor minutes saved are primary. Override rate reveals whether recommendations are useful, and authorization extraction accuracy is measured separately.

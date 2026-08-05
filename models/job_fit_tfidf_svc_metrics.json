@@ -1,0 +1,78 @@
+{
+  "model": "word+character TF-IDF LinearSVC",
+  "train_rows_before_deduplication": 80000,
+  "train_rows_after_exact_text_deduplication": 77135,
+  "fit_and_evaluation_seconds": 44.2,
+  "evaluation": {
+    "fixed_4k": {
+      "rows": 4000,
+      "accuracy": 0.98375,
+      "macro_f1": 0.9837245121005396,
+      "per_label_f1": {
+        "high_fit": 0.996003996003996,
+        "medium_fit": 0.9772277227722772,
+        "low_fit": 0.992,
+        "unclear": 0.9696663296258847
+      }
+    },
+    "fixed_4k_novel_text": {
+      "rows": 3751,
+      "accuracy": 0.9826712876566249,
+      "macro_f1": 0.9829729674134499,
+      "per_label_f1": {
+        "high_fit": 0.9953051643192489,
+        "medium_fit": 0.975991649269311,
+        "low_fit": 0.9918450560652395,
+        "unclear": 0.96875
+      }
+    },
+    "fixed_4k_unseen_company": {
+      "rows": 1082,
+      "accuracy": 0.9852125693160814,
+      "macro_f1": 0.9863124571962532,
+      "per_label_f1": {
+        "high_fit": 0.9940828402366864,
+        "medium_fit": 0.9801324503311258,
+        "low_fit": 0.9949579831932773,
+        "unclear": 0.9760765550239234
+      }
+    },
+    "full_20k": {
+      "rows": 20000,
+      "accuracy": 0.9801,
+      "macro_f1": 0.9800432567941518,
+      "per_label_f1": {
+        "high_fit": 0.993430220983476,
+        "medium_fit": 0.9726840855106889,
+        "low_fit": 0.9914940458320824,
+        "unclear": 0.9625646748503601
+      }
+    },
+    "full_20k_novel_text": {
+      "rows": 18672,
+      "accuracy": 0.9786846615252784,
+      "macro_f1": 0.9790034229035213,
+      "per_label_f1": {
+        "high_fit": 0.9921652421652422,
+        "medium_fit": 0.9711297071129708,
+        "low_fit": 0.9913291849433847,
+        "unclear": 0.9613895573924872
+      }
+    },
+    "full_20k_unseen_company": {
+      "rows": 5570,
+      "accuracy": 0.9788150807899462,
+      "macro_f1": 0.9802020818058745,
+      "per_label_f1": {
+        "high_fit": 0.988950276243094,
+        "medium_fit": 0.9717291255752795,
+        "low_fit": 0.9932614555256065,
+        "unclear": 0.9668674698795181
+      }
+    }
+  },
+  "limitations": [
+    "Targets are weak labels derived from posting metadata rather than advisor judgments.",
+    "Novel-text and unseen-company slices reduce but do not eliminate rule-label leakage."
+  ]
+}

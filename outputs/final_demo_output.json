@@ -1,20 +1,22 @@
 {
   "input": "Find entry-level US analytics or business analyst opportunities for MSBA international students with SQL, Python, Excel, Tableau, or Power BI skills. Flag missing authorization evidence.",
-  "predicted_query_label": "high_fit",
-  "rubric_scores": {
-    "high_fit": 4.3,
-    "medium_fit": 2.3,
-    "low_fit": 0.0,
-    "unclear": 0.0
-  },
-  "headline": "Review 5 retrieved postings first; they have analytics role-fit signals.",
+  "input_mode": "search",
+  "model_predicted_label": "not_applicable_search_query",
+  "predicted_posting_label": "not_applicable_search_query",
+  "classifier_name": "word+character TF-IDF LinearSVC (77,135 deduplicated training rows)",
+  "classifier_scores": {},
+  "prediction_margin": null,
+  "missing_core_fields": [],
+  "input_authorization_evidence": "not available in public source",
+  "review_required": true,
+  "headline": "Review 6 retrieved postings first; the trained classifier found analytics role-fit signals.",
   "recommended_action": "Advisor review before forwarding",
   "grounding_caveat": "Do not infer CPT, OPT, or sponsorship from this public dataset. Authorization evidence must be reviewed separately.",
   "explicit_authorization_evidence_count": 0,
   "retrieved_evidence": [
     {
       "rank": 1,
-      "score": 5.96947042295753,
+      "score": 7.7694704229575295,
       "posting_id": "HF-469758",
       "company": "HireMatch",
       "role_title": "Data Analyst",
@@ -29,12 +31,14 @@
         "power bi"
       ],
       "grounded_fit_label": "high_fit",
+      "model_fit_label": "high_fit",
+      "model_margin": 3.8781022164597125,
       "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
       "authorization_evidence": "not available in public source"
     },
     {
-      "rank": 3,
-      "score": 5.007155636183262,
+      "rank": 2,
+      "score": 6.807155636183262,
       "posting_id": "HF-219271",
       "company": "HMP Global",
       "role_title": "Data Analyst",
@@ -49,12 +53,14 @@
         "power bi"
       ],
       "grounded_fit_label": "high_fit",
+      "model_fit_label": "high_fit",
+      "model_margin": 4.075488995880879,
       "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
       "authorization_evidence": "not available in public source"
     },
     {
-      "rank": 5,
-      "score": 4.759219915382513,
+      "rank": 3,
+      "score": 6.559219915382513,
       "posting_id": "HF-218626",
       "company": "AMIRI",
       "role_title": "Data Analyst",
@@ -70,12 +76,14 @@
         "looker"
       ],
       "grounded_fit_label": "high_fit",
+      "model_fit_label": "high_fit",
+      "model_margin": 4.1171718064456355,
       "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
       "authorization_evidence": "not available in public source"
     },
     {
-      "rank": 6,
-      "score": 4.742113995356324,
+      "rank": 4,
+      "score": 6.542113995356323,
       "posting_id": "HF-623523",
       "company": "MASTERSERO",
       "role_title": "Data Analyst",
@@ -90,42 +98,51 @@
         "power bi"
       ],
       "grounded_fit_label": "high_fit",
+      "model_fit_label": "high_fit",
+      "model_margin": 3.667173099677232,
       "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
       "authorization_evidence": "not available in public source"
     },
     {
-      "rank": 2,
-      "score": 5.061888111107688,
-      "posting_id": "HF-135554",
-      "company": "ALTER SOLUTIONS",
-      "role_title": "Agile Business Analyst with BI skills",
-      "location": "Warsaw, Poland",
-      "job_country": "Poland",
+      "rank": 5,
+      "score": 6.515427399498889,
+      "posting_id": "HF-614609",
+      "company": "City Colleges of Chicago",
+      "role_title": "Lecturer-Continuing Education (Business Analytics)",
+      "location": "Chicago, IL",
+      "job_country": "United States",
       "skills": [
         "sql",
-        "azure",
-        "power bi",
-        "tableau",
-        "sap"
+        "python",
+        "excel",
+        "tableau"
       ],
-      "grounded_fit_label": "medium_fit",
-      "label_reason": "Analytics role with relevant skills, but weaker fit due to location, title, or project context.",
+      "grounded_fit_label": "high_fit",
+      "model_fit_label": "high_fit",
+      "model_margin": 2.288249724560047,
+      "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
       "authorization_evidence": "not available in public source"
     },
     {
-      "rank": 4,
-      "score": 4.908408764709712,
-      "posting_id": "HF-166508",
-      "company": "IOR",
-      "role_title": "Analytics Business Analyst \u2013 full remote",
-      "location": "Anywhere",
-      "job_country": "Spain",
+      "rank": 6,
+      "score": 6.529165470612778,
+      "posting_id": "HF-542597",
+      "company": "OneDigital",
+      "role_title": "Data Scientist",
+      "location": "Atlanta, GA",
+      "job_country": "United States",
       "skills": [
-        "sap",
+        "sql",
+        "r",
+        "python",
+        "excel",
+        "tableau",
         "power bi"
       ],
-      "grounded_fit_label": "unclear",
-      "label_reason": "Posting has some useful metadata but does not clearly map to the advisor triage target.",
+      "grounded_fit_label": "medium_fit",
+      "model_fit_label": "medium_fit",
+      "model_margin": 2.812785643706057,
+      "label_reason": "Analytics role with relevant skills, but weaker fit due to location, title, or project context.",
       "authorization_evidence": "not available in public source"
     }
   ]

@@ -2,9 +2,10 @@ Demo Recording Script (3-5 minutes)
 
 1. Open the GitHub README and state the use case: MSBA career-advisor job-posting triage.
 2. Run the normal demo command: `python -m msba_job_matcher.app --input-json demo/sample_query.json --output outputs/final_demo_output.json`.
-3. Show that the output includes a recommendation, retrieved title/company/location/skills evidence, and the authorization caveat.
+3. Show that the input is in `search` mode, all top five results satisfy the US constraint, and every result includes title/company/location/skills/model-label evidence.
 4. Run the edge case command: `python -m msba_job_matcher.app --input-json demo/edge_case_query.json --output outputs/final_edge_case_output.json`.
-5. Point out the explicit `NO OPT CPT` evidence in one retrieved title. Explain that the system surfaces explicit language but never infers eligibility when evidence is absent.
-6. Show `outputs/final_evaluation_results.json`: accuracy 0.800, macro F1 0.801.
-7. Open `outputs/final_casebook_outputs.json` and briefly show the four workflow cases: normal fit, senior engineering mismatch, authorization evidence, and thin metadata.
-8. Close with the recommendation: pilot with de-identified Career Center postings and advisor corrections.
+5. Point out that role fit is `high_fit`, but explicit `NO OPT/CPT` evidence forces `review_required=true` and a Hold action. This demonstrates that role fit and authorization are separate decisions.
+6. Show `outputs/final_evaluation_results.json`: accuracy 0.984, macro F1 0.984 on the fixed 4,000-row set.
+7. Show `models/job_fit_tfidf_svc_metrics.json`: 0.979 macro F1 on 18,672 novel-text rows and 0.980 on 5,570 unseen-company rows.
+8. Open `outputs/final_casebook_outputs.json` and show search, senior engineering, authorization restriction, and thin-metadata cases.
+9. Close with the recommendation: do not add more public weak labels yet; collect advisor-reviewed labels and real authorization examples.

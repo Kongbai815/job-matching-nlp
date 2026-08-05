@@ -1,4 +1,5 @@
 {
-  "query": "Student asks if an employer definitely sponsors OPT/H-1B, but the posting only says data role and does not provide work authorization text.",
-  "edge_case": "authorization missing"
+  "mode": "posting",
+  "query": "Job title: Jr. Data Analyst (No OPT/CPT). Short title: Data Analyst. Company: Example Staffing. Location: Austin, TX. Country: United States. Schedule: Full-time. Remote status: not remote. Skills: SQL; Python; Excel; Tableau.",
+  "edge_case": "explicit negative authorization evidence"
 }

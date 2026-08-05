@@ -1,441 +1,582 @@
 {
-  "project": "MSBA Job Matching NLP System",
-  "generated_from": "Four real end-to-end runs over the 80,000-row retrieval corpus",
+  "classifier_name": "word+character TF-IDF LinearSVC (77,135 deduplicated training rows)",
   "cases": [
     {
-      "case_id": "entry_level_analytics",
-      "business_use": "Forward candidates after advisor review",
-      "query": "Find entry-level US data analyst, business analyst, or BI roles for an MSBA student with SQL, Python, Excel, Tableau, and Power BI. Remote or Bay Area preferred.",
-      "predicted_query_label": "high_fit",
-      "rubric_scores": {
-        "high_fit": 4.3,
-        "medium_fit": 2.3,
-        "low_fit": 0.0,
-        "unclear": 0.0
-      },
-      "headline": "Review 6 retrieved postings first; they have analytics role-fit signals.",
-      "recommended_action": "Advisor review before forwarding",
-      "grounding_caveat": "Do not infer CPT, OPT, or sponsorship from this public dataset. Authorization evidence must be reviewed separately.",
-      "explicit_authorization_evidence_count": 0,
-      "retrieved_evidence": [
-        {
-          "rank": 1,
-          "score": 8.0538,
-          "posting_id": "HF-469758",
-          "role_title": "Data Analyst",
-          "company": "HireMatch",
-          "location": "Anywhere",
-          "skills": [
-            "sql",
-            "python",
-            "r",
-            "excel",
-            "tableau",
-            "power bi"
-          ],
-          "grounded_fit_label": "high_fit",
-          "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
-          "authorization_evidence": "not available in public source"
-        },
-        {
-          "rank": 2,
-          "score": 7.9507,
-          "posting_id": "HF-178197",
-          "role_title": "Data Analyst II, Bay Area - Remote",
-          "company": "Astreya",
-          "location": "Anywhere",
-          "skills": [
-            "sql",
-            "go",
-            "excel",
-            "sheets"
-          ],
-          "grounded_fit_label": "high_fit",
-          "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
-          "authorization_evidence": "not available in public source"
-        },
-        {
-          "rank": 3,
-          "score": 6.8576,
-          "posting_id": "HF-250208",
-          "role_title": "Data Analyst (US REMOTE)",
-          "company": "LeanTaaS",
-          "location": "Anywhere",
-          "skills": [
-            "sql",
-            "python",
-            "tableau",
-            "excel"
-          ],
-          "grounded_fit_label": "high_fit",
-          "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
-          "authorization_evidence": "not available in public source"
-        },
-        {
-          "rank": 4,
-          "score": 6.7555,
-          "posting_id": "HF-219271",
-          "role_title": "Data Analyst",
-          "company": "HMP Global",
-          "location": "Anywhere",
-          "skills": [
-            "sql",
-            "r",
-            "python",
-            "excel",
-            "tableau",
-            "power bi"
-          ],
-          "grounded_fit_label": "high_fit",
-          "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
-          "authorization_evidence": "not available in public source"
-        },
-        {
-          "rank": 5,
-          "score": 6.5646,
-          "posting_id": "HF-335991",
-          "role_title": "Data Analyst - Bay Area, Chicago, Austin, Research Triangle Park ...",
-          "company": "Cisco Meraki",
-          "location": "Chicago, IL",
-          "skills": [
-            "sql",
-            "oracle",
-            "looker",
-            "tableau",
-            "sap"
-          ],
-          "grounded_fit_label": "high_fit",
-          "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
-          "authorization_evidence": "not available in public source"
-        }
-      ]
+      "case_id": "entry_level_analytics_search",
+      "mode": "search",
+      "business_use": "Find US analytics opportunities for advisor review",
+      "text": "Find entry-level US data analyst, business analyst, or BI roles with SQL, Python, Excel, Tableau, or Power BI. Remote roles are acceptable.",
+      "result": {
+        "input": "Find entry-level US data analyst, business analyst, or BI roles with SQL, Python, Excel, Tableau, or Power BI. Remote roles are acceptable.",
+        "input_mode": "search",
+        "model_predicted_label": "not_applicable_search_query",
+        "predicted_posting_label": "not_applicable_search_query",
+        "classifier_name": "word+character TF-IDF LinearSVC (77,135 deduplicated training rows)",
+        "classifier_scores": {},
+        "prediction_margin": null,
+        "missing_core_fields": [],
+        "input_authorization_evidence": "not available in public source",
+        "review_required": true,
+        "headline": "Review 6 retrieved postings first; the trained classifier found analytics role-fit signals.",
+        "recommended_action": "Advisor review before forwarding",
+        "grounding_caveat": "Do not infer CPT, OPT, or sponsorship from this public dataset. Authorization evidence must be reviewed separately.",
+        "explicit_authorization_evidence_count": 0,
+        "retrieved_evidence": [
+          {
+            "rank": 1,
+            "score": 10.353803121829607,
+            "posting_id": "HF-469758",
+            "company": "HireMatch",
+            "role_title": "Data Analyst",
+            "location": "Anywhere",
+            "job_country": "United States",
+            "skills": [
+              "sql",
+              "python",
+              "r",
+              "excel",
+              "tableau",
+              "power bi"
+            ],
+            "grounded_fit_label": "high_fit",
+            "model_fit_label": "high_fit",
+            "model_margin": 3.8781022164597125,
+            "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+            "authorization_evidence": "not available in public source"
+          },
+          {
+            "rank": 2,
+            "score": 9.157638970806342,
+            "posting_id": "HF-250208",
+            "company": "LeanTaaS",
+            "role_title": "Data Analyst (US REMOTE)",
+            "location": "Anywhere",
+            "job_country": "United States",
+            "skills": [
+              "sql",
+              "python",
+              "tableau",
+              "excel"
+            ],
+            "grounded_fit_label": "high_fit",
+            "model_fit_label": "high_fit",
+            "model_margin": 4.132896780940543,
+            "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+            "authorization_evidence": "not available in public source"
+          },
+          {
+            "rank": 3,
+            "score": 9.05548128006302,
+            "posting_id": "HF-219271",
+            "company": "HMP Global",
+            "role_title": "Data Analyst",
+            "location": "Anywhere",
+            "job_country": "United States",
+            "skills": [
+              "sql",
+              "r",
+              "python",
+              "excel",
+              "tableau",
+              "power bi"
+            ],
+            "grounded_fit_label": "high_fit",
+            "model_fit_label": "high_fit",
+            "model_margin": 4.075488995880879,
+            "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+            "authorization_evidence": "not available in public source"
+          },
+          {
+            "rank": 4,
+            "score": 8.697896261114344,
+            "posting_id": "HF-623523",
+            "company": "MASTERSERO",
+            "role_title": "Data Analyst",
+            "location": "Anywhere",
+            "job_country": "United States",
+            "skills": [
+              "sql",
+              "r",
+              "python",
+              "excel",
+              "tableau",
+              "power bi"
+            ],
+            "grounded_fit_label": "high_fit",
+            "model_fit_label": "high_fit",
+            "model_margin": 3.667173099677232,
+            "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+            "authorization_evidence": "not available in public source"
+          },
+          {
+            "rank": 5,
+            "score": 8.325975559824592,
+            "posting_id": "HF-697496",
+            "company": "Zip",
+            "role_title": "Data Analyst ( US REMOTE)",
+            "location": "New York, NY",
+            "job_country": "United States",
+            "skills": [
+              "sql",
+              "tableau"
+            ],
+            "grounded_fit_label": "high_fit",
+            "model_fit_label": "high_fit",
+            "model_margin": 3.328852773910575,
+            "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+            "authorization_evidence": "not available in public source"
+          },
+          {
+            "rank": 6,
+            "score": 8.18042655917871,
+            "posting_id": "HF-542597",
+            "company": "OneDigital",
+            "role_title": "Data Scientist",
+            "location": "Atlanta, GA",
+            "job_country": "United States",
+            "skills": [
+              "sql",
+              "r",
+              "python",
+              "excel",
+              "tableau",
+              "power bi"
+            ],
+            "grounded_fit_label": "medium_fit",
+            "model_fit_label": "medium_fit",
+            "model_margin": 2.812785643706057,
+            "label_reason": "Analytics role with relevant skills, but weaker fit due to location, title, or project context.",
+            "authorization_evidence": "not available in public source"
+          }
+        ]
+      }
     },
     {
-      "case_id": "senior_engineering_filter",
-      "business_use": "Hold a role that is too senior or engineering-heavy",
-      "query": "Evaluate a senior data engineer position requiring seven years of experience, Spark, AWS, Kubernetes, Scala, and production cloud systems for an entry-level MSBA student in the US.",
-      "predicted_query_label": "low_fit",
-      "rubric_scores": {
-        "high_fit": 0.0,
-        "medium_fit": 0.0,
-        "low_fit": 4.0,
-        "unclear": 4.0
-      },
-      "headline": "Review 2 retrieved postings first; they have analytics role-fit signals.",
-      "recommended_action": "Advisor review before forwarding",
-      "grounding_caveat": "Do not infer CPT, OPT, or sponsorship from this public dataset. Authorization evidence must be reviewed separately.",
-      "explicit_authorization_evidence_count": 0,
-      "retrieved_evidence": [
-        {
-          "rank": 3,
-          "score": 6.4817,
-          "posting_id": "HF-672427",
-          "role_title": "Adidas Recruitment 2023 - 2+Years Experience Required -  Analyst Post",
-          "company": "Adidas",
-          "location": "Anywhere",
-          "skills": [
-            "sql",
-            "excel"
-          ],
-          "grounded_fit_label": "medium_fit",
-          "label_reason": "Analytics role with relevant skills, but weaker fit due to location, title, or project context.",
-          "authorization_evidence": "not available in public source"
+      "case_id": "senior_engineering_posting",
+      "mode": "posting",
+      "business_use": "Hold a role that is too senior and engineering-heavy",
+      "text": "Job title: Senior Data Engineer. Short title: Data Engineer. Company: Example Cloud. Location: Seattle, WA. Country: United States. Schedule: Full-time. Skills: Spark; AWS; Kubernetes; Scala; Python. Seven years of production experience required.",
+      "result": {
+        "input": "Job title: Senior Data Engineer. Short title: Data Engineer. Company: Example Cloud. Location: Seattle, WA. Country: United States. Schedule: Full-time. Skills: Spark; AWS; Kubernetes; Scala; Python. Seven years of production experience required.",
+        "input_mode": "posting",
+        "model_predicted_label": "low_fit",
+        "predicted_posting_label": "low_fit",
+        "classifier_name": "word+character TF-IDF LinearSVC (77,135 deduplicated training rows)",
+        "classifier_scores": {
+          "high_fit": -2.9042526155601642,
+          "low_fit": 2.977780784110417,
+          "medium_fit": -7.22729617338556,
+          "unclear": -2.7096646441682917
         },
-        {
-          "rank": 6,
-          "score": 6.366,
-          "posting_id": "HF-49084",
-          "role_title": "Technical Data Analyst (6+ Years Experience)",
-          "company": "HARRISS CONSULTANCY AND ENTERPRISE SOLUTIONS",
-          "location": "Hyderabad, Telangana, India",
-          "skills": [
-            "sql",
-            "sql server",
-            "snowflake",
-            "visio",
-            "excel"
-          ],
-          "grounded_fit_label": "medium_fit",
-          "label_reason": "Analytics role with relevant skills, but weaker fit due to location, title, or project context.",
-          "authorization_evidence": "not available in public source"
-        },
-        {
-          "rank": 1,
-          "score": 7.3587,
-          "posting_id": "HF-470734",
-          "role_title": "ML Engineer/Data Scientist 3+ years of experience - Contract to Hire",
-          "company": "Upwork",
-          "location": "Anywhere",
-          "skills": [],
-          "grounded_fit_label": "unclear",
-          "label_reason": "Missing skills, schedule, company, location, or other core posting fields.",
-          "authorization_evidence": "not available in public source"
-        },
-        {
-          "rank": 2,
-          "score": 6.9358,
-          "posting_id": "HF-731896",
-          "role_title": "Principal Data Scientist (10+ years experience)",
-          "company": "ClickJobs.io",
-          "location": "New York, NY",
-          "skills": [
-            "python",
-            "scala",
-            "java",
-            "r",
-            "sql",
-            "linux",
-            "git"
-          ],
-          "grounded_fit_label": "low_fit",
-          "label_reason": "Role is senior, engineering-heavy, or less aligned with entry-level MSBA advisor forwarding.",
-          "authorization_evidence": "not available in public source"
-        },
-        {
-          "rank": 4,
-          "score": 6.4476,
-          "posting_id": "HF-689295",
-          "role_title": "Data Engineer (3 years of experience in ETL/PYTHON)",
-          "company": "Eastvantage",
-          "location": "Taguig, Metro Manila, Philippines",
-          "skills": [
-            "nosql",
-            "python",
-            "aws",
-            "git"
-          ],
-          "grounded_fit_label": "low_fit",
-          "label_reason": "Role is senior, engineering-heavy, or less aligned with entry-level MSBA advisor forwarding.",
-          "authorization_evidence": "not available in public source"
-        }
-      ]
+        "prediction_margin": 5.687445428278709,
+        "missing_core_fields": [],
+        "input_authorization_evidence": "not available in public source",
+        "review_required": true,
+        "headline": "Route this query to advisor review; retrieved postings provide evidence but do not override the triage result.",
+        "recommended_action": "Advisor review before forwarding",
+        "grounding_caveat": "Do not infer CPT, OPT, or sponsorship from this public dataset. Authorization evidence must be reviewed separately.",
+        "explicit_authorization_evidence_count": 0,
+        "retrieved_evidence": [
+          {
+            "rank": 1,
+            "score": 20.914849046549918,
+            "posting_id": "HF-590539",
+            "company": "Charlie's Produce",
+            "role_title": "Data Engineer",
+            "location": "Seattle, WA",
+            "job_country": "United States",
+            "skills": [],
+            "grounded_fit_label": "unclear",
+            "model_fit_label": "unclear",
+            "model_margin": 5.082003657632226,
+            "label_reason": "Missing skills, schedule, company, location, or other core posting fields.",
+            "authorization_evidence": "not available in public source"
+          },
+          {
+            "rank": 2,
+            "score": 14.687494348241348,
+            "posting_id": "HF-1197",
+            "company": "MindSource",
+            "role_title": "Machine Translation Data Engineer",
+            "location": "Seattle, WA",
+            "job_country": "United States",
+            "skills": [
+              "python",
+              "java",
+              "spark"
+            ],
+            "grounded_fit_label": "unclear",
+            "model_fit_label": "unclear",
+            "model_margin": 4.842186268734171,
+            "label_reason": "Missing skills, schedule, company, location, or other core posting fields.",
+            "authorization_evidence": "not available in public source"
+          },
+          {
+            "rank": 3,
+            "score": 16.14300802073689,
+            "posting_id": "HF-535995",
+            "company": "Adaminfotech",
+            "role_title": "GCP Data Engineer",
+            "location": "Seattle, WA",
+            "job_country": "United States",
+            "skills": [
+              "sql",
+              "python",
+              "gcp"
+            ],
+            "grounded_fit_label": "low_fit",
+            "model_fit_label": "low_fit",
+            "model_margin": 4.192270777284177,
+            "label_reason": "Role is senior, engineering-heavy, or less aligned with entry-level MSBA advisor forwarding.",
+            "authorization_evidence": "not available in public source"
+          },
+          {
+            "rank": 4,
+            "score": 15.715277757039603,
+            "posting_id": "HF-612411",
+            "company": "HireIO, Inc.",
+            "role_title": "Senior/Staff Data Engineer",
+            "location": "Seattle, WA",
+            "job_country": "United States",
+            "skills": [
+              "hadoop",
+              "spark"
+            ],
+            "grounded_fit_label": "low_fit",
+            "model_fit_label": "low_fit",
+            "model_margin": 5.217275752321765,
+            "label_reason": "Role is senior, engineering-heavy, or less aligned with entry-level MSBA advisor forwarding.",
+            "authorization_evidence": "not available in public source"
+          },
+          {
+            "rank": 5,
+            "score": 15.011933704146399,
+            "posting_id": "HF-650479",
+            "company": "Amazon",
+            "role_title": "Data Engineer",
+            "location": "Seattle, WA",
+            "job_country": "United States",
+            "skills": [
+              "sql",
+              "redshift"
+            ],
+            "grounded_fit_label": "low_fit",
+            "model_fit_label": "low_fit",
+            "model_margin": 4.446703833569607,
+            "label_reason": "Role is senior, engineering-heavy, or less aligned with entry-level MSBA advisor forwarding.",
+            "authorization_evidence": "not available in public source"
+          },
+          {
+            "rank": 6,
+            "score": 14.308856430141393,
+            "posting_id": "HF-651501",
+            "company": "Dice",
+            "role_title": "Cloud Data Engineer",
+            "location": "Seattle, WA",
+            "job_country": "United States",
+            "skills": [
+              "java",
+              "hadoop",
+              "spark",
+              "kafka",
+              "kubernetes"
+            ],
+            "grounded_fit_label": "low_fit",
+            "model_fit_label": "low_fit",
+            "model_margin": 2.9249683321255073,
+            "label_reason": "Role is senior, engineering-heavy, or less aligned with entry-level MSBA advisor forwarding.",
+            "authorization_evidence": "not available in public source"
+          }
+        ]
+      }
     },
     {
-      "case_id": "authorization_missing",
-      "business_use": "Escalate missing CPT/OPT or sponsorship evidence",
-      "query": "A student asks whether a US data analyst posting definitely supports CPT, OPT, or H-1B, but the posting contains no authorization or sponsorship text.",
-      "predicted_query_label": "unclear",
-      "rubric_scores": {
-        "high_fit": 0.0,
-        "medium_fit": 0.0,
-        "low_fit": 0.0,
-        "unclear": 4.5
-      },
-      "headline": "Review 5 retrieved postings first; they have analytics role-fit signals.",
-      "recommended_action": "Advisor review before forwarding",
-      "grounding_caveat": "Authorization language is reported only when it appears explicitly in retrieved source text. An advisor must verify the original posting; no eligibility is inferred.",
-      "explicit_authorization_evidence_count": 1,
-      "retrieved_evidence": [
-        {
-          "rank": 1,
-          "score": 6.8617,
-          "posting_id": "HF-734288",
-          "role_title": "Jr. Data Analyst (No OPT/CPT)",
-          "company": "Winorbit Technology",
-          "location": "Austin, TX",
-          "skills": [
-            "sql",
-            "python",
-            "bash",
-            "pandas",
-            "macos",
-            "slack"
-          ],
-          "grounded_fit_label": "high_fit",
-          "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
-          "authorization_evidence": "explicit source text: no OPT/CPT"
+      "case_id": "authorization_restriction_posting",
+      "mode": "posting",
+      "business_use": "Separate strong role fit from explicit authorization restrictions",
+      "text": "Job title: Jr. Data Analyst (No OPT/CPT). Short title: Data Analyst. Company: Example Staffing. Location: Austin, TX. Country: United States. Schedule: Full-time. Skills: SQL; Python; Excel; Tableau.",
+      "result": {
+        "input": "Job title: Jr. Data Analyst (No OPT/CPT). Short title: Data Analyst. Company: Example Staffing. Location: Austin, TX. Country: United States. Schedule: Full-time. Skills: SQL; Python; Excel; Tableau.",
+        "input_mode": "posting",
+        "model_predicted_label": "high_fit",
+        "predicted_posting_label": "high_fit",
+        "classifier_name": "word+character TF-IDF LinearSVC (77,135 deduplicated training rows)",
+        "classifier_scores": {
+          "high_fit": 3.8587759939384974,
+          "low_fit": -0.9269644824446917,
+          "medium_fit": -0.8437712014783587,
+          "unclear": -5.119364164552067
         },
-        {
-          "rank": 2,
-          "score": 6.8576,
-          "posting_id": "HF-250208",
-          "role_title": "Data Analyst (US REMOTE)",
-          "company": "LeanTaaS",
-          "location": "Anywhere",
-          "skills": [
-            "sql",
-            "python",
-            "tableau",
-            "excel"
-          ],
-          "grounded_fit_label": "high_fit",
-          "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
-          "authorization_evidence": "not available in public source"
-        },
-        {
-          "rank": 3,
-          "score": 6.026,
-          "posting_id": "HF-697496",
-          "role_title": "Data Analyst ( US REMOTE)",
-          "company": "Zip",
-          "location": "New York, NY",
-          "skills": [
-            "sql",
-            "tableau"
-          ],
-          "grounded_fit_label": "high_fit",
-          "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
-          "authorization_evidence": "not available in public source"
-        },
-        {
-          "rank": 5,
-          "score": 4.621,
-          "posting_id": "HF-344601",
-          "role_title": "US - Data Analyst",
-          "company": "Experis",
-          "location": "Charlotte, NC",
-          "skills": [
-            "python",
-            "power bi",
-            "tableau",
-            "ssrs"
-          ],
-          "grounded_fit_label": "high_fit",
-          "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
-          "authorization_evidence": "not available in public source"
-        },
-        {
-          "rank": 6,
-          "score": 4.492,
-          "posting_id": "HF-6561",
-          "role_title": "Part-time Data Science Mentor (US)",
-          "company": "Interview Kickstart",
-          "location": "Anywhere",
-          "skills": [
-            "sql",
-            "python",
-            "r",
-            "flow"
-          ],
-          "grounded_fit_label": "medium_fit",
-          "label_reason": "Analytics role with relevant skills, but weaker fit due to location, title, or project context.",
-          "authorization_evidence": "not available in public source"
-        }
-      ]
+        "prediction_margin": 4.702547195416856,
+        "missing_core_fields": [],
+        "input_authorization_evidence": "explicit source text: no OPT/CPT",
+        "review_required": true,
+        "headline": "Role fit and work authorization conflict: hold this posting for advisor verification.",
+        "recommended_action": "Hold - explicit authorization restriction requires advisor verification",
+        "grounding_caveat": "Authorization language is reported only when it appears explicitly in retrieved source text. An advisor must verify the original posting; no eligibility is inferred.",
+        "explicit_authorization_evidence_count": 1,
+        "retrieved_evidence": [
+          {
+            "rank": 1,
+            "score": 18.543886707617897,
+            "posting_id": "HF-734288",
+            "company": "Winorbit Technology",
+            "role_title": "Jr. Data Analyst (No OPT/CPT)",
+            "location": "Austin, TX",
+            "job_country": "United States",
+            "skills": [
+              "sql",
+              "python",
+              "bash",
+              "pandas",
+              "macos",
+              "slack"
+            ],
+            "grounded_fit_label": "high_fit",
+            "model_fit_label": "high_fit",
+            "model_margin": 2.1125213310469073,
+            "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+            "authorization_evidence": "explicit source text: no OPT/CPT"
+          },
+          {
+            "rank": 2,
+            "score": 11.836695009948759,
+            "posting_id": "HF-779383",
+            "company": "Fervorly",
+            "role_title": "Data Analyst",
+            "location": "Austin, TX",
+            "job_country": "United States",
+            "skills": [
+              "sql",
+              "tableau"
+            ],
+            "grounded_fit_label": "high_fit",
+            "model_fit_label": "high_fit",
+            "model_margin": 3.8201121961363813,
+            "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+            "authorization_evidence": "not available in public source"
+          },
+          {
+            "rank": 3,
+            "score": 11.31788107744338,
+            "posting_id": "HF-164738",
+            "company": "Daman",
+            "role_title": "Jr. Data Analyst",
+            "location": "Austin, TX",
+            "job_country": "United States",
+            "skills": [
+              "python",
+              "snowflake",
+              "aws"
+            ],
+            "grounded_fit_label": "high_fit",
+            "model_fit_label": "high_fit",
+            "model_margin": 1.5694295056732348,
+            "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+            "authorization_evidence": "not available in public source"
+          },
+          {
+            "rank": 4,
+            "score": 10.868711570768058,
+            "posting_id": "HF-712669",
+            "company": "Nextogen Inc.",
+            "role_title": "Data analyst",
+            "location": "Austin, TX",
+            "job_country": "United States",
+            "skills": [
+              "sql",
+              "r",
+              "python",
+              "tableau"
+            ],
+            "grounded_fit_label": "high_fit",
+            "model_fit_label": "high_fit",
+            "model_margin": 3.3123327382562224,
+            "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+            "authorization_evidence": "not available in public source"
+          },
+          {
+            "rank": 5,
+            "score": 12.870690317238504,
+            "posting_id": "HF-527859",
+            "company": "Hitch",
+            "role_title": "Data Analyst",
+            "location": "Austin, TX",
+            "job_country": "United States",
+            "skills": [],
+            "grounded_fit_label": "unclear",
+            "model_fit_label": "unclear",
+            "model_margin": 9.0403987116165,
+            "label_reason": "Missing skills, schedule, company, location, or other core posting fields.",
+            "authorization_evidence": "not available in public source"
+          },
+          {
+            "rank": 6,
+            "score": 12.870690317238504,
+            "posting_id": "HF-617292",
+            "company": "Sulekha",
+            "role_title": "Data Analyst",
+            "location": "Austin, TX",
+            "job_country": "United States",
+            "skills": [],
+            "grounded_fit_label": "unclear",
+            "model_fit_label": "unclear",
+            "model_margin": 9.053676384863202,
+            "label_reason": "Missing skills, schedule, company, location, or other core posting fields.",
+            "authorization_evidence": "not available in public source"
+          }
+        ]
+      }
     },
     {
-      "case_id": "thin_metadata",
-      "business_use": "Investigate an incomplete posting",
-      "query": "An email mentions an analytics internship, Excel, dashboards, and possible remote work, but the company, location, detailed skills, and authorization information are missing.",
-      "predicted_query_label": "unclear",
-      "rubric_scores": {
-        "high_fit": 0.3,
-        "medium_fit": 0.3,
-        "low_fit": 0.0,
-        "unclear": 1.5
-      },
-      "headline": "Review 5 retrieved postings first; they have analytics role-fit signals.",
-      "recommended_action": "Advisor review before forwarding",
-      "grounding_caveat": "Do not infer CPT, OPT, or sponsorship from this public dataset. Authorization evidence must be reviewed separately.",
-      "explicit_authorization_evidence_count": 0,
-      "retrieved_evidence": [
-        {
-          "rank": 3,
-          "score": 5.2142,
-          "posting_id": "HF-565767",
-          "role_title": "ESM Data Analytics Internship - Summer 2023",
-          "company": "TransUnion",
-          "location": "Chicago, IL",
-          "skills": [
-            "sql",
-            "postgresql",
-            "oracle",
-            "excel",
-            "tableau",
-            "power bi"
-          ],
-          "grounded_fit_label": "high_fit",
-          "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
-          "authorization_evidence": "not available in public source"
+      "case_id": "thin_metadata_posting",
+      "mode": "posting",
+      "business_use": "Escalate an incomplete posting",
+      "text": "Job title: Analytics Internship. Company: unknown. Location: unknown. Skills: Excel; dashboards. Authorization information is missing.",
+      "result": {
+        "input": "Job title: Analytics Internship. Company: unknown. Location: unknown. Skills: Excel; dashboards. Authorization information is missing.",
+        "input_mode": "posting",
+        "model_predicted_label": "medium_fit",
+        "predicted_posting_label": "unclear",
+        "classifier_name": "word+character TF-IDF LinearSVC (77,135 deduplicated training rows)",
+        "classifier_scores": {
+          "high_fit": -1.0191559574739741,
+          "low_fit": -0.6070719957525147,
+          "medium_fit": 0.5795439772285316,
+          "unclear": -0.9665559494364122
         },
-        {
-          "rank": 2,
-          "score": 5.2666,
-          "posting_id": "HF-590956",
-          "role_title": "Data Analytics Internship \u2013 Monitoring of Telematic Devices...",
-          "company": "Continental",
-          "location": "Toulouse, France",
-          "skills": [
-            "python",
-            "sql",
-            "power bi"
-          ],
-          "grounded_fit_label": "medium_fit",
-          "label_reason": "Analytics role with relevant skills, but weaker fit due to location, title, or project context.",
-          "authorization_evidence": "not available in public source"
-        },
-        {
-          "rank": 4,
-          "score": 5.1519,
-          "posting_id": "HF-726910",
-          "role_title": "Data Science & Analytics Internship - Summer 2024",
-          "company": "TransUnion",
-          "location": "United States",
-          "skills": [
-            "r",
-            "python",
-            "excel"
-          ],
-          "grounded_fit_label": "medium_fit",
-          "label_reason": "Analytics role with relevant skills, but weaker fit due to location, title, or project context.",
-          "authorization_evidence": "not available in public source"
-        },
-        {
-          "rank": 5,
-          "score": 4.6305,
-          "posting_id": "HF-11312",
-          "role_title": "Data Analytics Internship in Bangalore at Pratham Books",
-          "company": "Pratham Education Foundation",
-          "location": "India",
-          "skills": [
-            "python",
-            "sql",
-            "r",
-            "airflow",
-            "sheets",
-            "tableau",
-            "looker",
-            "github"
-          ],
-          "grounded_fit_label": "medium_fit",
-          "label_reason": "Analytics role with relevant skills, but weaker fit due to location, title, or project context.",
-          "authorization_evidence": "not available in public source"
-        },
-        {
-          "rank": 6,
-          "score": 4.5133,
-          "posting_id": "HF-747875",
-          "role_title": "Data Analytics Internship in Indore at Money4drive Advertising...",
-          "company": "Money4drive Advertising Private Limited",
-          "location": "Indore, Madhya Pradesh, India",
-          "skills": [
-            "sql",
-            "excel",
-            "power bi"
-          ],
-          "grounded_fit_label": "medium_fit",
-          "label_reason": "Analytics role with relevant skills, but weaker fit due to location, title, or project context.",
-          "authorization_evidence": "not available in public source"
-        }
-      ]
+        "prediction_margin": 1.1866159729810462,
+        "missing_core_fields": [
+          "company",
+          "location",
+          "country",
+          "schedule"
+        ],
+        "input_authorization_evidence": "not available in public source",
+        "review_required": true,
+        "headline": "Route this query to advisor review; retrieved postings provide evidence but do not override the triage result.",
+        "recommended_action": "Advisor review before forwarding",
+        "grounding_caveat": "Do not infer CPT, OPT, or sponsorship from this public dataset. Authorization evidence must be reviewed separately.",
+        "explicit_authorization_evidence_count": 0,
+        "retrieved_evidence": [
+          {
+            "rank": 1,
+            "score": 5.233359892532163,
+            "posting_id": "HF-671521",
+            "company": "ALBEMARLE",
+            "role_title": "Summer Data Analytics Internship",
+            "location": "Charlotte, NC",
+            "job_country": "United States",
+            "skills": [
+              "python",
+              "sql",
+              "azure",
+              "power bi"
+            ],
+            "grounded_fit_label": "high_fit",
+            "model_fit_label": "high_fit",
+            "model_margin": 1.7833291854538724,
+            "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+            "authorization_evidence": "not available in public source"
+          },
+          {
+            "rank": 2,
+            "score": 5.041829836463111,
+            "posting_id": "HF-745488",
+            "company": "ReedTMS Logistics",
+            "role_title": "Data Analytics Internship",
+            "location": "Tampa, FL",
+            "job_country": "United States",
+            "skills": [
+              "sql",
+              "crystal",
+              "sql server",
+              "tableau"
+            ],
+            "grounded_fit_label": "high_fit",
+            "model_fit_label": "high_fit",
+            "model_margin": 2.389435182218067,
+            "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+            "authorization_evidence": "not available in public source"
+          },
+          {
+            "rank": 3,
+            "score": 4.745319295958693,
+            "posting_id": "HF-112682",
+            "company": "Wise",
+            "role_title": "Compliance Analytics Internship",
+            "location": "Singapore",
+            "job_country": "Singapore",
+            "skills": [
+              "sql",
+              "python",
+              "looker"
+            ],
+            "grounded_fit_label": "medium_fit",
+            "model_fit_label": "medium_fit",
+            "model_margin": 1.5334070944005442,
+            "label_reason": "Analytics role with relevant skills, but weaker fit due to location, title, or project context.",
+            "authorization_evidence": "not available in public source"
+          },
+          {
+            "rank": 4,
+            "score": 4.973021909446271,
+            "posting_id": "HF-304250",
+            "company": "Symetra",
+            "role_title": "2023 Data Analytics Internship",
+            "location": "Australia",
+            "job_country": "Australia",
+            "skills": [
+              "sql"
+            ],
+            "grounded_fit_label": "unclear",
+            "model_fit_label": "unclear",
+            "model_margin": 1.6072601160859483,
+            "label_reason": "Posting has some useful metadata but does not clearly map to the advisor triage target.",
+            "authorization_evidence": "not available in public source"
+          },
+          {
+            "rank": 5,
+            "score": 4.8179209611963305,
+            "posting_id": "HF-562143",
+            "company": "AWWG",
+            "role_title": "Retail Analytics Internship",
+            "location": "Madrid, Spain",
+            "job_country": "Spain",
+            "skills": [
+              "excel",
+              "sap",
+              "word"
+            ],
+            "grounded_fit_label": "unclear",
+            "model_fit_label": "unclear",
+            "model_margin": 1.4994739767763368,
+            "label_reason": "Posting has some useful metadata but does not clearly map to the advisor triage target.",
+            "authorization_evidence": "not available in public source"
+          },
+          {
+            "rank": 6,
+            "score": 4.59277076537369,
+            "posting_id": "HF-91729",
+            "company": "Tesla",
+            "role_title": "Data Science, Business Analytics Internship",
+            "location": "Amsterdam, Netherlands",
+            "job_country": "Netherlands",
+            "skills": [],
+            "grounded_fit_label": "unclear",
+            "model_fit_label": "unclear",
+            "model_margin": 5.622364877641907,
+            "label_reason": "Missing skills, schedule, company, location, or other core posting fields.",
+            "authorization_evidence": "not available in public source"
+          }
+        ]
+      }
     }
   ],
   "governance_checks": {
-    "cases_evaluated": 4,
-    "cases_with_retrieved_evidence": 4,
-    "retrieved_records_checked": 20,
-    "explicit_authorization_evidence_records": 1,
+    "cases_with_evidence": 4,
+    "explicit_restrictions_forced_review": 1,
     "unsupported_authorization_claims": 0,
-    "authorization_caveat_rate": 1.0,
-    "evidence_fields": [
-      "posting_id",
-      "role_title",
-      "company",
-      "location",
-      "skills",
-      "grounded_fit_label",
-      "label_reason"
-    ],
-    "policy": "Never infer CPT, OPT, H-1B, or sponsorship when source authorization text is absent."
+    "policy": "Role fit and work authorization are separate; explicit restrictions always force advisor review."
   }
 }

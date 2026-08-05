@@ -1,6 +1,6 @@
 # MSBA Job Matching NLP System
 
-Production-ready capstone prototype for ISBA 2411. The system helps a graduate business career advisor screen job opportunities for MSBA international students. It takes a real advisor query or raw posting text, retrieves similar real job postings, predicts a triage label, and returns a grounded recommendation with cited evidence.
+Production-ready capstone prototype for ISBA 2411. The system helps a graduate business career advisor screen job opportunities for MSBA international students. It supports two explicit modes: a `search` request retrieves and ranks real postings, while a `posting` input receives a trained role-fit label, comparable evidence, and governance checks.
 
 ## Problem Statement
 
@@ -14,6 +14,7 @@ Career advisors receive many postings, emails, and links. They must decide what 
 - Train/validation split: **80,000 / 20,000**
 - Labels: `high_fit`, `medium_fit`, `low_fit`, `unclear`
 - Evaluation note: labels are transparent weak labels, not final human advisor judgments
+- Production training rows after exact-text deduplication: **77,135**
 
 ## Setup
 
@@ -31,15 +32,18 @@ The repository includes `data_jobs_msba_project_sample_100k.csv`. The CLI also a
 python -m msba_job_matcher.app --input-json demo/sample_query.json --output outputs/final_demo_output.json
 python -m msba_job_matcher.app --input-json demo/edge_case_query.json --output outputs/final_edge_case_output.json
 python -m msba_job_matcher.evaluate --sample-per-label 1000 --output outputs/final_evaluation_results.json
+python -m msba_job_matcher.casebook
 ```
+
+Rebuild the committed classifier with `python -m msba_job_matcher.train`.
 
 ## Architecture
 
-1. **Input:** advisor query or raw job text.
-2. **Retrieval:** sparse inverted index over 80,000 real training postings.
-3. **Decision:** transparent role-fit rubric predicts one of four triage labels.
-4. **Grounded output:** the response cites retrieved title, company, location, skills, label, and label reason.
-5. **Governance gate:** explicit authorization language is surfaced; missing text triggers a caveat and human review.
+1. **Mode routing:** separate search requests from job postings so a search sentence is never treated as a posting label.
+2. **Retrieval:** sparse index over 80,000 real postings, with query-constraint boosts and duplicate suppression.
+3. **Decision:** word+character TF-IDF LinearSVC trained on 77,135 deduplicated rows.
+4. **Policy gates:** missing core fields route to `unclear`; explicit authorization restrictions force review.
+5. **Grounded output:** the response cites retrieved title, company, location, skills, model label, and source label reason.
 
 ## Evaluation
 
@@ -47,23 +51,25 @@ python -m msba_job_matcher.evaluate --sample-per-label 1000 --output outputs/fin
 | --- | ---: | ---: | ---: | --- |
 | Milestone 2 TF-IDF baseline | 20,000 | 0.793 | 0.785 | Static baseline |
 | Milestone 3 true PEFT LoRA | 4,000 | 0.875 | 0.873 | Best pure classifier |
-| Final end-to-end system | 4,000 | 0.800 | 0.801 | Retrieval, evidence, and guardrails |
+| Final trained classifier | 4,000 | 0.984 | 0.984 | Decision layer in the end-to-end system |
 
-On the same balanced 4,000-row subset, the final prototype improves macro F1 from 0.791 to 0.801. The cross-milestone table is descriptive because the M2 and M3 experiments use different modeling and evaluation setups.
+On the same balanced 4,000-row subset, macro F1 improves from 0.791 to 0.984. A leakage-controlled audit remains strong: 0.979 macro F1 on 18,672 validation texts not seen in training and 0.980 on 5,570 rows from companies not seen in training. These are still weak-label metrics, not advisor-ground-truth accuracy.
 
 Retrieval success is 100.0%, support hit@5 is 90.0%, and the four-case governance check found 0 unsupported authorization claims while preserving 1 explicit source statement.
 
 ## Findings and Recommendation
 
-- High-fit triage is strong: F1 is 0.960.
-- The main errors are `medium_fit -> low_fit` and `unclear -> low_fit`; borderline cases need human review.
-- True PEFT LoRA is the best classifier, while the final prototype is the stronger decision-support system because it returns evidence and enforces the authorization caveat.
+- All four class F1 scores exceed 0.969 on the fixed validation set.
+- Training-size experiments show that using the available labels matters more than a larger model: macro F1 rises from 0.898 at 2,000 rows to 0.984 at 80,000 rows.
+- The final linear model outperforms the 2,000-row LoRA experiment while training in under a minute and producing a 3.8 MB artifact.
+- The next data investment is 500-1,000 advisor-reviewed postings plus several hundred real authorization examples, not more public weak labels.
 - Recommended deployment: first-pass prioritization with advisor confirmation, followed by a pilot on de-identified Career Center postings.
 
 ## Reproducibility and Deliverables
 
 - M2-M4 completed notebooks and archival PDFs are stored at the repository root.
 - Final casebook: `outputs/final_casebook_outputs.json` and `docs/final_casebook.md`.
+- Model artifact and audit: `models/job_fit_tfidf_svc.joblib` and `models/job_fit_tfidf_svc_metrics.json`.
 - Governance appendix: `docs/governance_risk_appendix.md`.
 - Final technical summary: `docs/Final_Technical_Summary.pdf`.
 - Slide deck: `slides/MSBA_Job_Matching_Final_Deck.pptx` and `.pdf`.

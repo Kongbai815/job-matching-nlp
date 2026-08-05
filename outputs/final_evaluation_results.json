@@ -1,55 +1,56 @@
 {
   "sample_rows": 4000,
   "sample_per_label": 1000,
+  "classifier_name": "word+character TF-IDF LinearSVC (77,135 deduplicated training rows)",
   "metrics": {
-    "accuracy": 0.80025,
-    "macro_f1": 0.8005632207383573,
+    "accuracy": 0.98375,
+    "macro_f1": 0.9837245121005396,
     "per_label": {
       "high_fit": {
-        "precision": 0.9289055191768008,
-        "recall": 0.993,
-        "f1": 0.959884001933301
+        "precision": 0.9950099800399201,
+        "recall": 0.997,
+        "f1": 0.9960039960039959
       },
       "medium_fit": {
-        "precision": 0.891970802919708,
-        "recall": 0.611,
-        "f1": 0.7252225519287834
+        "precision": 0.9676470588235294,
+        "recall": 0.987,
+        "f1": 0.9772277227722772
       },
       "low_fit": {
-        "precision": 0.5960559796437659,
-        "recall": 0.937,
-        "f1": 0.728615863141524
+        "precision": 0.992,
+        "recall": 0.992,
+        "f1": 0.992
       },
       "unclear": {
-        "precision": 0.9792284866468842,
-        "recall": 0.66,
-        "f1": 0.7885304659498208
+        "precision": 0.9805725971370143,
+        "recall": 0.959,
+        "f1": 0.9696663296258848
       }
     },
     "confusion": {
       "high_fit": {
-        "high_fit": 993,
-        "medium_fit": 0,
+        "high_fit": 997,
+        "medium_fit": 1,
         "low_fit": 1,
-        "unclear": 6
+        "unclear": 1
       },
       "medium_fit": {
-        "high_fit": 4,
-        "medium_fit": 611,
-        "low_fit": 380,
-        "unclear": 5
+        "high_fit": 0,
+        "medium_fit": 987,
+        "low_fit": 2,
+        "unclear": 11
       },
       "low_fit": {
-        "high_fit": 49,
-        "medium_fit": 11,
-        "low_fit": 937,
-        "unclear": 3
+        "high_fit": 0,
+        "medium_fit": 1,
+        "low_fit": 992,
+        "unclear": 7
       },
       "unclear": {
-        "high_fit": 23,
-        "medium_fit": 63,
-        "low_fit": 254,
-        "unclear": 660
+        "high_fit": 5,
+        "medium_fit": 31,
+        "low_fit": 5,
+        "unclear": 959
       }
     }
   },

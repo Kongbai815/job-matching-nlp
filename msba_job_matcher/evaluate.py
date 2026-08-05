@@ -12,6 +12,7 @@ def main():
     parser.add_argument("--data", default="data/data_jobs_msba_project_sample_100k.csv")
     parser.add_argument("--sample-per-label", type=int, default=1000)
     parser.add_argument("--seed", type=int, default=2411)
+    parser.add_argument("--model", default="models/job_fit_tfidf_svc.joblib")
     parser.add_argument("--output", default="outputs/evaluation_results.json")
     args = parser.parse_args()
 
@@ -25,13 +26,14 @@ def main():
         .groupby("relevance_label", group_keys=False)
         .sample(n=args.sample_per_label, random_state=args.seed)
     )
-    system = JobMatchingSystem(data_path=data_path)
+    system = JobMatchingSystem(data_path=data_path, model_path=args.model)
     y_true = eval_df["relevance_label"].tolist()
     y_pred = [system.predict_label(text)[0] for text in eval_df["posting_text"]]
     metrics = compute_metrics(y_true, y_pred)
     result = {
         "sample_rows": len(eval_df),
         "sample_per_label": args.sample_per_label,
+        "classifier_name": system.classifier_name,
         "metrics": metrics,
         "note": "Labels are weak labels derived from transparent advisor-screening rules.",
     }

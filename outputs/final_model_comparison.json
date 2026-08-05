@@ -1,0 +1,33 @@
+{
+  "task": "four-class MSBA job-posting role-fit triage",
+  "fixed_validation_rows": 4000,
+  "models": [
+    {
+      "name": "M2 same-subset hashed centroid baseline",
+      "training_rows": 80000,
+      "macro_f1": 0.7914
+    },
+    {
+      "name": "M3 true PEFT LoRA",
+      "training_rows": 2000,
+      "macro_f1": 0.8725
+    },
+    {
+      "name": "Final word+character TF-IDF LinearSVC",
+      "training_rows_before_deduplication": 80000,
+      "training_rows_after_deduplication": 77135,
+      "accuracy": 0.98375,
+      "macro_f1": 0.9837245121005396,
+      "artifact_bytes": 3805865
+    }
+  ],
+  "training_size_curve": [
+    {"training_rows": 2000, "macro_f1": 0.8977475691818226},
+    {"training_rows": 8000, "macro_f1": 0.944303515103617},
+    {"training_rows": 20000, "macro_f1": 0.9647999779505307},
+    {"training_rows": 40000, "macro_f1": 0.9741717221567558},
+    {"training_rows": 80000, "macro_f1": 0.9842250479644845}
+  ],
+  "decision": "Use the full available weak-label training split with a lightweight linear model; collect human labels before training a larger transformer.",
+  "caveat": "All current target labels are transparent weak labels rather than advisor-reviewed ground truth."
+}

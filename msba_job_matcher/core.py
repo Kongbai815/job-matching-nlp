@@ -5,10 +5,13 @@ import re
 from collections import Counter, defaultdict
 from pathlib import Path
 
+import joblib
+import numpy as np
 import pandas as pd
 
 LABELS = ["high_fit", "medium_fit", "low_fit", "unclear"]
 TOP_K = 6
+DEFAULT_MODEL_PATH = Path("models/job_fit_tfidf_svc.joblib")
 
 STOPWORDS = {
     "a", "an", "and", "are", "as", "at", "be", "by", "for", "from", "has", "in",
@@ -127,6 +130,27 @@ def extract_authorization_evidence(row):
     return "not available in public source"
 
 
+def missing_structured_fields(text):
+    text = str(text)
+    fields = {
+        "company": r"\bcompany:\s*([^.;]+)",
+        "location": r"\blocation:\s*([^.;]+)",
+        "country": r"\bcountry:\s*([^.;]+)",
+        "skills": r"\bskills:\s*([^.;]+)",
+        "schedule": r"\bschedule:\s*([^.;]+)",
+    }
+    matches = {name: re.search(pattern, text, flags=re.I) for name, pattern in fields.items()}
+    if sum(match is not None for match in matches.values()) < 2:
+        return []
+    missing_values = {"", "unknown", "missing", "not provided", "not available", "n/a", "none", "null"}
+    missing = []
+    for name, match in matches.items():
+        value = match.group(1).strip().lower() if match else ""
+        if not match or value in missing_values:
+            missing.append(name)
+    return missing
+
+
 def compute_metrics(y_true, y_pred):
     confusion = {label: {pred: 0 for pred in LABELS} for label in LABELS}
     for true, pred in zip(y_true, y_pred):
@@ -148,10 +172,25 @@ def compute_metrics(y_true, y_pred):
 
 
 class JobMatchingSystem:
-    def __init__(self, data_path="data/data_jobs_msba_project_sample_100k.csv", top_k=TOP_K):
+    def __init__(
+        self,
+        data_path="data/data_jobs_msba_project_sample_100k.csv",
+        top_k=TOP_K,
+        model_path=DEFAULT_MODEL_PATH,
+    ):
         self.data_path = Path(data_path)
         if not self.data_path.exists() and self.data_path.name == "data_jobs_msba_project_sample_100k.csv":
             self.data_path = Path("data_jobs_msba_project_sample_100k.csv")
+        self.model_path = Path(model_path) if model_path else None
+        if self.model_path and not self.model_path.exists() and self.model_path.name == DEFAULT_MODEL_PATH.name:
+            candidate = Path(__file__).resolve().parents[1] / DEFAULT_MODEL_PATH
+            self.model_path = candidate if candidate.exists() else self.model_path
+        self.classifier = joblib.load(self.model_path) if self.model_path and self.model_path.exists() else None
+        self.classifier_name = (
+            "word+character TF-IDF LinearSVC (77,135 deduplicated training rows)"
+            if self.classifier is not None
+            else "transparent rubric fallback"
+        )
         self.top_k = top_k
         self.df = pd.read_csv(self.data_path)
         self.train_df = self.df[self.df["split"].eq("train")].reset_index(drop=True)
@@ -187,12 +226,51 @@ class JobMatchingSystem:
             weight = self.idf[term]
             for doc_id in self.index[term]:
                 scores[doc_id] += (weight * weight) / float(self.doc_norm[doc_id])
-        ranked = scores.most_common(top_k)
+        candidates = []
+        for doc_id, lexical_score in scores.most_common(max(200, top_k * 30)):
+            row = self.records[doc_id]
+            adjusted_score = lexical_score + self._constraint_adjustment(query, row)
+            candidates.append((doc_id, adjusted_score))
+        candidates.sort(key=lambda item: item[1], reverse=True)
+
+        ranked = []
+        seen = set()
+        for doc_id, score in candidates:
+            row = self.records[doc_id]
+            dedupe_key = (
+                re.sub(r"\W+", " ", str(row.get("company", "")).lower()).strip(),
+                re.sub(r"\W+", " ", str(row.get("role_title", "")).lower()).strip(),
+            )
+            if dedupe_key in seen:
+                continue
+            seen.add(dedupe_key)
+            ranked.append((doc_id, score))
+            if len(ranked) == top_k:
+                break
         return [self._format_record(rank, doc_id, score) for rank, (doc_id, score) in enumerate(ranked, start=1)]
+
+    @staticmethod
+    def _constraint_adjustment(query, row):
+        query_l = str(query).lower()
+        title_l = str(row.get("role_title", "")).lower()
+        country_l = str(row.get("job_country", "")).lower()
+        location_l = str(row.get("location", "")).lower()
+        adjustment = 0.0
+        wants_us = re.search(r"\b(?:u\.?s\.?|united states)\b", query_l) is not None
+        if wants_us:
+            adjustment += 1.8 if country_l == "united states" else -1.8
+        if "remote" in query_l:
+            is_remote = bool(row.get("job_work_from_home")) or location_l == "anywhere" or "remote" in title_l
+            adjustment += 0.5 if is_remote else 0.0
+        if any(term in query_l for term in ["entry-level", "entry level", "intern", "student"]):
+            if any(term in title_l for term in ["senior", "principal", "staff", "director", "manager"]):
+                adjustment -= 2.0
+        return adjustment
 
     def _format_record(self, rank, doc_id, score):
         row = self.records[doc_id]
         skills = safe_skills(row.get("job_skills", ""))
+        model_label, _, model_margin = self.predict_details(row.get("posting_text", ""))
         return {
             "rank": rank,
             "score": float(score),
@@ -203,25 +281,65 @@ class JobMatchingSystem:
             "job_country": row.get("job_country"),
             "skills": skills[:8],
             "grounded_fit_label": row.get("relevance_label"),
+            "model_fit_label": model_label,
+            "model_margin": model_margin,
             "label_reason": row.get("label_reason"),
             "authorization_evidence": extract_authorization_evidence(row),
         }
 
     def predict_label(self, text):
-        scores = rubric_scores(text)
-        return max(LABELS, key=lambda label: scores[label]), scores
+        label, scores, _ = self.predict_details(text)
+        return label, scores
 
-    def run(self, query, top_k=None):
+    def predict_details(self, text):
+        if self.classifier is not None:
+            label = str(self.classifier.predict([str(text)])[0])
+            decision = np.asarray(self.classifier.decision_function([str(text)])[0], dtype=float)
+            classes = [str(value) for value in self.classifier.classes_]
+            scores = {name: float(value) for name, value in zip(classes, decision)}
+            ordered = np.sort(decision)
+            margin = float(ordered[-1] - ordered[-2]) if len(ordered) > 1 else float(ordered[-1])
+            return label, scores, margin
+        scores = rubric_scores(text)
+        ordered = sorted(scores.values(), reverse=True)
+        margin = float(ordered[0] - ordered[1]) if len(ordered) > 1 else float(ordered[0])
+        return max(LABELS, key=lambda label: scores[label]), scores, margin
+
+    def run(self, query, top_k=None, input_mode="auto"):
+        if input_mode == "auto":
+            input_mode = "posting" if re.search(r"\b(?:job title|short title|company|country|skills):", str(query), flags=re.I) else "search"
+        if input_mode not in {"search", "posting"}:
+            raise ValueError("input_mode must be 'search', 'posting', or 'auto'.")
         retrieved = self.retrieve(query, top_k=top_k)
-        predicted_label, scores = self.predict_label(query)
+        if input_mode == "posting":
+            model_predicted_label, scores, prediction_margin = self.predict_details(query)
+            missing_fields = missing_structured_fields(query)
+            predicted_label = "unclear" if len(missing_fields) >= 2 else model_predicted_label
+            input_authorization_evidence = extract_authorization_evidence({"posting_text": query})
+        else:
+            model_predicted_label = "not_applicable_search_query"
+            predicted_label, scores, prediction_margin = model_predicted_label, {}, None
+            missing_fields = []
+            input_authorization_evidence = "not available in public source"
         priority = {"high_fit": 0, "medium_fit": 1, "unclear": 2, "low_fit": 3}
-        ordered = sorted(retrieved, key=lambda item: (priority.get(item["grounded_fit_label"], 9), -item["score"]))
-        review_count = sum(1 for item in ordered if item["grounded_fit_label"] in {"high_fit", "medium_fit"})
-        headline = (
-            f"Review {review_count} retrieved postings first; they have analytics role-fit signals."
-            if review_count
-            else "No strong match found; route this query to manual advisor review."
-        )
+        ordered = sorted(retrieved, key=lambda item: (priority.get(item["model_fit_label"], 9), -item["score"]))
+        for rank, item in enumerate(ordered, start=1):
+            item["rank"] = rank
+        review_count = sum(1 for item in ordered if item["model_fit_label"] in {"high_fit", "medium_fit"})
+        explicit_restriction = input_authorization_evidence in {
+            "explicit source text: no OPT/CPT",
+            "explicit source text: no CPT/OPT",
+            "explicit source text: no sponsorship",
+            "explicit source text: sponsorship not available",
+        }
+        if explicit_restriction:
+            headline = "Role fit and work authorization conflict: hold this posting for advisor verification."
+        elif input_mode == "posting" and predicted_label in {"low_fit", "unclear"}:
+            headline = "Route this query to advisor review; retrieved postings provide evidence but do not override the triage result."
+        elif review_count:
+            headline = f"Review {review_count} retrieved postings first; the trained classifier found analytics role-fit signals."
+        else:
+            headline = "No strong match found; route this query to manual advisor review."
         explicit_authorization_count = sum(
             item["authorization_evidence"] != "not available in public source"
             for item in ordered
@@ -238,10 +356,26 @@ class JobMatchingSystem:
             )
         return {
             "input": query,
-            "predicted_query_label": predicted_label,
-            "rubric_scores": scores,
+            "input_mode": input_mode,
+            "model_predicted_label": model_predicted_label,
+            "predicted_posting_label": predicted_label,
+            "classifier_name": self.classifier_name,
+            "classifier_scores": scores,
+            "prediction_margin": prediction_margin,
+            "missing_core_fields": missing_fields,
+            "input_authorization_evidence": input_authorization_evidence,
+            "review_required": (
+                input_mode == "search"
+                or predicted_label in {"low_fit", "unclear"}
+                or explicit_restriction
+                or (prediction_margin is not None and prediction_margin < 0.35)
+            ),
             "headline": headline,
-            "recommended_action": "Advisor review before forwarding",
+            "recommended_action": (
+                "Hold - explicit authorization restriction requires advisor verification"
+                if explicit_restriction
+                else "Advisor review before forwarding"
+            ),
             "grounding_caveat": grounding_caveat,
             "explicit_authorization_evidence_count": explicit_authorization_count,
             "retrieved_evidence": ordered,

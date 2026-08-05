@@ -1,119 +1,132 @@
 {
-  "input": "Student asks if an employer definitely sponsors OPT/H-1B, but the posting only says data role and does not provide work authorization text.",
-  "predicted_query_label": "unclear",
-  "rubric_scores": {
-    "high_fit": 0.0,
-    "medium_fit": 0.0,
-    "low_fit": 0.0,
-    "unclear": 6.5
+  "input": "Job title: Jr. Data Analyst (No OPT/CPT). Short title: Data Analyst. Company: Example Staffing. Location: Austin, TX. Country: United States. Schedule: Full-time. Remote status: not remote. Skills: SQL; Python; Excel; Tableau.",
+  "input_mode": "posting",
+  "model_predicted_label": "high_fit",
+  "predicted_posting_label": "high_fit",
+  "classifier_name": "word+character TF-IDF LinearSVC (77,135 deduplicated training rows)",
+  "classifier_scores": {
+    "high_fit": 3.3627016193700623,
+    "low_fit": -1.0595045600923587,
+    "medium_fit": -1.0802057986658713,
+    "unclear": -4.851543919012718
   },
-  "headline": "Review 2 retrieved postings first; they have analytics role-fit signals.",
-  "recommended_action": "Advisor review before forwarding",
+  "prediction_margin": 4.422206179462421,
+  "missing_core_fields": [],
+  "input_authorization_evidence": "explicit source text: no OPT/CPT",
+  "review_required": true,
+  "headline": "Role fit and work authorization conflict: hold this posting for advisor verification.",
+  "recommended_action": "Hold - explicit authorization restriction requires advisor verification",
   "grounding_caveat": "Authorization language is reported only when it appears explicitly in retrieved source text. An advisor must verify the original posting; no eligibility is inferred.",
   "explicit_authorization_evidence_count": 1,
   "retrieved_evidence": [
     {
-      "rank": 6,
-      "score": 3.5458356250276353,
-      "posting_id": "HF-690529",
-      "company": "Employer & Individual",
-      "role_title": "Remote Data Analyst",
-      "location": "Las Vegas, NV",
+      "rank": 1,
+      "score": 18.543886707617897,
+      "posting_id": "HF-734288",
+      "company": "Winorbit Technology",
+      "role_title": "Jr. Data Analyst (No OPT/CPT)",
+      "location": "Austin, TX",
       "job_country": "United States",
       "skills": [
         "sql",
-        "excel",
-        "outlook"
+        "python",
+        "bash",
+        "pandas",
+        "macos",
+        "slack"
       ],
       "grounded_fit_label": "high_fit",
+      "model_fit_label": "high_fit",
+      "model_margin": 2.1125213310469073,
+      "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+      "authorization_evidence": "explicit source text: no OPT/CPT"
+    },
+    {
+      "rank": 2,
+      "score": 11.836695009948759,
+      "posting_id": "HF-779383",
+      "company": "Fervorly",
+      "role_title": "Data Analyst",
+      "location": "Austin, TX",
+      "job_country": "United States",
+      "skills": [
+        "sql",
+        "tableau"
+      ],
+      "grounded_fit_label": "high_fit",
+      "model_fit_label": "high_fit",
+      "model_margin": 3.8201121961363813,
+      "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+      "authorization_evidence": "not available in public source"
+    },
+    {
+      "rank": 3,
+      "score": 11.31788107744338,
+      "posting_id": "HF-164738",
+      "company": "Daman",
+      "role_title": "Jr. Data Analyst",
+      "location": "Austin, TX",
+      "job_country": "United States",
+      "skills": [
+        "python",
+        "snowflake",
+        "aws"
+      ],
+      "grounded_fit_label": "high_fit",
+      "model_fit_label": "high_fit",
+      "model_margin": 1.5694295056732348,
       "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
       "authorization_evidence": "not available in public source"
     },
     {
       "rank": 4,
-      "score": 3.621095651422781,
-      "posting_id": "HF-509017",
-      "company": "If Insurance Baltic",
-      "role_title": "Data Scientist",
-      "location": "Riga, Latvia",
-      "job_country": "Latvia",
-      "skills": [
-        "sql",
-        "python",
-        "azure",
-        "databricks"
-      ],
-      "grounded_fit_label": "medium_fit",
-      "label_reason": "Analytics role with relevant skills, but weaker fit due to location, title, or project context.",
-      "authorization_evidence": "not available in public source"
-    },
-    {
-      "rank": 5,
-      "score": 3.5640100179400394,
-      "posting_id": "HF-324628",
-      "company": "SEARCH OPT MEDIA INC.",
-      "role_title": "Digital Analyst | Hybrid Set up",
-      "location": "Philippines",
-      "job_country": "Philippines",
-      "skills": [
-        "excel"
-      ],
-      "grounded_fit_label": "unclear",
-      "label_reason": "Posting has some useful metadata but does not clearly map to the advisor triage target.",
-      "authorization_evidence": "not available in public source"
-    },
-    {
-      "rank": 1,
-      "score": 4.576389353942874,
-      "posting_id": "HF-523660",
-      "company": "Employer details provided on application.",
-      "role_title": "Senior Data Analyst",
-      "location": "Singapore",
-      "job_country": "Singapore",
+      "score": 10.868711570768058,
+      "posting_id": "HF-712669",
+      "company": "Nextogen Inc.",
+      "role_title": "Data analyst",
+      "location": "Austin, TX",
+      "job_country": "United States",
       "skills": [
         "sql",
         "r",
         "python",
-        "powerbi"
+        "tableau"
       ],
-      "grounded_fit_label": "low_fit",
-      "label_reason": "Role is senior, engineering-heavy, or less aligned with entry-level MSBA advisor forwarding.",
+      "grounded_fit_label": "high_fit",
+      "model_fit_label": "high_fit",
+      "model_margin": 3.3123327382562224,
+      "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
       "authorization_evidence": "not available in public source"
     },
     {
-      "rank": 2,
-      "score": 4.0427556854862985,
-      "posting_id": "HF-505613",
-      "company": "NEEDS COMPANY PROFILE IF WE FIND JOBS - Digible",
-      "role_title": "Data Engineer",
-      "location": "Anywhere",
-      "job_country": "United States",
-      "skills": [
-        "python",
-        "sql",
-        "git"
-      ],
-      "grounded_fit_label": "low_fit",
-      "label_reason": "Role is senior, engineering-heavy, or less aligned with entry-level MSBA advisor forwarding.",
-      "authorization_evidence": "not available in public source"
-    },
-    {
-      "rank": 3,
-      "score": 3.854638646264453,
-      "posting_id": "HF-97628",
-      "company": "Smart Folks Inc",
-      "role_title": "Data Engineer at Austin, TX || On site to Austin, TX || NO OPT CPT...",
+      "rank": 5,
+      "score": 12.870690317238504,
+      "posting_id": "HF-527859",
+      "company": "Hitch",
+      "role_title": "Data Analyst",
       "location": "Austin, TX",
       "job_country": "United States",
-      "skills": [
-        "python",
-        "aws",
-        "spark",
-        "kafka"
-      ],
-      "grounded_fit_label": "low_fit",
-      "label_reason": "Role is senior, engineering-heavy, or less aligned with entry-level MSBA advisor forwarding.",
-      "authorization_evidence": "explicit source text: no OPT/CPT"
+      "skills": [],
+      "grounded_fit_label": "unclear",
+      "model_fit_label": "unclear",
+      "model_margin": 9.0403987116165,
+      "label_reason": "Missing skills, schedule, company, location, or other core posting fields.",
+      "authorization_evidence": "not available in public source"
+    },
+    {
+      "rank": 6,
+      "score": 12.870690317238504,
+      "posting_id": "HF-617292",
+      "company": "Sulekha",
+      "role_title": "Data Analyst",
+      "location": "Austin, TX",
+      "job_country": "United States",
+      "skills": [],
+      "grounded_fit_label": "unclear",
+      "model_fit_label": "unclear",
+      "model_margin": 9.053676384863202,
+      "label_reason": "Missing skills, schedule, company, location, or other core posting fields.",
+      "authorization_evidence": "not available in public source"
     }
   ]
 }

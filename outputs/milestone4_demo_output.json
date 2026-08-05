@@ -1,108 +1,150 @@
 {
-  "case_id": "entry_level_analytics",
-  "business_use": "Forward candidates after advisor review",
-  "query": "Find entry-level US data analyst, business analyst, or BI roles for an MSBA student with SQL, Python, Excel, Tableau, and Power BI. Remote or Bay Area preferred.",
-  "predicted_query_label": "high_fit",
-  "rubric_scores": {
-    "high_fit": 4.3,
-    "medium_fit": 2.3,
-    "low_fit": 0.0,
-    "unclear": 0.0
-  },
-  "headline": "Review 6 retrieved postings first; they have analytics role-fit signals.",
-  "recommended_action": "Advisor review before forwarding",
-  "grounding_caveat": "Do not infer CPT, OPT, or sponsorship from this public dataset. Authorization evidence must be reviewed separately.",
-  "explicit_authorization_evidence_count": 0,
-  "retrieved_evidence": [
-    {
-      "rank": 1,
-      "score": 8.0538,
-      "posting_id": "HF-469758",
-      "role_title": "Data Analyst",
-      "company": "HireMatch",
-      "location": "Anywhere",
-      "skills": [
-        "sql",
-        "python",
-        "r",
-        "excel",
-        "tableau",
-        "power bi"
-      ],
-      "grounded_fit_label": "high_fit",
-      "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
-      "authorization_evidence": "not available in public source"
-    },
-    {
-      "rank": 2,
-      "score": 7.9507,
-      "posting_id": "HF-178197",
-      "role_title": "Data Analyst II, Bay Area - Remote",
-      "company": "Astreya",
-      "location": "Anywhere",
-      "skills": [
-        "sql",
-        "go",
-        "excel",
-        "sheets"
-      ],
-      "grounded_fit_label": "high_fit",
-      "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
-      "authorization_evidence": "not available in public source"
-    },
-    {
-      "rank": 3,
-      "score": 6.8576,
-      "posting_id": "HF-250208",
-      "role_title": "Data Analyst (US REMOTE)",
-      "company": "LeanTaaS",
-      "location": "Anywhere",
-      "skills": [
-        "sql",
-        "python",
-        "tableau",
-        "excel"
-      ],
-      "grounded_fit_label": "high_fit",
-      "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
-      "authorization_evidence": "not available in public source"
-    },
-    {
-      "rank": 4,
-      "score": 6.7555,
-      "posting_id": "HF-219271",
-      "role_title": "Data Analyst",
-      "company": "HMP Global",
-      "location": "Anywhere",
-      "skills": [
-        "sql",
-        "r",
-        "python",
-        "excel",
-        "tableau",
-        "power bi"
-      ],
-      "grounded_fit_label": "high_fit",
-      "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
-      "authorization_evidence": "not available in public source"
-    },
-    {
-      "rank": 5,
-      "score": 6.5646,
-      "posting_id": "HF-335991",
-      "role_title": "Data Analyst - Bay Area, Chicago, Austin, Research Triangle Park ...",
-      "company": "Cisco Meraki",
-      "location": "Chicago, IL",
-      "skills": [
-        "sql",
-        "oracle",
-        "looker",
-        "tableau",
-        "sap"
-      ],
-      "grounded_fit_label": "high_fit",
-      "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
-      "authorization_evidence": "not available in public source"
-    }
-  ]
+  "case_id": "entry_level_analytics_search",
+  "mode": "search",
+  "business_use": "Find US analytics opportunities for advisor review",
+  "text": "Find entry-level US data analyst, business analyst, or BI roles with SQL, Python, Excel, Tableau, or Power BI. Remote roles are acceptable.",
+  "result": {
+    "input": "Find entry-level US data analyst, business analyst, or BI roles with SQL, Python, Excel, Tableau, or Power BI. Remote roles are acceptable.",
+    "input_mode": "search",
+    "model_predicted_label": "not_applicable_search_query",
+    "predicted_posting_label": "not_applicable_search_query",
+    "classifier_name": "word+character TF-IDF LinearSVC (77,135 deduplicated training rows)",
+    "classifier_scores": {},
+    "prediction_margin": null,
+    "missing_core_fields": [],
+    "input_authorization_evidence": "not available in public source",
+    "review_required": true,
+    "headline": "Review 6 retrieved postings first; the trained classifier found analytics role-fit signals.",
+    "recommended_action": "Advisor review before forwarding",
+    "grounding_caveat": "Do not infer CPT, OPT, or sponsorship from this public dataset. Authorization evidence must be reviewed separately.",
+    "explicit_authorization_evidence_count": 0,
+    "retrieved_evidence": [
+      {
+        "rank": 1,
+        "score": 10.353803121829607,
+        "posting_id": "HF-469758",
+        "company": "HireMatch",
+        "role_title": "Data Analyst",
+        "location": "Anywhere",
+        "job_country": "United States",
+        "skills": [
+          "sql",
+          "python",
+          "r",
+          "excel",
+          "tableau",
+          "power bi"
+        ],
+        "grounded_fit_label": "high_fit",
+        "model_fit_label": "high_fit",
+        "model_margin": 3.8781022164597125,
+        "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+        "authorization_evidence": "not available in public source"
+      },
+      {
+        "rank": 2,
+        "score": 9.157638970806342,
+        "posting_id": "HF-250208",
+        "company": "LeanTaaS",
+        "role_title": "Data Analyst (US REMOTE)",
+        "location": "Anywhere",
+        "job_country": "United States",
+        "skills": [
+          "sql",
+          "python",
+          "tableau",
+          "excel"
+        ],
+        "grounded_fit_label": "high_fit",
+        "model_fit_label": "high_fit",
+        "model_margin": 4.132896780940543,
+        "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+        "authorization_evidence": "not available in public source"
+      },
+      {
+        "rank": 3,
+        "score": 9.05548128006302,
+        "posting_id": "HF-219271",
+        "company": "HMP Global",
+        "role_title": "Data Analyst",
+        "location": "Anywhere",
+        "job_country": "United States",
+        "skills": [
+          "sql",
+          "r",
+          "python",
+          "excel",
+          "tableau",
+          "power bi"
+        ],
+        "grounded_fit_label": "high_fit",
+        "model_fit_label": "high_fit",
+        "model_margin": 4.075488995880879,
+        "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+        "authorization_evidence": "not available in public source"
+      },
+      {
+        "rank": 4,
+        "score": 8.697896261114344,
+        "posting_id": "HF-623523",
+        "company": "MASTERSERO",
+        "role_title": "Data Analyst",
+        "location": "Anywhere",
+        "job_country": "United States",
+        "skills": [
+          "sql",
+          "r",
+          "python",
+          "excel",
+          "tableau",
+          "power bi"
+        ],
+        "grounded_fit_label": "high_fit",
+        "model_fit_label": "high_fit",
+        "model_margin": 3.667173099677232,
+        "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+        "authorization_evidence": "not available in public source"
+      },
+      {
+        "rank": 5,
+        "score": 8.325975559824592,
+        "posting_id": "HF-697496",
+        "company": "Zip",
+        "role_title": "Data Analyst ( US REMOTE)",
+        "location": "New York, NY",
+        "job_country": "United States",
+        "skills": [
+          "sql",
+          "tableau"
+        ],
+        "grounded_fit_label": "high_fit",
+        "model_fit_label": "high_fit",
+        "model_margin": 3.328852773910575,
+        "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+        "authorization_evidence": "not available in public source"
+      },
+      {
+        "rank": 6,
+        "score": 8.18042655917871,
+        "posting_id": "HF-542597",
+        "company": "OneDigital",
+        "role_title": "Data Scientist",
+        "location": "Atlanta, GA",
+        "job_country": "United States",
+        "skills": [
+          "sql",
+          "r",
+          "python",
+          "excel",
+          "tableau",
+          "power bi"
+        ],
+        "grounded_fit_label": "medium_fit",
+        "model_fit_label": "medium_fit",
+        "model_margin": 2.812785643706057,
+        "label_reason": "Analytics role with relevant skills, but weaker fit due to location, title, or project context.",
+        "authorization_evidence": "not available in public source"
+      }
+    ]
+  }
 }
