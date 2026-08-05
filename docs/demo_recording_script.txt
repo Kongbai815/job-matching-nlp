@@ -6,6 +6,6 @@ Demo Recording Script (3-5 minutes)
 4. Run the edge case command: `python -m msba_job_matcher.app --input-json demo/edge_case_query.json --output outputs/final_edge_case_output.json`.
 5. Point out that role fit is `high_fit`, but explicit `NO OPT/CPT` evidence forces `review_required=true` and a Hold action. This demonstrates that role fit and authorization are separate decisions.
 6. Show `outputs/final_evaluation_results.json`: accuracy 0.984, macro F1 0.984 on the fixed 4,000-row set.
-7. Show `models/job_fit_tfidf_svc_metrics.json`: 0.979 macro F1 on 18,672 novel-text rows and 0.980 on 5,570 unseen-company rows.
+7. Show `models/job_fit_tfidf_svc_metrics.json`: 0.979 macro F1 on 18,672 novel-text rows and 0.980 on 5,570 unseen-company rows. Then show `outputs/temporal_validation_results.json`: 0.976 macro F1 on the newest 20,000 postings.
 8. Open `outputs/final_casebook_outputs.json` and show search, senior engineering, authorization restriction, and thin-metadata cases.
-9. Close with the recommendation: do not add more public weak labels yet; collect advisor-reviewed labels and real authorization examples.
+9. Close with the completed validation package: all 785,741 source rows scanned, 230 unique title-level authorization candidates, a 430-row candidate/control benchmark, and a 1,000-row advisor queue whose human fields are blank for genuine review.

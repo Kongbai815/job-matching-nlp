@@ -8,7 +8,7 @@ Slide 2 - Separate fit, uncertainty, and risk
 The business decision is not simply whether a posting looks relevant. The advisor needs to decide whether to forward it, hold it, or investigate it. A strong analytics match can be forwarded for review. Senior or engineering-heavy roles should be held. Missing fields or authorization uncertainty require investigation. Role fit and work authorization interact in the workflow, but they are separate prediction tasks, so the system never treats a high role-fit score as proof of eligibility.
 
 Slide 3 - Data volume is no longer the bottleneck
-The original public source contains 785,741 postings. We built a reproducible, stratified 100,000-row project sample and held out 20,000 rows. For the final classifier, exact-text deduplication reduced the 80,000-row training split to 77,135 unique texts. That is already enough data for this task. The important missing data is not another hundred thousand public postings; it is advisor-reviewed role-fit labels and representative authorization language. The current authorization field is unavailable throughout the public sample.
+The original public source contains 785,741 postings. We built a reproducible, stratified 100,000-row project sample and held out 20,000 rows. Exact-text deduplication reduced the 80,000-row training split to 77,135 unique texts. We also scanned every original row and found 230 unique title-level authorization candidates. Those candidates are packaged for review rather than treated as verified sponsorship facts.
 
 Slide 4 - What each milestone taught us
 Milestone 2 compared TF-IDF and MiniLM representations. Milestone 3 compared zero-shot, few-shot, and true PEFT LoRA adaptation, with LoRA reaching 87.3 percent macro F1 on the weak-label benchmark. Milestone 4 turns those experiments into a real input-to-output workflow. For the final system, we also audited duplicates, trained on the full deduplicated split, tested novel-text and unseen-company slices, and packaged the model, tests, documentation, outputs, slides, and demo.
@@ -26,15 +26,15 @@ Slide 8 - Why the final classifier changed
 The Milestone 2 baseline reached 78.5 percent macro F1, and the 2,000-row LoRA experiment reached 87.3 percent. We then compared word-only, character-only, and combined TF-IDF LinearSVC models using the full available training split. The combined model reached 98.4 percent macro F1 on the fixed 4,000-row set and 97.9 percent on the full novel-text slice. It trains in under one minute and produces a 3.8-megabyte artifact. For this structured weak-label task, using the available data mattered more than adding model complexity.
 
 Slide 9 - Interpret 98.4 percent carefully
-The fixed test contains 65 errors: 3 high-fit, 13 medium-fit, 8 low-fit, and 41 unclear cases. More importantly, this benchmark measures agreement with transparent weak labels, not accuracy against advisor judgment. We also checked unseen-company and novel-text subsets, both near 98 percent macro F1, which reduces simple memorization concerns but does not prove real-world validity. Deployment therefore remains human-in-the-loop. The next evaluation needs 500 to 1,000 advisor labels, a separate authorization benchmark, and time-based external validation.
+The fixed test contains 65 errors: 3 high-fit, 13 medium-fit, 8 low-fit, and 41 unclear cases. More importantly, this benchmark measures agreement with transparent weak labels, not accuracy against advisor judgment. We checked novel-text and unseen-company slices near 98 percent macro F1 and completed a time-based split on the newest 20,000 postings at 97.6 percent macro F1. We also prepared a 1,000-row advisor queue and a 430-row authorization candidate/control benchmark. Their human fields remain blank so the model cannot create its own ground truth.
 
 Slide 10 - Recommendation
-Our recommendation is to stop expanding the weak-label corpus and start collecting decision-grade evidence. A limited Career Center pilot should measure high-fit precision, advisor time saved, override rate, and authorization extraction accuracy. The next data investment is 500 to 1,000 advisor-reviewed postings plus hundreds of real authorization examples. The prototype is ready to support and document advisor review. It is not ready to reject opportunities or make eligibility decisions automatically, and preserving that boundary is part of the system design.
+The completed package now includes the trained classifier, four-case policy test, time-based validation, full-source authorization audit, 430-row evidence benchmark, and 1,000-row advisor annotation queue. The prototype is ready to support and document a Career Center review pilot. It is not ready to reject opportunities or make eligibility decisions automatically, and preserving that boundary is part of the system design.
 
 Q&A preparation
 
 Q: Why not train on all 785,741 rows?
-A: The learning curve still improves through 80,000 training rows, but the remaining gap is label validity. More weak labels would strengthen agreement with the labeling rules without proving agreement with advisors. The next useful sample is smaller and human-reviewed.
+A: We scanned all 785,741 rows and packaged the authorization candidates, but training on every weak label would mainly strengthen agreement with the labeling rules. The included 1,000-row queue targets the lower-margin and authorization-sensitive cases that are most useful for human review.
 
 Q: Why use a linear model after LoRA?
 A: The LoRA result is real and remains an important adaptation experiment. The final word-and-character model can use the full training split cheaply, improves macro F1 from 0.873 to 0.984 on the same weak-label task, trains in under a minute, and is easier to reproduce.
@@ -43,7 +43,7 @@ Q: Does the system decide work authorization or sponsorship?
 A: No. It reports explicit source text when present, states when evidence is unavailable, and forces advisor review for restrictions. There were zero unsupported authorization claims across the four-case governance test.
 
 Q: Is 98.4 percent production accuracy?
-A: No. It is weak-label agreement on a fixed benchmark. The deck and documentation label it that way, and production claims require advisor-reviewed external validation.
+A: No. It is weak-label agreement on a fixed benchmark. The repository includes the time-based test and external-review queue, while the advisor columns remain blank until genuine human review occurs.
 
 Q: What is the business success metric?
 A: High-fit precision and advisor minutes saved are primary. Override rate reveals whether recommendations are useful, and authorization extraction accuracy is measured separately.

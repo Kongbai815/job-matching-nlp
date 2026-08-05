@@ -1,0 +1,17 @@
+{
+  "source_dataset": "lukebarousse/data_jobs",
+  "rows_scanned": 785741,
+  "unique_title_level_authorization_candidates": 230,
+  "benchmark_rows_including_controls": 430,
+  "candidate_counts": {
+    "ambiguous_mention": 148,
+    "availability_or_aggregator_mention": 47,
+    "explicit_restriction": 35
+  },
+  "annotation_queue_rows": 1000,
+  "annotation_queue_composition": {
+    "active_learning_low_margin": 800,
+    "full_source_authorization_candidate": 200
+  },
+  "governance_note": "Title-level phrases are candidate evidence only and require advisor verification."
+}

@@ -20,6 +20,10 @@ On the same fixed 4,000-row subset, macro F1 increases from 0.7914 to 0.9837 (+0
 
 The original random split contains 1,328 validation rows whose exact text appears in training. Deduplication and the two robustness slices show that duplicate leakage is not driving the result, although all scores still measure agreement with weak labels.
 
+## Time-Based Validation
+
+The temporal experiment trains on the earliest 80% of the 100,000-row sample and tests on the newest 20%. The 20,000-row test reaches 0.9751 accuracy and 0.9761 macro F1. After excluding texts duplicated from the temporal training set, 19,611 rows remain and macro F1 is 0.9757.
+
 ## Retrieval and Grounding
 
 - Four workflow cases with retrieved evidence: 4 / 4
@@ -29,4 +33,4 @@ The original random split contains 1,328 validation rows whose exact text appear
 
 ## Error Analysis
 
-The final evaluation contains 65 errors across 4,000 balanced rows. Per-label F1 is 0.996 high-fit, 0.977 medium-fit, 0.992 low-fit, and 0.970 unclear. The remaining limitation is not model capacity: it is label validity. A pilot must collect advisor-reviewed labels before interpreting these numbers as real-world decision quality.
+The final evaluation contains 65 errors across 4,000 balanced rows. Per-label F1 is 0.996 high-fit, 0.977 medium-fit, 0.992 low-fit, and 0.970 unclear. The remaining limitation is not model capacity: it is label validity. The repository therefore includes a 1,000-row advisor annotation queue and a 430-row authorization benchmark. Their human-review columns remain blank until advisors complete them; current scores must not be presented as human-ground-truth accuracy.

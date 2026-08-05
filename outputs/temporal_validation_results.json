@@ -1,0 +1,31 @@
+{
+  "split_policy": "earliest 80% by job_posted_date for training; newest 20% for testing",
+  "train_rows_before_deduplication": 80000,
+  "train_rows_after_exact_text_deduplication": 76280,
+  "train_date_max": "2023-10-11 21:00:29",
+  "test_date_min": "2023-10-11 21:01:27",
+  "fit_and_evaluation_seconds": 35.7,
+  "full_temporal_test": {
+    "rows": 20000,
+    "accuracy": 0.97505,
+    "macro_f1": 0.9760661093080886,
+    "per_label_f1": {
+      "high_fit": 0.9911126910771418,
+      "medium_fit": 0.9644964689948727,
+      "low_fit": 0.9884517518105305,
+      "unclear": 0.9602035253498092
+    }
+  },
+  "novel_text_temporal_test": {
+    "rows": 19611,
+    "accuracy": 0.9746060884197644,
+    "macro_f1": 0.9756556412337226,
+    "per_label_f1": {
+      "high_fit": 0.9907737729117972,
+      "medium_fit": 0.963587657505705,
+      "low_fit": 0.9884672252341055,
+      "unclear": 0.9597939092832827
+    }
+  },
+  "note": "Metrics measure agreement with project weak labels, not advisor ground truth."
+}

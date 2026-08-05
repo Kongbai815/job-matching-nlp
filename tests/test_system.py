@@ -2,6 +2,8 @@ import json
 import unittest
 from pathlib import Path
 
+import pandas as pd
+
 from msba_job_matcher.core import JobMatchingSystem
 
 
@@ -54,6 +56,41 @@ class SystemSmokeTests(unittest.TestCase):
         self.assertEqual(result["predicted_posting_label"], "unclear")
         self.assertIn("company", result["missing_core_fields"])
         self.assertTrue(result["review_required"])
+
+    def test_time_based_validation_is_saved_and_strong(self):
+        temporal = json.loads(
+            (ROOT / "outputs" / "temporal_validation_results.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(temporal["full_temporal_test"]["rows"], 20000)
+        self.assertGreater(temporal["full_temporal_test"]["macro_f1"], 0.97)
+        self.assertGreater(temporal["novel_text_temporal_test"]["macro_f1"], 0.97)
+
+    def test_full_source_audit_and_annotation_assets(self):
+        audit = json.loads(
+            (ROOT / "outputs" / "authorization_evidence_audit.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(audit["rows_scanned"], 785741)
+        self.assertEqual(audit["unique_title_level_authorization_candidates"], 230)
+        self.assertEqual(audit["benchmark_rows_including_controls"], 430)
+        self.assertEqual(audit["annotation_queue_rows"], 1000)
+        self.assertEqual(
+            audit["annotation_queue_composition"],
+            {"active_learning_low_margin": 800, "full_source_authorization_candidate": 200},
+        )
+
+        queue = pd.read_csv(ROOT / "data" / "advisor_annotation_queue_1000.csv", keep_default_na=False)
+        benchmark = pd.read_csv(
+            ROOT / "data" / "authorization_evidence_benchmark.csv", keep_default_na=False
+        )
+        self.assertEqual(len(queue), 1000)
+        self.assertEqual(len(benchmark), 430)
+        human_fields = [
+            "advisor_role_fit_label",
+            "advisor_authorization_label",
+            "advisor_action",
+            "review_notes",
+        ]
+        self.assertTrue((queue[human_fields] == "").all().all())
 
 
 if __name__ == "__main__":

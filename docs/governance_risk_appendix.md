@@ -14,13 +14,13 @@
 
 **Failure mode:** a model can reproduce transparent weak-label rules very accurately without matching human advisor judgment.
 
-**Mitigation:** report the scores as weak-label agreement, expose retrieved evidence, prohibit automatic rejection, and collect 500-1,000 de-identified advisor labels through stratified active learning before a real deployment.
+**Mitigation:** report the scores as weak-label agreement, expose retrieved evidence, prohibit automatic rejection, and use the included 1,000-row active-learning queue for de-identified advisor review before a real deployment.
 
 ## 3. Duplicate and Organization Leakage
 
 **Failure mode:** random splitting places duplicate descriptions or the same employer patterns in both train and validation, inflating model scores.
 
-**Mitigation:** exact-text duplicates are removed before final training. We also report novel-text and unseen-company validation slices; both remain near 0.98 macro F1. A future test set should be time-based and advisor-labeled.
+**Mitigation:** exact-text duplicates are removed before final training. Novel-text and unseen-company slices remain near 0.98 macro F1. A completed time-based split reaches 0.976 macro F1 on the newest 20,000 postings; the human-reviewed queue remains the external validity test.
 
 ## 4. Privacy
 
@@ -40,5 +40,11 @@
 
 - Labels are weak labels, not human-reviewed ground truth.
 - The retriever is lexical and can miss paraphrases.
-- All 100,000 rows have `auth_signal=not_available_in_source`; authorization extraction therefore has only case-based checks, not a representative labeled evaluation.
+- All 100,000 project rows have `auth_signal=not_available_in_source`. A full-source scan finds 230 unique title-level authorization candidates and packages a 430-row candidate/control benchmark, but the advisor labels remain intentionally blank.
 - Business value such as time saved has not yet been measured in a live advisor workflow.
+
+## Full-Source Authorization Audit
+
+The project scans all 785,741 original rows. It finds 230 unique job-title-level authorization candidates: 35 explicit restrictions, 47 availability or sponsorship-source mentions, and 148 ambiguous mentions. A 430-row benchmark adds 200 no-keyword controls. These phrases are evidence candidates, not verified eligibility labels.
+
+The 1,000-row advisor queue combines 800 low-margin role-fit cases with 200 full-source authorization candidates. Human fields are intentionally blank so the evaluated model cannot manufacture its own ground truth.
