@@ -14,8 +14,26 @@
         "classifier_name": "word+character TF-IDF LinearSVC (77,135 deduplicated training rows)",
         "classifier_scores": {},
         "prediction_margin": null,
+        "review_margin_threshold": null,
+        "low_confidence_review": false,
+        "review_policy_name": "class-specific LinearSVC margin policy",
         "missing_core_fields": [],
         "input_authorization_evidence": "not available in public source",
+        "applied_search_constraints": {
+          "country": "United States",
+          "remote_mode": "allowed",
+          "entry_level": true,
+          "requested_skills": [
+            "sql",
+            "python",
+            "excel",
+            "tableau",
+            "power bi"
+          ]
+        },
+        "policy_reasons": [
+          "search results require advisor selection"
+        ],
         "review_required": true,
         "headline": "Review 6 retrieved postings first; the trained classifier found analytics role-fit signals.",
         "recommended_action": "Advisor review before forwarding",
@@ -24,12 +42,13 @@
         "retrieved_evidence": [
           {
             "rank": 1,
-            "score": 10.353803121829607,
+            "score": 9.853803121829607,
             "posting_id": "HF-469758",
             "company": "HireMatch",
             "role_title": "Data Analyst",
             "location": "Anywhere",
             "job_country": "United States",
+            "work_from_home": true,
             "skills": [
               "sql",
               "python",
@@ -46,32 +65,13 @@
           },
           {
             "rank": 2,
-            "score": 9.157638970806342,
-            "posting_id": "HF-250208",
-            "company": "LeanTaaS",
-            "role_title": "Data Analyst (US REMOTE)",
-            "location": "Anywhere",
-            "job_country": "United States",
-            "skills": [
-              "sql",
-              "python",
-              "tableau",
-              "excel"
-            ],
-            "grounded_fit_label": "high_fit",
-            "model_fit_label": "high_fit",
-            "model_margin": 4.132896780940543,
-            "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
-            "authorization_evidence": "not available in public source"
-          },
-          {
-            "rank": 3,
-            "score": 9.05548128006302,
+            "score": 8.55548128006302,
             "posting_id": "HF-219271",
             "company": "HMP Global",
             "role_title": "Data Analyst",
             "location": "Anywhere",
             "job_country": "United States",
+            "work_from_home": true,
             "skills": [
               "sql",
               "r",
@@ -87,13 +87,35 @@
             "authorization_evidence": "not available in public source"
           },
           {
+            "rank": 3,
+            "score": 8.457638970806343,
+            "posting_id": "HF-250208",
+            "company": "LeanTaaS",
+            "role_title": "Data Analyst (US REMOTE)",
+            "location": "Anywhere",
+            "job_country": "United States",
+            "work_from_home": true,
+            "skills": [
+              "sql",
+              "python",
+              "tableau",
+              "excel"
+            ],
+            "grounded_fit_label": "high_fit",
+            "model_fit_label": "high_fit",
+            "model_margin": 4.132896780940543,
+            "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+            "authorization_evidence": "not available in public source"
+          },
+          {
             "rank": 4,
-            "score": 8.697896261114344,
+            "score": 8.197896261114344,
             "posting_id": "HF-623523",
             "company": "MASTERSERO",
             "role_title": "Data Analyst",
             "location": "Anywhere",
             "job_country": "United States",
+            "work_from_home": true,
             "skills": [
               "sql",
               "r",
@@ -110,12 +132,13 @@
           },
           {
             "rank": 5,
-            "score": 8.325975559824592,
+            "score": 7.225975559824589,
             "posting_id": "HF-697496",
             "company": "Zip",
             "role_title": "Data Analyst ( US REMOTE)",
             "location": "New York, NY",
             "job_country": "United States",
+            "work_from_home": true,
             "skills": [
               "sql",
               "tableau"
@@ -134,6 +157,7 @@
             "role_title": "Data Scientist",
             "location": "Atlanta, GA",
             "job_country": "United States",
+            "work_from_home": false,
             "skills": [
               "sql",
               "r",
@@ -169,22 +193,30 @@
           "unclear": -2.7096646441682917
         },
         "prediction_margin": 5.687445428278709,
+        "review_margin_threshold": 0.22085029852639215,
+        "low_confidence_review": false,
+        "review_policy_name": "class-specific LinearSVC margin policy",
         "missing_core_fields": [],
         "input_authorization_evidence": "not available in public source",
+        "applied_search_constraints": {},
+        "policy_reasons": [
+          "low-fit or unclear result requires review"
+        ],
         "review_required": true,
         "headline": "Route this query to advisor review; retrieved postings provide evidence but do not override the triage result.",
-        "recommended_action": "Advisor review before forwarding",
+        "recommended_action": "Investigate - advisor review required",
         "grounding_caveat": "Do not infer CPT, OPT, or sponsorship from this public dataset. Authorization evidence must be reviewed separately.",
         "explicit_authorization_evidence_count": 0,
         "retrieved_evidence": [
           {
             "rank": 1,
-            "score": 20.914849046549918,
+            "score": 19.914849046549918,
             "posting_id": "HF-590539",
             "company": "Charlie's Produce",
             "role_title": "Data Engineer",
             "location": "Seattle, WA",
             "job_country": "United States",
+            "work_from_home": false,
             "skills": [],
             "grounded_fit_label": "unclear",
             "model_fit_label": "unclear",
@@ -194,12 +226,13 @@
           },
           {
             "rank": 2,
-            "score": 14.687494348241348,
+            "score": 14.087494348241346,
             "posting_id": "HF-1197",
             "company": "MindSource",
             "role_title": "Machine Translation Data Engineer",
             "location": "Seattle, WA",
             "job_country": "United States",
+            "work_from_home": false,
             "skills": [
               "python",
               "java",
@@ -213,12 +246,13 @@
           },
           {
             "rank": 3,
-            "score": 16.14300802073689,
+            "score": 15.343008020736889,
             "posting_id": "HF-535995",
             "company": "Adaminfotech",
             "role_title": "GCP Data Engineer",
             "location": "Seattle, WA",
             "job_country": "United States",
+            "work_from_home": false,
             "skills": [
               "sql",
               "python",
@@ -232,12 +266,13 @@
           },
           {
             "rank": 4,
-            "score": 15.715277757039603,
+            "score": 14.915277757039602,
             "posting_id": "HF-612411",
             "company": "HireIO, Inc.",
             "role_title": "Senior/Staff Data Engineer",
             "location": "Seattle, WA",
             "job_country": "United States",
+            "work_from_home": false,
             "skills": [
               "hadoop",
               "spark"
@@ -250,12 +285,13 @@
           },
           {
             "rank": 5,
-            "score": 15.011933704146399,
+            "score": 14.011933704146399,
             "posting_id": "HF-650479",
             "company": "Amazon",
             "role_title": "Data Engineer",
             "location": "Seattle, WA",
             "job_country": "United States",
+            "work_from_home": false,
             "skills": [
               "sql",
               "redshift"
@@ -268,12 +304,13 @@
           },
           {
             "rank": 6,
-            "score": 14.308856430141393,
+            "score": 13.508856430141394,
             "posting_id": "HF-651501",
             "company": "Dice",
             "role_title": "Cloud Data Engineer",
             "location": "Seattle, WA",
             "job_country": "United States",
+            "work_from_home": false,
             "skills": [
               "java",
               "hadoop",
@@ -308,8 +345,15 @@
           "unclear": -5.119364164552067
         },
         "prediction_margin": 4.702547195416856,
+        "review_margin_threshold": 0.4533347452493106,
+        "low_confidence_review": false,
+        "review_policy_name": "class-specific LinearSVC margin policy",
         "missing_core_fields": [],
         "input_authorization_evidence": "explicit source text: no OPT/CPT",
+        "applied_search_constraints": {},
+        "policy_reasons": [
+          "explicit authorization restriction requires review"
+        ],
         "review_required": true,
         "headline": "Role fit and work authorization conflict: hold this posting for advisor verification.",
         "recommended_action": "Hold - explicit authorization restriction requires advisor verification",
@@ -318,12 +362,13 @@
         "retrieved_evidence": [
           {
             "rank": 1,
-            "score": 18.543886707617897,
+            "score": 17.943886707617896,
             "posting_id": "HF-734288",
             "company": "Winorbit Technology",
             "role_title": "Jr. Data Analyst (No OPT/CPT)",
             "location": "Austin, TX",
             "job_country": "United States",
+            "work_from_home": false,
             "skills": [
               "sql",
               "python",
@@ -340,12 +385,13 @@
           },
           {
             "rank": 2,
-            "score": 11.836695009948759,
+            "score": 11.236695009948757,
             "posting_id": "HF-779383",
             "company": "Fervorly",
             "role_title": "Data Analyst",
             "location": "Austin, TX",
             "job_country": "United States",
+            "work_from_home": false,
             "skills": [
               "sql",
               "tableau"
@@ -358,12 +404,13 @@
           },
           {
             "rank": 3,
-            "score": 11.31788107744338,
+            "score": 10.517881077443379,
             "posting_id": "HF-164738",
             "company": "Daman",
             "role_title": "Jr. Data Analyst",
             "location": "Austin, TX",
             "job_country": "United States",
+            "work_from_home": false,
             "skills": [
               "python",
               "snowflake",
@@ -377,12 +424,13 @@
           },
           {
             "rank": 4,
-            "score": 10.868711570768058,
+            "score": 10.468711570768058,
             "posting_id": "HF-712669",
             "company": "Nextogen Inc.",
             "role_title": "Data analyst",
             "location": "Austin, TX",
             "job_country": "United States",
+            "work_from_home": false,
             "skills": [
               "sql",
               "r",
@@ -397,12 +445,13 @@
           },
           {
             "rank": 5,
-            "score": 12.870690317238504,
+            "score": 11.870690317238504,
             "posting_id": "HF-527859",
             "company": "Hitch",
             "role_title": "Data Analyst",
             "location": "Austin, TX",
             "job_country": "United States",
+            "work_from_home": false,
             "skills": [],
             "grounded_fit_label": "unclear",
             "model_fit_label": "unclear",
@@ -412,12 +461,13 @@
           },
           {
             "rank": 6,
-            "score": 12.870690317238504,
+            "score": 11.870690317238504,
             "posting_id": "HF-617292",
             "company": "Sulekha",
             "role_title": "Data Analyst",
             "location": "Austin, TX",
             "job_country": "United States",
+            "work_from_home": false,
             "skills": [],
             "grounded_fit_label": "unclear",
             "model_fit_label": "unclear",
@@ -446,6 +496,9 @@
           "unclear": -0.9665559494364122
         },
         "prediction_margin": 1.1866159729810462,
+        "review_margin_threshold": 1.0575432327443601,
+        "low_confidence_review": false,
+        "review_policy_name": "class-specific LinearSVC margin policy",
         "missing_core_fields": [
           "company",
           "location",
@@ -453,9 +506,14 @@
           "schedule"
         ],
         "input_authorization_evidence": "not available in public source",
+        "applied_search_constraints": {},
+        "policy_reasons": [
+          "low-fit or unclear result requires review",
+          "structured posting fields are missing"
+        ],
         "review_required": true,
         "headline": "Route this query to advisor review; retrieved postings provide evidence but do not override the triage result.",
-        "recommended_action": "Advisor review before forwarding",
+        "recommended_action": "Investigate - advisor review required",
         "grounding_caveat": "Do not infer CPT, OPT, or sponsorship from this public dataset. Authorization evidence must be reviewed separately.",
         "explicit_authorization_evidence_count": 0,
         "retrieved_evidence": [
@@ -467,6 +525,7 @@
             "role_title": "Summer Data Analytics Internship",
             "location": "Charlotte, NC",
             "job_country": "United States",
+            "work_from_home": false,
             "skills": [
               "python",
               "sql",
@@ -487,6 +546,7 @@
             "role_title": "Data Analytics Internship",
             "location": "Tampa, FL",
             "job_country": "United States",
+            "work_from_home": false,
             "skills": [
               "sql",
               "crystal",
@@ -501,12 +561,13 @@
           },
           {
             "rank": 3,
-            "score": 4.745319295958693,
+            "score": 4.7453192959586925,
             "posting_id": "HF-112682",
             "company": "Wise",
             "role_title": "Compliance Analytics Internship",
             "location": "Singapore",
             "job_country": "Singapore",
+            "work_from_home": false,
             "skills": [
               "sql",
               "python",
@@ -520,29 +581,13 @@
           },
           {
             "rank": 4,
-            "score": 4.973021909446271,
-            "posting_id": "HF-304250",
-            "company": "Symetra",
-            "role_title": "2023 Data Analytics Internship",
-            "location": "Australia",
-            "job_country": "Australia",
-            "skills": [
-              "sql"
-            ],
-            "grounded_fit_label": "unclear",
-            "model_fit_label": "unclear",
-            "model_margin": 1.6072601160859483,
-            "label_reason": "Posting has some useful metadata but does not clearly map to the advisor triage target.",
-            "authorization_evidence": "not available in public source"
-          },
-          {
-            "rank": 5,
-            "score": 4.8179209611963305,
+            "score": 5.017920961196331,
             "posting_id": "HF-562143",
             "company": "AWWG",
             "role_title": "Retail Analytics Internship",
             "location": "Madrid, Spain",
             "job_country": "Spain",
+            "work_from_home": false,
             "skills": [
               "excel",
               "sap",
@@ -555,6 +600,24 @@
             "authorization_evidence": "not available in public source"
           },
           {
+            "rank": 5,
+            "score": 4.97302190944627,
+            "posting_id": "HF-304250",
+            "company": "Symetra",
+            "role_title": "2023 Data Analytics Internship",
+            "location": "Australia",
+            "job_country": "Australia",
+            "work_from_home": false,
+            "skills": [
+              "sql"
+            ],
+            "grounded_fit_label": "unclear",
+            "model_fit_label": "unclear",
+            "model_margin": 1.6072601160859483,
+            "label_reason": "Posting has some useful metadata but does not clearly map to the advisor triage target.",
+            "authorization_evidence": "not available in public source"
+          },
+          {
             "rank": 6,
             "score": 4.59277076537369,
             "posting_id": "HF-91729",
@@ -562,6 +625,7 @@
             "role_title": "Data Science, Business Analytics Internship",
             "location": "Amsterdam, Netherlands",
             "job_country": "Netherlands",
+            "work_from_home": false,
             "skills": [],
             "grounded_fit_label": "unclear",
             "model_fit_label": "unclear",

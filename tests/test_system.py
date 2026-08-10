@@ -5,6 +5,7 @@ from pathlib import Path
 import pandas as pd
 
 from msba_job_matcher.core import JobMatchingSystem
+from msba_job_matcher.batch import process_batch_frame
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -31,6 +32,17 @@ class SystemSmokeTests(unittest.TestCase):
             list(range(1, len(result["retrieved_evidence"]) + 1)),
         )
         self.assertTrue(all(item["job_country"] == "United States" for item in result["retrieved_evidence"][:5]))
+        self.assertEqual(result["applied_search_constraints"]["country"], "United States")
+
+    def test_remote_only_is_a_hard_search_constraint(self):
+        result = self.system.run(
+            "Find remote only US data analyst roles with SQL and Tableau.",
+            input_mode="search",
+        )
+        self.assertTrue(result["retrieved_evidence"])
+        self.assertEqual(result["applied_search_constraints"]["remote_mode"], "required")
+        self.assertTrue(all(item["work_from_home"] for item in result["retrieved_evidence"]))
+        self.assertTrue(all(item["job_country"] == "United States" for item in result["retrieved_evidence"]))
 
     def test_explicit_authorization_restriction_forces_review(self):
         text = (
@@ -91,6 +103,40 @@ class SystemSmokeTests(unittest.TestCase):
             "review_notes",
         ]
         self.assertTrue((queue[human_fields] == "").all().all())
+
+    def test_calibrated_review_policy_and_low_margin_gate(self):
+        policy = json.loads((ROOT / "models" / "review_policy.json").read_text(encoding="utf-8"))
+        self.assertEqual(policy["calibration_rows"], 10000)
+        self.assertEqual(policy["audit_rows"], 10000)
+        self.assertGreater(policy["independent_audit"]["coverage"], 0.90)
+        self.assertGreater(policy["independent_audit"]["selective_accuracy"], 0.99)
+
+        queue = pd.read_csv(ROOT / "data" / "advisor_annotation_queue_1000.csv")
+        low_margin_text = queue.sort_values("model_margin").iloc[0]["posting_text"]
+        result = self.system.run(low_margin_text, input_mode="posting")
+        self.assertTrue(result["low_confidence_review"])
+        self.assertTrue(result["review_required"])
+        self.assertIn("calibrated", " ".join(result["policy_reasons"]))
+
+    def test_batch_review_reuses_one_system_and_returns_audit_columns(self):
+        frame = pd.DataFrame(
+            [
+                {"mode": "search", "text": "Find remote only US data analyst roles with SQL."},
+                {
+                    "mode": "posting",
+                    "text": (
+                        "Job title: Senior Data Engineer. Short title: Data Engineer. "
+                        "Company: Example. Location: Seattle, WA. Country: United States. "
+                        "Schedule: Full-time. Skills: Spark; AWS; Kubernetes."
+                    ),
+                },
+            ]
+        )
+        completed = process_batch_frame(frame, self.system)
+        self.assertEqual(len(completed), 2)
+        self.assertEqual(completed.loc[0, "input_mode"], "search")
+        self.assertEqual(completed.loc[1, "predicted_posting_label"], "low_fit")
+        self.assertTrue(completed["result_json"].str.contains("review_policy_name").all())
 
 
 if __name__ == "__main__":

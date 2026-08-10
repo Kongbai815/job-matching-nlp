@@ -16,6 +16,8 @@
 
 **Mitigation:** report the scores as weak-label agreement, expose retrieved evidence, prohibit automatic rejection, and use the included 1,000-row active-learning queue for de-identified advisor review before a real deployment.
 
+The deployed policy no longer uses one arbitrary margin cutoff. Class-specific thresholds are calibrated on 10,000 validation rows and audited on a disjoint 10,000 rows. The audit routes 8.37% to mandatory review while retained predictions reach 99.47% weak-label agreement. The output includes the applicable threshold and policy reason.
+
 ## 3. Duplicate and Organization Leakage
 
 **Failure mode:** random splitting places duplicate descriptions or the same employer patterns in both train and validation, inflating model scores.
@@ -35,6 +37,12 @@
 **Failure mode:** staff treat the label as a hiring decision or eligibility determination.
 
 **Mitigation:** frame the product as prioritization support, keep the advisor as the final decision maker, log model evidence and overrides, and audit outcomes by label and relevant user group.
+
+## 6. Constraint Misinterpretation
+
+**Failure mode:** a soft ranking boost returns a non-US, on-site, or senior posting even when the request explicitly requires US, remote-only, or entry-level results.
+
+**Mitigation:** parse verifiable constraints and enforce them before ranking. A six-query, 36-result audit records 0 hard-constraint violations and 0 duplicate company-title pairs. Unrecognized free-form preferences remain ranking signals rather than hidden filters.
 
 ## Known Limitations
 

@@ -31,6 +31,14 @@ The temporal experiment trains on the earliest 80% of the 100,000-row sample and
 - Explicit authorization restrictions correctly force review: 1 / 1
 - Unsupported authorization claims in the casebook: 0
 
+## Selective Review Policy
+
+The old global margin cutoff was replaced with class-specific thresholds. A stratified 10,000-row calibration half targets 0.995 precision for each predicted class. On a separate 10,000-row audit half, 9,163 predictions are retained at 0.9947 selective accuracy; 837 cases, or 8.37%, are routed to mandatory review. This remains weak-label agreement, but the holdout prevents the policy from reporting its calibration fit as its audit result.
+
+## Search Constraint Audit
+
+Six search queries exercise United States, remote-only, on-site-only, entry-level, and skill constraints. Across 36 returned postings, the audit records 0 hard-constraint violations and 0 duplicate company-title pairs. This measures deterministic constraint compliance, not human relevance judgment.
+
 ## Error Analysis
 
-The final evaluation contains 65 errors across 4,000 balanced rows. Per-label F1 is 0.996 high-fit, 0.977 medium-fit, 0.992 low-fit, and 0.970 unclear. The remaining limitation is not model capacity: it is label validity. The repository therefore includes a 1,000-row advisor annotation queue and a 430-row authorization benchmark. Their human-review columns remain blank until advisors complete them; current scores must not be presented as human-ground-truth accuracy.
+The final evaluation contains 65 errors across 4,000 balanced rows. Per-label F1 is 0.996 high-fit, 0.977 medium-fit, 0.992 low-fit, and 0.970 unclear. Medium-fit and unclear predictions receive the highest calibrated margin thresholds, matching their larger error burden. The remaining limitation is label validity rather than model capacity. The repository therefore includes a 1,000-row advisor annotation queue and a 430-row authorization benchmark. Their human-review columns remain blank; current scores must not be presented as human-ground-truth accuracy.

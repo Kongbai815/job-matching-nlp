@@ -11,8 +11,15 @@
     "unclear": -4.851543919012718
   },
   "prediction_margin": 4.422206179462421,
+  "review_margin_threshold": 0.4533347452493106,
+  "low_confidence_review": false,
+  "review_policy_name": "class-specific LinearSVC margin policy",
   "missing_core_fields": [],
   "input_authorization_evidence": "explicit source text: no OPT/CPT",
+  "applied_search_constraints": {},
+  "policy_reasons": [
+    "explicit authorization restriction requires review"
+  ],
   "review_required": true,
   "headline": "Role fit and work authorization conflict: hold this posting for advisor verification.",
   "recommended_action": "Hold - explicit authorization restriction requires advisor verification",
@@ -21,12 +28,13 @@
   "retrieved_evidence": [
     {
       "rank": 1,
-      "score": 18.543886707617897,
+      "score": 17.943886707617896,
       "posting_id": "HF-734288",
       "company": "Winorbit Technology",
       "role_title": "Jr. Data Analyst (No OPT/CPT)",
       "location": "Austin, TX",
       "job_country": "United States",
+      "work_from_home": false,
       "skills": [
         "sql",
         "python",
@@ -43,12 +51,13 @@
     },
     {
       "rank": 2,
-      "score": 11.836695009948759,
+      "score": 11.236695009948757,
       "posting_id": "HF-779383",
       "company": "Fervorly",
       "role_title": "Data Analyst",
       "location": "Austin, TX",
       "job_country": "United States",
+      "work_from_home": false,
       "skills": [
         "sql",
         "tableau"
@@ -61,12 +70,13 @@
     },
     {
       "rank": 3,
-      "score": 11.31788107744338,
+      "score": 10.517881077443379,
       "posting_id": "HF-164738",
       "company": "Daman",
       "role_title": "Jr. Data Analyst",
       "location": "Austin, TX",
       "job_country": "United States",
+      "work_from_home": false,
       "skills": [
         "python",
         "snowflake",
@@ -80,12 +90,13 @@
     },
     {
       "rank": 4,
-      "score": 10.868711570768058,
+      "score": 10.468711570768058,
       "posting_id": "HF-712669",
       "company": "Nextogen Inc.",
       "role_title": "Data analyst",
       "location": "Austin, TX",
       "job_country": "United States",
+      "work_from_home": false,
       "skills": [
         "sql",
         "r",
@@ -100,12 +111,13 @@
     },
     {
       "rank": 5,
-      "score": 12.870690317238504,
+      "score": 11.870690317238504,
       "posting_id": "HF-527859",
       "company": "Hitch",
       "role_title": "Data Analyst",
       "location": "Austin, TX",
       "job_country": "United States",
+      "work_from_home": false,
       "skills": [],
       "grounded_fit_label": "unclear",
       "model_fit_label": "unclear",
@@ -115,12 +127,13 @@
     },
     {
       "rank": 6,
-      "score": 12.870690317238504,
+      "score": 11.870690317238504,
       "posting_id": "HF-617292",
       "company": "Sulekha",
       "role_title": "Data Analyst",
       "location": "Austin, TX",
       "job_country": "United States",
+      "work_from_home": false,
       "skills": [],
       "grounded_fit_label": "unclear",
       "model_fit_label": "unclear",

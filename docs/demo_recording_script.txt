@@ -2,10 +2,11 @@ Demo Recording Script (3-5 minutes)
 
 1. Open the GitHub README and state the use case: MSBA career-advisor job-posting triage.
 2. Run the normal demo command: `python -m msba_job_matcher.app --input-json demo/sample_query.json --output outputs/final_demo_output.json`.
-3. Show that the input is in `search` mode, all top five results satisfy the US constraint, and every result includes title/company/location/skills/model-label evidence.
+3. Show that the input is in `search` mode, the US constraint is explicit in `applied_search_constraints`, and every returned result satisfies it. Run the remote-only batch example to show that hard constraints are enforced before ranking.
 4. Run the edge case command: `python -m msba_job_matcher.app --input-json demo/edge_case_query.json --output outputs/final_edge_case_output.json`.
 5. Point out that role fit is `high_fit`, but explicit `NO OPT/CPT` evidence forces `review_required=true` and a Hold action. This demonstrates that role fit and authorization are separate decisions.
 6. Show `outputs/final_evaluation_results.json`: accuracy 0.984, macro F1 0.984 on the fixed 4,000-row set.
 7. Show `models/job_fit_tfidf_svc_metrics.json`: 0.979 macro F1 on 18,672 novel-text rows and 0.980 on 5,570 unseen-company rows. Then show `outputs/temporal_validation_results.json`: 0.976 macro F1 on the newest 20,000 postings.
-8. Open `outputs/final_casebook_outputs.json` and show search, senior engineering, authorization restriction, and thin-metadata cases.
-9. Close with the completed validation package: all 785,741 source rows scanned, 230 unique title-level authorization candidates, a 430-row candidate/control benchmark, and a 1,000-row advisor queue whose human fields are blank for genuine review.
+8. Show `models/review_policy.json`: the independent 10,000-row audit retains 91.63% coverage at 99.47% selective accuracy and sends 8.37% to mandatory review. Show `outputs/search_constraint_audit.json`: 36 results, 0 violations, 0 duplicate pairs.
+9. Open `outputs/batch_review_results.csv` and show that three inputs are processed with policy reasons and evidence in one run.
+10. Close with the completed validation package: all 785,741 source rows scanned, 230 unique title-level authorization candidates, a 430-row candidate/control benchmark, and a 1,000-row advisor queue whose human fields are blank for genuine review.

@@ -11,8 +11,26 @@
     "classifier_name": "word+character TF-IDF LinearSVC (77,135 deduplicated training rows)",
     "classifier_scores": {},
     "prediction_margin": null,
+    "review_margin_threshold": null,
+    "low_confidence_review": false,
+    "review_policy_name": "class-specific LinearSVC margin policy",
     "missing_core_fields": [],
     "input_authorization_evidence": "not available in public source",
+    "applied_search_constraints": {
+      "country": "United States",
+      "remote_mode": "allowed",
+      "entry_level": true,
+      "requested_skills": [
+        "sql",
+        "python",
+        "excel",
+        "tableau",
+        "power bi"
+      ]
+    },
+    "policy_reasons": [
+      "search results require advisor selection"
+    ],
     "review_required": true,
     "headline": "Review 6 retrieved postings first; the trained classifier found analytics role-fit signals.",
     "recommended_action": "Advisor review before forwarding",
@@ -21,12 +39,13 @@
     "retrieved_evidence": [
       {
         "rank": 1,
-        "score": 10.353803121829607,
+        "score": 9.853803121829607,
         "posting_id": "HF-469758",
         "company": "HireMatch",
         "role_title": "Data Analyst",
         "location": "Anywhere",
         "job_country": "United States",
+        "work_from_home": true,
         "skills": [
           "sql",
           "python",
@@ -43,32 +62,13 @@
       },
       {
         "rank": 2,
-        "score": 9.157638970806342,
-        "posting_id": "HF-250208",
-        "company": "LeanTaaS",
-        "role_title": "Data Analyst (US REMOTE)",
-        "location": "Anywhere",
-        "job_country": "United States",
-        "skills": [
-          "sql",
-          "python",
-          "tableau",
-          "excel"
-        ],
-        "grounded_fit_label": "high_fit",
-        "model_fit_label": "high_fit",
-        "model_margin": 4.132896780940543,
-        "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
-        "authorization_evidence": "not available in public source"
-      },
-      {
-        "rank": 3,
-        "score": 9.05548128006302,
+        "score": 8.55548128006302,
         "posting_id": "HF-219271",
         "company": "HMP Global",
         "role_title": "Data Analyst",
         "location": "Anywhere",
         "job_country": "United States",
+        "work_from_home": true,
         "skills": [
           "sql",
           "r",
@@ -84,13 +84,35 @@
         "authorization_evidence": "not available in public source"
       },
       {
+        "rank": 3,
+        "score": 8.457638970806343,
+        "posting_id": "HF-250208",
+        "company": "LeanTaaS",
+        "role_title": "Data Analyst (US REMOTE)",
+        "location": "Anywhere",
+        "job_country": "United States",
+        "work_from_home": true,
+        "skills": [
+          "sql",
+          "python",
+          "tableau",
+          "excel"
+        ],
+        "grounded_fit_label": "high_fit",
+        "model_fit_label": "high_fit",
+        "model_margin": 4.132896780940543,
+        "label_reason": "US analyst/business role with multiple MSBA-relevant skills.",
+        "authorization_evidence": "not available in public source"
+      },
+      {
         "rank": 4,
-        "score": 8.697896261114344,
+        "score": 8.197896261114344,
         "posting_id": "HF-623523",
         "company": "MASTERSERO",
         "role_title": "Data Analyst",
         "location": "Anywhere",
         "job_country": "United States",
+        "work_from_home": true,
         "skills": [
           "sql",
           "r",
@@ -107,12 +129,13 @@
       },
       {
         "rank": 5,
-        "score": 8.325975559824592,
+        "score": 7.225975559824589,
         "posting_id": "HF-697496",
         "company": "Zip",
         "role_title": "Data Analyst ( US REMOTE)",
         "location": "New York, NY",
         "job_country": "United States",
+        "work_from_home": true,
         "skills": [
           "sql",
           "tableau"
@@ -131,6 +154,7 @@
         "role_title": "Data Scientist",
         "location": "Atlanta, GA",
         "job_country": "United States",
+        "work_from_home": false,
         "skills": [
           "sql",
           "r",

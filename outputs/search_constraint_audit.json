@@ -1,0 +1,99 @@
+{
+  "queries": 6,
+  "returned_results": 36,
+  "hard_constraint_violations": 0,
+  "hard_constraint_compliance": 1.0,
+  "duplicate_company_title_pairs": 0,
+  "cases": [
+    {
+      "query": "Find entry-level US data analyst roles with SQL and Python.",
+      "applied_constraints": {
+        "country": "United States",
+        "remote_mode": "not_specified",
+        "entry_level": true,
+        "requested_skills": [
+          "sql",
+          "python"
+        ]
+      },
+      "returned_results": 6,
+      "constraint_violations": [],
+      "duplicate_company_title_pairs": 0
+    },
+    {
+      "query": "Find remote only US data analyst roles with SQL and Tableau.",
+      "applied_constraints": {
+        "country": "United States",
+        "remote_mode": "required",
+        "entry_level": false,
+        "requested_skills": [
+          "sql",
+          "tableau"
+        ]
+      },
+      "returned_results": 6,
+      "constraint_violations": [],
+      "duplicate_company_title_pairs": 0
+    },
+    {
+      "query": "Find on-site only US business analyst roles with Excel and Power BI.",
+      "applied_constraints": {
+        "country": "United States",
+        "remote_mode": "excluded",
+        "entry_level": false,
+        "requested_skills": [
+          "excel",
+          "power bi"
+        ]
+      },
+      "returned_results": 6,
+      "constraint_violations": [],
+      "duplicate_company_title_pairs": 0
+    },
+    {
+      "query": "Find remote only analytics roles with Python and Tableau.",
+      "applied_constraints": {
+        "country": null,
+        "remote_mode": "required",
+        "entry_level": false,
+        "requested_skills": [
+          "python",
+          "tableau"
+        ]
+      },
+      "returned_results": 6,
+      "constraint_violations": [],
+      "duplicate_company_title_pairs": 0
+    },
+    {
+      "query": "Find US business intelligence roles with SQL and Power BI.",
+      "applied_constraints": {
+        "country": "United States",
+        "remote_mode": "not_specified",
+        "entry_level": false,
+        "requested_skills": [
+          "sql",
+          "power bi"
+        ]
+      },
+      "returned_results": 6,
+      "constraint_violations": [],
+      "duplicate_company_title_pairs": 0
+    },
+    {
+      "query": "Find entry-level US analytics internships with Excel and dashboards.",
+      "applied_constraints": {
+        "country": "United States",
+        "remote_mode": "not_specified",
+        "entry_level": true,
+        "requested_skills": [
+          "excel"
+        ]
+      },
+      "returned_results": 6,
+      "constraint_violations": [],
+      "duplicate_company_title_pairs": 0
+    }
+  ],
+  "scope_note": "This audit measures deterministic constraint compliance, not human relevance judgment."
+}

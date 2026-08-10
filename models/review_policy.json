@@ -1,0 +1,80 @@
+{
+  "policy_name": "class-specific LinearSVC margin policy",
+  "metric_scope": "agreement with project weak labels",
+  "target_calibration_precision": 0.995,
+  "seed": 2411,
+  "calibration_rows": 10000,
+  "audit_rows": 10000,
+  "per_label_margin_thresholds": {
+    "high_fit": 0.4533347452493106,
+    "low_fit": 0.22085029852639215,
+    "medium_fit": 1.0575432327443601,
+    "unclear": 1.0071493425293179
+  },
+  "calibration": {
+    "high_fit": {
+      "predicted_rows": 2520,
+      "accepted_rows": 2501,
+      "coverage": 0.9924603174603175,
+      "precision": 0.995201919232307,
+      "margin_threshold": 0.4533347452493106
+    },
+    "low_fit": {
+      "predicted_rows": 2493,
+      "accepted_rows": 2475,
+      "coverage": 0.9927797833935018,
+      "precision": 0.9951515151515151,
+      "margin_threshold": 0.22085029852639215
+    },
+    "medium_fit": {
+      "predicted_rows": 2557,
+      "accepted_rows": 2148,
+      "coverage": 0.8400469299960892,
+      "precision": 0.9953445065176909,
+      "margin_threshold": 1.0575432327443601
+    },
+    "unclear": {
+      "predicted_rows": 2430,
+      "accepted_rows": 2055,
+      "coverage": 0.845679012345679,
+      "precision": 0.9951338199513382,
+      "margin_threshold": 1.0071493425293179
+    }
+  },
+  "independent_audit": {
+    "rows": 10000,
+    "accepted_rows": 9163,
+    "mandatory_review_rows": 837,
+    "coverage": 0.9163,
+    "mandatory_review_rate": 0.0837,
+    "selective_accuracy": 0.9946524064171123,
+    "per_predicted_label": {
+      "high_fit": {
+        "predicted_rows": 2526,
+        "accepted_rows": 2498,
+        "coverage": 0.9889152810768013,
+        "precision": 0.9943955164131305
+      },
+      "low_fit": {
+        "predicted_rows": 2500,
+        "accepted_rows": 2488,
+        "coverage": 0.9952,
+        "precision": 0.9927652733118971
+      },
+      "medium_fit": {
+        "predicted_rows": 2547,
+        "accepted_rows": 2142,
+        "coverage": 0.8409893992932862,
+        "precision": 0.9943977591036415
+      },
+      "unclear": {
+        "predicted_rows": 2427,
+        "accepted_rows": 2035,
+        "coverage": 0.838483724763082,
+        "precision": 0.9975429975429976
+      }
+    }
+  },
+  "policy_boundary": "A margin below the predicted class threshold forces mandatory advisor review. Authorization restrictions and missing fields remain separate deterministic gates.",
+  "limitation": "Thresholds are calibrated against weak labels, not advisor ground truth."
+}

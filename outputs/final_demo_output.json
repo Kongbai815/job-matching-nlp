@@ -6,8 +6,26 @@
   "classifier_name": "word+character TF-IDF LinearSVC (77,135 deduplicated training rows)",
   "classifier_scores": {},
   "prediction_margin": null,
+  "review_margin_threshold": null,
+  "low_confidence_review": false,
+  "review_policy_name": "class-specific LinearSVC margin policy",
   "missing_core_fields": [],
   "input_authorization_evidence": "not available in public source",
+  "applied_search_constraints": {
+    "country": "United States",
+    "remote_mode": "not_specified",
+    "entry_level": true,
+    "requested_skills": [
+      "sql",
+      "python",
+      "excel",
+      "tableau",
+      "power bi"
+    ]
+  },
+  "policy_reasons": [
+    "search results require advisor selection"
+  ],
   "review_required": true,
   "headline": "Review 6 retrieved postings first; the trained classifier found analytics role-fit signals.",
   "recommended_action": "Advisor review before forwarding",
@@ -22,6 +40,7 @@
       "role_title": "Data Analyst",
       "location": "Anywhere",
       "job_country": "United States",
+      "work_from_home": true,
       "skills": [
         "sql",
         "python",
@@ -38,12 +57,13 @@
     },
     {
       "rank": 2,
-      "score": 6.807155636183262,
+      "score": 6.8071556361832615,
       "posting_id": "HF-219271",
       "company": "HMP Global",
       "role_title": "Data Analyst",
       "location": "Anywhere",
       "job_country": "United States",
+      "work_from_home": true,
       "skills": [
         "sql",
         "r",
@@ -66,6 +86,7 @@
       "role_title": "Data Analyst",
       "location": "Los Angeles, CA",
       "job_country": "United States",
+      "work_from_home": false,
       "skills": [
         "sql",
         "python",
@@ -89,6 +110,7 @@
       "role_title": "Data Analyst",
       "location": "Anywhere",
       "job_country": "United States",
+      "work_from_home": true,
       "skills": [
         "sql",
         "r",
@@ -105,12 +127,13 @@
     },
     {
       "rank": 5,
-      "score": 6.515427399498889,
+      "score": 6.315427399498889,
       "posting_id": "HF-614609",
       "company": "City Colleges of Chicago",
       "role_title": "Lecturer-Continuing Education (Business Analytics)",
       "location": "Chicago, IL",
       "job_country": "United States",
+      "work_from_home": false,
       "skills": [
         "sql",
         "python",
@@ -131,6 +154,7 @@
       "role_title": "Data Scientist",
       "location": "Atlanta, GA",
       "job_country": "United States",
+      "work_from_home": false,
       "skills": [
         "sql",
         "r",

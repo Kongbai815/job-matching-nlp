@@ -10,8 +10,8 @@
 - Authorization evidence: not available in public source
 - Top evidence:
   - `HF-469758` - Data Analyst at HireMatch (United States), model label `high_fit`.
-  - `HF-250208` - Data Analyst (US REMOTE) at LeanTaaS (United States), model label `high_fit`.
   - `HF-219271` - Data Analyst at HMP Global (United States), model label `high_fit`.
+  - `HF-250208` - Data Analyst (US REMOTE) at LeanTaaS (United States), model label `high_fit`.
 
 ## senior_engineering_posting
 
@@ -19,7 +19,7 @@
 - Business use: Hold a role that is too senior and engineering-heavy
 - Posting label: `low_fit`
 - Review required: `True`
-- Action: Advisor review before forwarding
+- Action: Investigate - advisor review required
 - Authorization evidence: not available in public source
 - Top evidence:
   - `HF-590539` - Data Engineer at Charlie's Produce (United States), model label `unclear`.
@@ -45,7 +45,7 @@
 - Business use: Escalate an incomplete posting
 - Posting label: `unclear`
 - Review required: `True`
-- Action: Advisor review before forwarding
+- Action: Investigate - advisor review required
 - Authorization evidence: not available in public source
 - Top evidence:
   - `HF-671521` - Summer Data Analytics Internship at ALBEMARLE (United States), model label `high_fit`.

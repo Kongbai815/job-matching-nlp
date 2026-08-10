@@ -12,6 +12,7 @@ import pandas as pd
 LABELS = ["high_fit", "medium_fit", "low_fit", "unclear"]
 TOP_K = 6
 DEFAULT_MODEL_PATH = Path("models/job_fit_tfidf_svc.joblib")
+DEFAULT_REVIEW_POLICY_PATH = Path("models/review_policy.json")
 
 STOPWORDS = {
     "a", "an", "and", "are", "as", "at", "be", "by", "for", "from", "has", "in",
@@ -110,6 +111,37 @@ def safe_skills(value):
     return [s.strip() for s in raw.split(";") if s.strip()]
 
 
+def parse_search_constraints(query):
+    """Extract only constraints that can be verified against structured posting fields."""
+    query_l = str(query).lower()
+    country = None
+    if re.search(r"\b(?:u\.?s\.?|united states)\b", query_l):
+        country = "United States"
+
+    remote_mode = "not_specified"
+    if re.search(r"\b(?:remote only|must be remote|fully remote|required remote)\b", query_l):
+        remote_mode = "required"
+    elif re.search(r"\b(?:on[- ]?site only|onsite only|not remote)\b", query_l):
+        remote_mode = "excluded"
+    elif re.search(r"\b(?:prefer(?:red)? remote|remote preferred)\b", query_l):
+        remote_mode = "preferred"
+    elif "remote" in query_l:
+        remote_mode = "allowed"
+
+    known_skills = [
+        "sql", "python", "excel", "tableau", "power bi", "looker", "r",
+        "sas", "spark", "aws", "azure", "gcp",
+    ]
+    skills = [term for term in known_skills if re.search(rf"\b{re.escape(term)}\b", query_l)]
+    entry_level = bool(re.search(r"\b(?:entry[- ]level|junior|intern(?:ship)?|student)\b", query_l))
+    return {
+        "country": country,
+        "remote_mode": remote_mode,
+        "entry_level": entry_level,
+        "requested_skills": skills,
+    }
+
+
 def extract_authorization_evidence(row):
     """Return only explicit authorization language present in the posting."""
     source = " ".join(
@@ -177,6 +209,7 @@ class JobMatchingSystem:
         data_path="data/data_jobs_msba_project_sample_100k.csv",
         top_k=TOP_K,
         model_path=DEFAULT_MODEL_PATH,
+        review_policy_path=DEFAULT_REVIEW_POLICY_PATH,
     ):
         self.data_path = Path(data_path)
         if not self.data_path.exists() and self.data_path.name == "data_jobs_msba_project_sample_100k.csv":
@@ -186,6 +219,19 @@ class JobMatchingSystem:
             candidate = Path(__file__).resolve().parents[1] / DEFAULT_MODEL_PATH
             self.model_path = candidate if candidate.exists() else self.model_path
         self.classifier = joblib.load(self.model_path) if self.model_path and self.model_path.exists() else None
+        self.review_policy_path = Path(review_policy_path) if review_policy_path else None
+        if self.review_policy_path and not self.review_policy_path.exists() and self.review_policy_path.name == DEFAULT_REVIEW_POLICY_PATH.name:
+            candidate = Path(__file__).resolve().parents[1] / DEFAULT_REVIEW_POLICY_PATH
+            self.review_policy_path = candidate if candidate.exists() else self.review_policy_path
+        self.review_policy = (
+            json.loads(self.review_policy_path.read_text(encoding="utf-8"))
+            if self.review_policy_path and self.review_policy_path.exists()
+            else {
+                "policy_name": "fallback uniform margin policy",
+                "per_label_margin_thresholds": {label: 0.35 for label in LABELS},
+                "metric_scope": "fallback only",
+            }
+        )
         self.classifier_name = (
             "word+character TF-IDF LinearSVC (77,135 deduplicated training rows)"
             if self.classifier is not None
@@ -217,6 +263,7 @@ class JobMatchingSystem:
 
     def retrieve(self, query, top_k=None):
         top_k = top_k or self.top_k
+        constraints = parse_search_constraints(query)
         query_terms = list(set(feature_terms(query)))
         query_terms = [term for term in query_terms if term in self.index and 3 <= self.df_counts[term] <= 9000]
         query_terms.sort(key=lambda term: self.idf.get(term, 0.0), reverse=True)
@@ -229,7 +276,20 @@ class JobMatchingSystem:
         candidates = []
         for doc_id, lexical_score in scores.most_common(max(200, top_k * 30)):
             row = self.records[doc_id]
-            adjusted_score = lexical_score + self._constraint_adjustment(query, row)
+            if constraints["country"] and str(row.get("job_country", "")) != constraints["country"]:
+                continue
+            is_remote = self._is_remote(row)
+            if constraints["remote_mode"] == "required" and not is_remote:
+                continue
+            if constraints["remote_mode"] == "excluded" and is_remote:
+                continue
+            if constraints["entry_level"] and re.search(
+                r"\b(?:senior|principal|staff|director|manager|lead)\b",
+                str(row.get("role_title", "")),
+                flags=re.I,
+            ):
+                continue
+            adjusted_score = lexical_score + self._constraint_adjustment(query, row, constraints)
             candidates.append((doc_id, adjusted_score))
         candidates.sort(key=lambda item: item[1], reverse=True)
 
@@ -250,21 +310,28 @@ class JobMatchingSystem:
         return [self._format_record(rank, doc_id, score) for rank, (doc_id, score) in enumerate(ranked, start=1)]
 
     @staticmethod
-    def _constraint_adjustment(query, row):
+    def _is_remote(row):
+        title_l = str(row.get("role_title", "")).lower()
+        location_l = str(row.get("location", "")).lower()
+        value = row.get("job_work_from_home")
+        structured_remote = bool(value) and str(value).lower() not in {"false", "0", "nan", "none"}
+        return structured_remote or location_l == "anywhere" or "remote" in title_l
+
+    @classmethod
+    def _constraint_adjustment(cls, query, row, constraints=None):
         query_l = str(query).lower()
         title_l = str(row.get("role_title", "")).lower()
-        country_l = str(row.get("job_country", "")).lower()
-        location_l = str(row.get("location", "")).lower()
+        constraints = constraints or parse_search_constraints(query)
         adjustment = 0.0
-        wants_us = re.search(r"\b(?:u\.?s\.?|united states)\b", query_l) is not None
-        if wants_us:
-            adjustment += 1.8 if country_l == "united states" else -1.8
-        if "remote" in query_l:
-            is_remote = bool(row.get("job_work_from_home")) or location_l == "anywhere" or "remote" in title_l
-            adjustment += 0.5 if is_remote else 0.0
-        if any(term in query_l for term in ["entry-level", "entry level", "intern", "student"]):
+        if constraints["country"]:
+            adjustment += 0.8
+        if constraints["remote_mode"] == "preferred" and cls._is_remote(row):
+            adjustment += 0.5
+        if constraints["entry_level"]:
             if any(term in title_l for term in ["senior", "principal", "staff", "director", "manager"]):
                 adjustment -= 2.0
+        row_skills = {skill.lower() for skill in safe_skills(row.get("job_skills", ""))}
+        adjustment += 0.2 * sum(skill in row_skills for skill in constraints["requested_skills"])
         return adjustment
 
     def _format_record(self, rank, doc_id, score):
@@ -279,6 +346,7 @@ class JobMatchingSystem:
             "role_title": row.get("role_title"),
             "location": row.get("location"),
             "job_country": row.get("job_country"),
+            "work_from_home": self._is_remote(row),
             "skills": skills[:8],
             "grounded_fit_label": row.get("relevance_label"),
             "model_fit_label": model_label,
@@ -311,6 +379,7 @@ class JobMatchingSystem:
         if input_mode not in {"search", "posting"}:
             raise ValueError("input_mode must be 'search', 'posting', or 'auto'.")
         retrieved = self.retrieve(query, top_k=top_k)
+        applied_search_constraints = parse_search_constraints(query) if input_mode == "search" else {}
         if input_mode == "posting":
             model_predicted_label, scores, prediction_margin = self.predict_details(query)
             missing_fields = missing_structured_fields(query)
@@ -321,6 +390,16 @@ class JobMatchingSystem:
             predicted_label, scores, prediction_margin = model_predicted_label, {}, None
             missing_fields = []
             input_authorization_evidence = "not available in public source"
+        review_threshold = (
+            float(self.review_policy.get("per_label_margin_thresholds", {}).get(model_predicted_label, 0.35))
+            if input_mode == "posting"
+            else None
+        )
+        low_confidence_review = bool(
+            input_mode == "posting"
+            and prediction_margin is not None
+            and prediction_margin < review_threshold
+        )
         priority = {"high_fit": 0, "medium_fit": 1, "unclear": 2, "low_fit": 3}
         ordered = sorted(retrieved, key=lambda item: (priority.get(item["model_fit_label"], 9), -item["score"]))
         for rank, item in enumerate(ordered, start=1):
@@ -332,6 +411,17 @@ class JobMatchingSystem:
             "explicit source text: no sponsorship",
             "explicit source text: sponsorship not available",
         }
+        policy_reasons = []
+        if input_mode == "search":
+            policy_reasons.append("search results require advisor selection")
+        if predicted_label in {"low_fit", "unclear"}:
+            policy_reasons.append("low-fit or unclear result requires review")
+        if missing_fields:
+            policy_reasons.append("structured posting fields are missing")
+        if explicit_restriction:
+            policy_reasons.append("explicit authorization restriction requires review")
+        if low_confidence_review:
+            policy_reasons.append("model margin is below the calibrated class threshold")
         if explicit_restriction:
             headline = "Role fit and work authorization conflict: hold this posting for advisor verification."
         elif input_mode == "posting" and predicted_label in {"low_fit", "unclear"}:
@@ -362,18 +452,25 @@ class JobMatchingSystem:
             "classifier_name": self.classifier_name,
             "classifier_scores": scores,
             "prediction_margin": prediction_margin,
+            "review_margin_threshold": review_threshold,
+            "low_confidence_review": low_confidence_review,
+            "review_policy_name": self.review_policy.get("policy_name"),
             "missing_core_fields": missing_fields,
             "input_authorization_evidence": input_authorization_evidence,
+            "applied_search_constraints": applied_search_constraints,
+            "policy_reasons": policy_reasons,
             "review_required": (
                 input_mode == "search"
                 or predicted_label in {"low_fit", "unclear"}
                 or explicit_restriction
-                or (prediction_margin is not None and prediction_margin < 0.35)
+                or low_confidence_review
             ),
             "headline": headline,
             "recommended_action": (
                 "Hold - explicit authorization restriction requires advisor verification"
                 if explicit_restriction
+                else "Investigate - advisor review required"
+                if predicted_label in {"low_fit", "unclear"} or low_confidence_review
                 else "Advisor review before forwarding"
             ),
             "grounding_caveat": grounding_caveat,

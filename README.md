@@ -35,6 +35,9 @@ python -m msba_job_matcher.app --input-json demo/sample_query.json --output outp
 python -m msba_job_matcher.app --input-json demo/edge_case_query.json --output outputs/final_edge_case_output.json
 python -m msba_job_matcher.evaluate --sample-per-label 1000 --output outputs/final_evaluation_results.json
 python -m msba_job_matcher.casebook
+python -m msba_job_matcher.calibrate_review_policy
+python -m msba_job_matcher.evaluate_search_constraints
+python -m msba_job_matcher.batch --input demo/batch_review_input.csv --output outputs/batch_review_results.csv
 python -m msba_job_matcher.audit_and_annotation --full-source path/to/data_jobs.csv
 ```
 
@@ -43,10 +46,11 @@ Rebuild the committed classifier with `python -m msba_job_matcher.train`.
 ## Architecture
 
 1. **Mode routing:** separate search requests from job postings so a search sentence is never treated as a posting label.
-2. **Retrieval:** sparse index over 80,000 real postings, with query-constraint boosts and duplicate suppression.
+2. **Retrieval:** sparse index over 80,000 real postings, with explicit country/remote/entry-level constraints, skill-aware ranking, and duplicate suppression.
 3. **Decision:** word+character TF-IDF LinearSVC trained on 77,135 deduplicated rows.
-4. **Policy gates:** missing core fields route to `unclear`; explicit authorization restrictions force review.
+4. **Policy gates:** class-specific margins are calibrated on 10,000 rows and audited on a separate 10,000; missing fields and explicit authorization restrictions remain deterministic overrides.
 5. **Grounded output:** the response cites retrieved title, company, location, skills, model label, and source label reason.
+6. **Operations:** single-input JSON and batch CSV entry points reuse the same trained system and emit auditable policy reasons.
 
 ## Evaluation
 
@@ -62,11 +66,16 @@ A separate time-based experiment trains on the earliest 80% of postings and eval
 
 Retrieval success is 100.0%, support hit@5 is 90.0%, and the four-case governance check found 0 unsupported authorization claims while preserving 1 explicit source statement.
 
+The calibrated review policy targets 99.5% weak-label precision on a 10,000-row calibration half. On the independent 10,000-row audit half, it retains **91.63% coverage** at **99.47% selective accuracy** and routes 8.37% of cases to mandatory review. A six-query search audit returns 36 results with **0 hard-constraint violations** and **0 duplicate company-title pairs**.
+
 ## Findings and Recommendation
 
 - All four class F1 scores exceed 0.969 on the fixed validation set.
 - Training-size experiments show that using the available labels matters more than a larger model: macro F1 rises from 0.898 at 2,000 rows to 0.984 at 80,000 rows.
 - The final linear model outperforms the 2,000-row LoRA experiment while training in under a minute and producing a 3.8 MB artifact.
+- A calibrated class-specific review policy replaces the arbitrary global margin threshold and exposes the threshold and reason for each decision.
+- Country, remote-only/on-site-only, and entry-level constraints are enforced before ranking rather than treated only as score boosts.
+- The batch CSV command converts the prototype from a one-query demo into a repeatable review workflow.
 - The repository now includes a 1,000-row advisor annotation queue and a 430-row authorization benchmark built from a full-source audit. Human-review fields remain blank by design; model-generated labels are not substituted for human ground truth.
 - Recommended deployment: first-pass prioritization with advisor confirmation, followed by a pilot on de-identified Career Center postings.
 
@@ -75,6 +84,8 @@ Retrieval success is 100.0%, support hit@5 is 90.0%, and the four-case governanc
 - M2-M4 completed notebooks and archival PDFs are stored at the repository root.
 - Final casebook: `outputs/final_casebook_outputs.json` and `docs/final_casebook.md`.
 - Model artifact and audit: `models/job_fit_tfidf_svc.joblib` and `models/job_fit_tfidf_svc_metrics.json`.
+- Review policy and search audit: `models/review_policy.json` and `outputs/search_constraint_audit.json`.
+- Batch example: `demo/batch_review_input.csv` and `outputs/batch_review_results.csv`.
 - Annotation assets: `data/advisor_annotation_queue_1000.csv`, `data/authorization_evidence_benchmark.csv`, and `docs/annotation_guide.md`.
 - Full-source and temporal audits: `outputs/authorization_evidence_audit.json` and `outputs/temporal_validation_results.json`.
 - Governance appendix: `docs/governance_risk_appendix.md`.
