@@ -1,0 +1,49 @@
+1
+00:00:00,000 --> 00:00:16,000
+Welcome to MSBA Job Matching, a grounded decision-support system for career advisors.
+This demo runs a normal search, two edge cases, and the measured evaluation.
+
+2
+00:00:16,000 --> 00:00:38,000
+The router separates search requests from postings. Search mode applies hard constraints;
+posting mode classifies fit. Calibrated policy gates produce evidence, actions, and review reasons.
+
+3
+00:00:38,000 --> 00:00:56,000
+This real request asks for entry-level US analytics roles using SQL, Python, Excel,
+Tableau, or Power BI. The system preserves the input as search mode.
+
+4
+00:00:56,000 --> 00:01:26,000
+The output returns compliant job evidence without inventing a posting label for the query.
+A six-query audit found zero hard-constraint violations and zero duplicate company-title pairs.
+
+5
+00:01:26,000 --> 00:01:44,000
+This edge case is a strong analytics match, but its source text explicitly says no OPT or CPT.
+Role fit and authorization must remain separate decisions.
+
+6
+00:01:44,000 --> 00:02:14,000
+The classifier preserves high fit, while the explicit restriction forces review and a Hold action.
+The system never turns role relevance into an immigration, eligibility, or hiring decision.
+
+7
+00:02:14,000 --> 00:02:38,000
+This posting lacks company, location, country, and schedule fields. The completeness gate
+overrides medium fit to unclear and routes the case to review.
+
+8
+00:02:38,000 --> 00:03:00,000
+Macro F1 is 98.4% on the fixed set and 97.6% on the newest 20,000 postings.
+The review audit retains 91.63% at 99.47% weak-label accuracy, not advisor accuracy.
+
+9
+00:03:00,000 --> 00:03:20,000
+The batch workflow loads the system once and preserves labels, review flags, actions,
+policy reasons, and evidence for every row.
+
+10
+00:03:20,000 --> 00:03:40,000
+The completed package supports a human-supervised Career Center pilot.
+Automated rejection, forwarding, hiring, or immigration decisions are not permitted.

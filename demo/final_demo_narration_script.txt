@@ -1,0 +1,32 @@
+MSBA Job Matching - Final Demo Narration
+Duration: 3 minutes 40 seconds
+
+[00:00-00:16] Final system
+Welcome to MSBA Job Matching, a grounded decision-support system for career advisors. In the next three minutes and forty seconds, I will run a normal search, two edge cases, and show the measured evaluation.
+
+[00:16-00:38] Architecture
+The input router first distinguishes a search request from an individual posting. Search mode applies hard constraints before ranking and removes duplicate company-title pairs. Posting mode uses a word-and-character TF-IDF classifier. A calibrated review policy and deterministic safety gates then produce cited evidence, an action, and a reason for advisor review.
+
+[00:38-00:56] Search input
+Here is a real advisor request for entry-level analytics roles in the United States using SQL, Python, Excel, Tableau, or Power BI. The command loads the eighty-thousand-posting retrieval index and the trained classifier, while preserving the request as search mode.
+
+[00:56-01:26] Search output
+The output confirms search mode and does not invent a posting label for the query. It returns compliant job evidence with company, location, and model fit. The top examples shown here all satisfy the United States constraint. Across a separate six-query audit, thirty-six of thirty-six returned results meet the requested country, work-setting, and entry-level constraints, with zero duplicate company-title pairs. Authorization is reported only when the source posting contains explicit evidence.
+
+[01:26-01:44] Authorization edge input
+Now for the required edge case. This input is a business analytics posting whose title and skills look highly relevant, but its text explicitly states no O-P-T or C-P-T. Role fit and authorization must therefore remain separate decisions.
+
+[01:44-02:14] Authorization edge output
+The classifier preserves the high-fit result, but the system extracts the restriction, marks review required, and recommends Hold. It also cites the closest posting evidence and explains the applicable policy. This is the intended behavior: the model may estimate role relevance, but it cannot claim sponsorship or eligibility, and it cannot override explicit source text. The system supports an advisor's judgment; it never makes an immigration or hiring decision.
+
+[02:14-02:38] Missing-data edge case
+A second failure-handling case contains too little metadata. Although the classifier predicts medium fit, the posting is missing company, location, country, and schedule fields. The deterministic completeness gate overrides the displayed label to unclear and sends the case to review. Missing evidence is therefore surfaced as uncertainty instead of being hidden behind a confident score.
+
+[02:38-03:00] Evaluation
+On the fixed four-thousand-row set, the final classifier reaches ninety-eight point four percent macro F one. It reaches ninety-seven point six percent on the newest twenty-thousand postings. A separate policy audit retains ninety-one point six three percent of cases at ninety-nine point four seven percent weak-label accuracy. These are weak-label agreement metrics, not advisor-ground-truth accuracy.
+
+[03:00-03:20] Batch workflow
+The batch command processes a review queue after loading the model and index once. Each row preserves the input mode, predicted label, review flag, recommended action, policy reasons, and retrieved evidence. This turns the notebook prototype into a repeatable, auditable workflow for normal searches and sensitive postings.
+
+[03:20-03:40] Close
+The final package includes the calibrated classifier, search audits, governance casebook, one-thousand-row advisor queue, four-hundred-thirty-row authorization benchmark, documentation, slides, and this narrated demo. The recommended next use is a human-supervised Career Center pilot. No automated rejection, forwarding, hiring, or immigration decision is permitted.
