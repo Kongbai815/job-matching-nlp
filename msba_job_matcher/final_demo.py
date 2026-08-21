@@ -75,9 +75,9 @@ def main():
         delay = 20.0 if args.recording else 0.0
     clear = args.recording and sys.stdout.isatty()
 
-    search_path = ROOT / "demo" / "sample_query.json"
-    edge_path = ROOT / "demo" / "edge_case_query.json"
-    batch_path = ROOT / "demo" / "batch_review_input.csv"
+    search_path = ROOT / "demo" / "query.json"
+    edge_path = ROOT / "demo" / "edge.json"
+    batch_path = ROOT / "demo" / "batch.csv"
     output_dir = ROOT / "outputs"
 
     heading(
@@ -121,7 +121,7 @@ def main():
         "The system must route this as search, enforce constraints, and return source evidence.",
         clear=clear,
     )
-    print("INPUT FILE: demo/sample_query.json")
+    print("INPUT FILE: demo/query.json")
     print("MODE      : search")
     print("QUERY")
     print(shorten(search_payload["query"], 92))
@@ -161,7 +161,7 @@ def main():
         "This posting looks relevant, but the policy must preserve the explicit restriction.",
         clear=clear,
     )
-    print("INPUT FILE: demo/edge_case_query.json")
+    print("INPUT FILE: demo/edge.json")
     print("MODE      : posting")
     print("POSTING")
     print(shorten(edge_payload["query"], 92))
@@ -193,7 +193,7 @@ def main():
         "The same production system now processes a three-row CSV queue.",
         clear=clear,
     )
-    print("INPUT : demo/batch_review_input.csv")
+    print("INPUT : demo/batch.csv")
     print("OUTPUT: outputs/batch_review_results.csv")
     print("\nExecuting process_batch_frame(...) now ...", flush=True)
     batch_source = pd.read_csv(batch_path, keep_default_na=False)

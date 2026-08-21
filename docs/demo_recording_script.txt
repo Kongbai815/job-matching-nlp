@@ -1,6 +1,6 @@
 Final Real-Run Demo Runbook
 
-The submitted recording is `demo/final_demo_video.mp4`. It captures one continuous execution of:
+The submitted recording is `demo/demo.mp4`. It captures one continuous execution of:
 
 `python -m msba_job_matcher.final_demo --recording`
 
@@ -8,11 +8,11 @@ The command performs nine visible scenes:
 
 1. State the business problem, stakeholder, decision, solution, and policy boundary.
 2. Load the real 100,000-row project data, trained classifier, review policy, and retrieval index.
-3. Execute a normal advisor search request from `demo/sample_query.json`.
+3. Execute a normal advisor search request from `demo/query.json`.
 4. Show grounded search results and the enforced US/entry-level/skill constraints.
-5. Execute the explicit `NO OPT/CPT` posting from `demo/edge_case_query.json`.
+5. Execute the explicit `NO OPT/CPT` posting from `demo/edge.json`.
 6. Show that `high_fit` remains visible while the governance gate forces review and a Hold action.
-7. Process the three-row `demo/batch_review_input.csv` queue with the same system.
+7. Process the three-row `demo/batch.csv` queue with the same system.
 8. Report baseline improvement, temporal validation, selective accuracy, and search-constraint audit results.
 9. Close with the human-in-the-loop boundary and supervised-pilot recommendation.
 
