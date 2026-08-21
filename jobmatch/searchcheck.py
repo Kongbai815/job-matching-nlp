@@ -40,10 +40,10 @@ def constraint_violations(result):
 
 def main():
     parser = argparse.ArgumentParser(description="Evaluate deterministic search-constraint compliance.")
-    parser.add_argument("--data", default="data_jobs_msba_project_sample_100k.csv")
-    parser.add_argument("--model", default="models/job_fit_tfidf_svc.joblib")
-    parser.add_argument("--review-policy", default="models/review_policy.json")
-    parser.add_argument("--output", default="outputs/search_constraint_audit.json")
+    parser.add_argument("--data", default="jobs.csv")
+    parser.add_argument("--model", default="models/model.joblib")
+    parser.add_argument("--review-policy", default="models/policy.json")
+    parser.add_argument("--output", default="outputs/search-audit.json")
     args = parser.parse_args()
 
     system = JobMatchingSystem(

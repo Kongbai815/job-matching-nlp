@@ -4,8 +4,8 @@ from pathlib import Path
 
 import pandas as pd
 
-from msba_job_matcher.core import JobMatchingSystem
-from msba_job_matcher.batch import process_batch_frame
+from jobmatch.core import JobMatchingSystem
+from jobmatch.batch import process_batch_frame
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -15,8 +15,8 @@ class SystemSmokeTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.system = JobMatchingSystem(
-            data_path=ROOT / "data_jobs_msba_project_sample_100k.csv",
-            model_path=ROOT / "models" / "job_fit_tfidf_svc.joblib",
+            data_path=ROOT / "jobs.csv",
+            model_path=ROOT / "models" / "model.joblib",
         )
 
     def test_search_mode_retrieves_us_analytics_jobs(self):
@@ -57,7 +57,7 @@ class SystemSmokeTests(unittest.TestCase):
         self.assertIn("Hold", result["recommended_action"])
 
     def test_saved_metrics_include_leakage_controlled_slices(self):
-        metrics = json.loads((ROOT / "models" / "job_fit_tfidf_svc_metrics.json").read_text(encoding="utf-8"))
+        metrics = json.loads((ROOT / "models" / "metrics.json").read_text(encoding="utf-8"))
         self.assertGreater(metrics["evaluation"]["fixed_4k"]["macro_f1"], 0.98)
         self.assertGreater(metrics["evaluation"]["full_20k_novel_text"]["macro_f1"], 0.97)
         self.assertGreater(metrics["evaluation"]["full_20k_unseen_company"]["macro_f1"], 0.97)
@@ -71,7 +71,7 @@ class SystemSmokeTests(unittest.TestCase):
 
     def test_time_based_validation_is_saved_and_strong(self):
         temporal = json.loads(
-            (ROOT / "outputs" / "temporal_validation_results.json").read_text(encoding="utf-8")
+            (ROOT / "outputs" / "time.json").read_text(encoding="utf-8")
         )
         self.assertEqual(temporal["full_temporal_test"]["rows"], 20000)
         self.assertGreater(temporal["full_temporal_test"]["macro_f1"], 0.97)
@@ -79,7 +79,7 @@ class SystemSmokeTests(unittest.TestCase):
 
     def test_full_source_audit_and_annotation_assets(self):
         audit = json.loads(
-            (ROOT / "outputs" / "authorization_evidence_audit.json").read_text(encoding="utf-8")
+            (ROOT / "outputs" / "auth.json").read_text(encoding="utf-8")
         )
         self.assertEqual(audit["rows_scanned"], 785741)
         self.assertEqual(audit["unique_title_level_authorization_candidates"], 230)
@@ -90,9 +90,9 @@ class SystemSmokeTests(unittest.TestCase):
             {"active_learning_low_margin": 800, "full_source_authorization_candidate": 200},
         )
 
-        queue = pd.read_csv(ROOT / "data" / "advisor_annotation_queue_1000.csv", keep_default_na=False)
+        queue = pd.read_csv(ROOT / "data" / "review.csv", keep_default_na=False)
         benchmark = pd.read_csv(
-            ROOT / "data" / "authorization_evidence_benchmark.csv", keep_default_na=False
+            ROOT / "data" / "auth.csv", keep_default_na=False
         )
         self.assertEqual(len(queue), 1000)
         self.assertEqual(len(benchmark), 430)
@@ -105,13 +105,13 @@ class SystemSmokeTests(unittest.TestCase):
         self.assertTrue((queue[human_fields] == "").all().all())
 
     def test_calibrated_review_policy_and_low_margin_gate(self):
-        policy = json.loads((ROOT / "models" / "review_policy.json").read_text(encoding="utf-8"))
+        policy = json.loads((ROOT / "models" / "policy.json").read_text(encoding="utf-8"))
         self.assertEqual(policy["calibration_rows"], 10000)
         self.assertEqual(policy["audit_rows"], 10000)
         self.assertGreater(policy["independent_audit"]["coverage"], 0.90)
         self.assertGreater(policy["independent_audit"]["selective_accuracy"], 0.99)
 
-        queue = pd.read_csv(ROOT / "data" / "advisor_annotation_queue_1000.csv")
+        queue = pd.read_csv(ROOT / "data" / "review.csv")
         low_margin_text = queue.sort_values("model_margin").iloc[0]["posting_text"]
         result = self.system.run(low_margin_text, input_mode="posting")
         self.assertTrue(result["low_confidence_review"])

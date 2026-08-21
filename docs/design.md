@@ -11,15 +11,15 @@
 
 ## Component Boundaries
 
-- `msba_job_matcher/core.py`: mode routing, retrieval, classifier inference, policy gates, and grounded response.
-- `msba_job_matcher/app.py`: command-line input/output interface.
-- `msba_job_matcher/train.py`: reproducible deduplicated model training and robustness evaluation.
-- `msba_job_matcher/evaluate.py`: balanced validation evaluation.
-- `msba_job_matcher/calibrate_review_policy.py`: reproducible class-specific review thresholds and held-out selective audit.
-- `msba_job_matcher/evaluate_search_constraints.py`: six-query hard-constraint and duplicate audit.
-- `msba_job_matcher/batch.py`: batch CSV review using one loaded retrieval/model instance.
-- `msba_job_matcher/casebook.py`: four reproducible workflow and governance cases.
-- `msba_job_matcher/audit_and_annotation.py`: full-source authorization scan, time-based evaluation, and reproducible advisor queue generation.
+- `jobmatch/core.py`: mode routing, retrieval, classifier inference, policy gates, and grounded response.
+- `jobmatch/app.py`: command-line input/output interface.
+- `jobmatch/train.py`: reproducible deduplicated model training and robustness evaluation.
+- `jobmatch/evaluate.py`: balanced validation evaluation.
+- `jobmatch/calibrate.py`: reproducible class-specific review thresholds and held-out selective audit.
+- `jobmatch/searchcheck.py`: six-query hard-constraint and duplicate audit.
+- `jobmatch/batch.py`: batch CSV review using one loaded retrieval/model instance.
+- `jobmatch/cases.py`: four reproducible workflow and governance cases.
+- `jobmatch/annotate.py`: full-source authorization scan, time-based evaluation, and reproducible advisor queue generation.
 - `demo/*.json`: reproducible normal and edge inputs.
 - `data/*.csv`: the 1,000-row advisor queue and 430-row authorization candidate/control benchmark.
 - `outputs/*.json`: saved system runs, random and temporal evaluation metrics, audit counts, and casebook evidence.

@@ -1156,7 +1156,7 @@
       },
       "governance_note": "Title-level phrases are candidate evidence only and require advisor verification."
     },
-    "advisor_annotation_queue": "data/advisor_annotation_queue_1000.csv",
-    "authorization_benchmark": "data/authorization_evidence_benchmark.csv"
+    "advisor_annotation_queue": "data/review.csv",
+    "authorization_benchmark": "data/auth.csv"
   }
 }

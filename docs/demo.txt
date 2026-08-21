@@ -2,7 +2,7 @@ Final Real-Run Demo Runbook
 
 The submitted recording is `demo/demo.mp4`. It captures one continuous execution of:
 
-`python -m msba_job_matcher.final_demo --recording`
+`python -m jobmatch.demo --recording`
 
 The command performs nine visible scenes:
 

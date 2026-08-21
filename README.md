@@ -26,23 +26,23 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-The repository includes `data_jobs_msba_project_sample_100k.csv`. The CLI also accepts the same file under `data/`.
+The repository includes `jobs.csv` at its root.
 
 ## Usage
 
 ```bash
-python -m msba_job_matcher.app --input-json demo/query.json --output outputs/final_demo_output.json
-python -m msba_job_matcher.app --input-json demo/edge.json --output outputs/final_edge_case_output.json
-python -m msba_job_matcher.final_demo
-python -m msba_job_matcher.evaluate --sample-per-label 1000 --output outputs/final_evaluation_results.json
-python -m msba_job_matcher.casebook
-python -m msba_job_matcher.calibrate_review_policy
-python -m msba_job_matcher.evaluate_search_constraints
-python -m msba_job_matcher.batch --input demo/batch.csv --output outputs/batch_review_results.csv
-python -m msba_job_matcher.audit_and_annotation --full-source path/to/data_jobs.csv
+python -m jobmatch.app --input-json demo/query.json --output outputs/search.json
+python -m jobmatch.app --input-json demo/edge.json --output outputs/edge.json
+python -m jobmatch.demo
+python -m jobmatch.evaluate --sample-per-label 1000 --output outputs/eval.json
+python -m jobmatch.cases
+python -m jobmatch.calibrate
+python -m jobmatch.searchcheck
+python -m jobmatch.batch --input demo/batch.csv --output outputs/batch.csv
+python -m jobmatch.annotate --full-source path/to/source.csv
 ```
 
-Rebuild the committed classifier with `python -m msba_job_matcher.train`.
+Rebuild the committed classifier with `python -m jobmatch.train`.
 
 ## Architecture
 
@@ -82,20 +82,20 @@ The calibrated review policy targets 99.5% weak-label precision on a 10,000-row 
 
 ## Recorded Demo
 
-The **3:15** silent screen recording is available at [`demo/demo.mp4`](demo/demo.mp4). It records the actual command `python -m msba_job_matcher.final_demo --recording`, including live initialization of the 100,000-row dataset, a normal search request, grounded retrieval output, an explicit `NO OPT/CPT` edge case, the batch review workflow, and measured evaluation. English headings and explanations remain on screen long enough for the recording to be understood without audio.
+The **3:13** silent screen recording is available at [`demo/demo.mp4`](demo/demo.mp4). It records the actual command `python -m jobmatch.demo --recording`, including live initialization of the 100,000-row dataset, a normal search request, grounded retrieval output, an explicit `NO OPT/CPT` edge case, the batch review workflow, and measured evaluation. English headings and explanations remain on screen long enough for the recording to be understood without audio.
 
-The demonstrated outputs are generated during the recording and committed under `outputs/`. The edge case intentionally preserves a `high_fit` role prediction while forcing `review_required=true` and a Hold action, showing that role fit never overrides explicit authorization evidence. Run the same sequence quickly with `python -m msba_job_matcher.final_demo`, or use `--recording` to add readable pauses between scenes.
+The demonstrated outputs are generated during the recording and committed under `outputs/`. The edge case intentionally preserves a `high_fit` role prediction while forcing `review_required=true` and a Hold action, showing that role fit never overrides explicit authorization evidence. Run the same sequence quickly with `python -m jobmatch.demo`, or use `--recording` to add readable pauses between scenes.
 
 ## Reproducibility and Deliverables
 
 - M2-M4 completed notebooks and archival PDFs are stored at the repository root.
-- Final casebook: `outputs/final_casebook_outputs.json` and `docs/final_casebook.md`.
-- Model artifact and audit: `models/job_fit_tfidf_svc.joblib` and `models/job_fit_tfidf_svc_metrics.json`.
-- Review policy and search audit: `models/review_policy.json` and `outputs/search_constraint_audit.json`.
-- Batch example: `demo/batch.csv` and `outputs/batch_review_results.csv`.
-- Annotation assets: `data/advisor_annotation_queue_1000.csv`, `data/authorization_evidence_benchmark.csv`, and `docs/annotation_guide.md`.
-- Full-source and temporal audits: `outputs/authorization_evidence_audit.json` and `outputs/temporal_validation_results.json`.
-- Governance appendix: `docs/governance_risk_appendix.md`.
-- Final technical summary: `docs/Final_Technical_Summary.pdf`.
-- Slide deck: `slides/MSBA_Job_Matching_Final_Deck.pptx` and `.pdf`.
+- Final casebook: `outputs/cases.json` and `docs/cases.md`.
+- Model artifact and audit: `models/model.joblib` and `models/metrics.json`.
+- Review policy and search audit: `models/policy.json` and `outputs/search-audit.json`.
+- Batch example: `demo/batch.csv` and `outputs/batch.csv`.
+- Annotation assets: `data/review.csv`, `data/auth.csv`, and `docs/annotate.md`.
+- Full-source and temporal audits: `outputs/auth.json` and `outputs/time.json`.
+- Governance appendix: `docs/risks.md`.
+- Final technical summary: `docs/summary.pdf`.
+- Slide deck: `slides/deck.pptx` and `.pdf`.
 - Recorded demo: `demo/demo.mp4`, a silent screen recording of the reproducible real-run command.

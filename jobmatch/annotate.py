@@ -223,8 +223,8 @@ def temporal_validation(project, seed):
 def main():
     parser = argparse.ArgumentParser(description="Audit authorization evidence and build advisor annotation assets.")
     parser.add_argument("--full-source", required=True)
-    parser.add_argument("--project-data", default="data_jobs_msba_project_sample_100k.csv")
-    parser.add_argument("--model", default="models/job_fit_tfidf_svc.joblib")
+    parser.add_argument("--project-data", default="jobs.csv")
+    parser.add_argument("--model", default="models/model.joblib")
     parser.add_argument("--seed", type=int, default=2411)
     parser.add_argument("--output-dir", default="data")
     parser.add_argument("--outputs-dir", default="outputs")
@@ -235,12 +235,12 @@ def main():
     output_dir.mkdir(parents=True, exist_ok=True)
     outputs_dir.mkdir(parents=True, exist_ok=True)
     total_rows, evidence, benchmark, counts = scan_full_source(args.full_source)
-    benchmark.to_csv(output_dir / "authorization_evidence_benchmark.csv", index=False)
+    benchmark.to_csv(output_dir / "auth.csv", index=False)
 
     project = pd.read_csv(args.project_data)
     model = joblib.load(args.model)
     queue = build_annotation_queue(project, evidence, model)
-    queue.to_csv(output_dir / "advisor_annotation_queue_1000.csv", index=False)
+    queue.to_csv(output_dir / "review.csv", index=False)
 
     audit = {
         "source_dataset": "lukebarousse/data_jobs",
@@ -252,10 +252,10 @@ def main():
         "annotation_queue_composition": queue["queue_source"].value_counts().to_dict(),
         "governance_note": "Title-level phrases are candidate evidence only and require advisor verification.",
     }
-    (outputs_dir / "authorization_evidence_audit.json").write_text(json.dumps(audit, indent=2), encoding="utf-8")
+    (outputs_dir / "auth.json").write_text(json.dumps(audit, indent=2), encoding="utf-8")
 
     temporal = temporal_validation(project, args.seed)
-    (outputs_dir / "temporal_validation_results.json").write_text(json.dumps(temporal, indent=2), encoding="utf-8")
+    (outputs_dir / "time.json").write_text(json.dumps(temporal, indent=2), encoding="utf-8")
     print(json.dumps({"authorization_audit": audit, "temporal_validation": temporal}, indent=2))
 
 

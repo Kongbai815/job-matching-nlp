@@ -10,11 +10,11 @@ def main():
     parser.add_argument("--query", help="Advisor/student query text.")
     parser.add_argument("--input-json", help="JSON file with a query field.")
     parser.add_argument("--mode", choices=["auto", "search", "posting"], default="auto")
-    parser.add_argument("--data", default="data/data_jobs_msba_project_sample_100k.csv", help="Path to project CSV.")
-    parser.add_argument("--model", default="models/job_fit_tfidf_svc.joblib", help="Path to trained classifier artifact.")
-    parser.add_argument("--review-policy", default="models/review_policy.json", help="Path to calibrated review policy.")
+    parser.add_argument("--data", default="jobs.csv", help="Path to project CSV.")
+    parser.add_argument("--model", default="models/model.joblib", help="Path to trained classifier artifact.")
+    parser.add_argument("--review-policy", default="models/policy.json", help="Path to calibrated review policy.")
     parser.add_argument("--top-k", type=int, default=6, help="Number of retrieved postings.")
-    parser.add_argument("--output", default="outputs/system_output.json", help="Where to write JSON output.")
+    parser.add_argument("--output", default="outputs/out.json", help="Where to write JSON output.")
     args = parser.parse_args()
 
     if args.input_json:

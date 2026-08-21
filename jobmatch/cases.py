@@ -70,10 +70,10 @@ def markdown(payload):
 
 def main():
     parser = argparse.ArgumentParser(description="Run the four final workflow cases.")
-    parser.add_argument("--data", default="data_jobs_msba_project_sample_100k.csv")
-    parser.add_argument("--model", default="models/job_fit_tfidf_svc.joblib")
-    parser.add_argument("--output", default="outputs/final_casebook_outputs.json")
-    parser.add_argument("--markdown-output", default="docs/final_casebook.md")
+    parser.add_argument("--data", default="jobs.csv")
+    parser.add_argument("--model", default="models/model.joblib")
+    parser.add_argument("--output", default="outputs/cases.json")
+    parser.add_argument("--markdown-output", default="docs/cases.md")
     args = parser.parse_args()
 
     system = JobMatchingSystem(data_path=args.data, model_path=args.model)

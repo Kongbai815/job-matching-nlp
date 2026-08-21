@@ -1,6 +1,6 @@
 # Advisor Annotation Guide
 
-The repository includes `data/advisor_annotation_queue_1000.csv`, a completed sampling package for human review. It contains 800 low-margin postings selected by active learning and 200 authorization-language candidates mined from the full 785,741-row source.
+The repository includes `data/review.csv`, a completed sampling package for human review. It contains 800 low-margin postings selected by active learning and 200 authorization-language candidates mined from the full 785,741-row source.
 
 ## Required fields
 

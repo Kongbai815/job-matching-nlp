@@ -9,16 +9,16 @@ from .core import JobMatchingSystem, compute_metrics
 
 def main():
     parser = argparse.ArgumentParser(description="Evaluate the MSBA job matching prototype.")
-    parser.add_argument("--data", default="data/data_jobs_msba_project_sample_100k.csv")
+    parser.add_argument("--data", default="jobs.csv")
     parser.add_argument("--sample-per-label", type=int, default=1000)
     parser.add_argument("--seed", type=int, default=2411)
-    parser.add_argument("--model", default="models/job_fit_tfidf_svc.joblib")
-    parser.add_argument("--output", default="outputs/evaluation_results.json")
+    parser.add_argument("--model", default="models/model.joblib")
+    parser.add_argument("--output", default="outputs/eval.json")
     args = parser.parse_args()
 
     data_path = Path(args.data)
-    if not data_path.exists() and data_path.name == "data_jobs_msba_project_sample_100k.csv":
-        data_path = Path("data_jobs_msba_project_sample_100k.csv")
+    if not data_path.exists() and data_path.name == "jobs.csv":
+        data_path = Path("jobs.csv")
 
     df = pd.read_csv(data_path)
     eval_df = (

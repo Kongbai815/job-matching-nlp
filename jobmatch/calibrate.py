@@ -68,9 +68,9 @@ def evaluate_policy(y_true, predicted, margins, thresholds):
 
 def main():
     parser = argparse.ArgumentParser(description="Calibrate class-specific mandatory-review thresholds.")
-    parser.add_argument("--data", default="data_jobs_msba_project_sample_100k.csv")
-    parser.add_argument("--model", default="models/job_fit_tfidf_svc.joblib")
-    parser.add_argument("--output", default="models/review_policy.json")
+    parser.add_argument("--data", default="jobs.csv")
+    parser.add_argument("--model", default="models/model.joblib")
+    parser.add_argument("--output", default="models/policy.json")
     parser.add_argument("--target-precision", type=float, default=0.995)
     parser.add_argument("--seed", type=int, default=2411)
     args = parser.parse_args()

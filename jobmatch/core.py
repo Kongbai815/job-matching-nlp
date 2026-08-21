@@ -11,8 +11,8 @@ import pandas as pd
 
 LABELS = ["high_fit", "medium_fit", "low_fit", "unclear"]
 TOP_K = 6
-DEFAULT_MODEL_PATH = Path("models/job_fit_tfidf_svc.joblib")
-DEFAULT_REVIEW_POLICY_PATH = Path("models/review_policy.json")
+DEFAULT_MODEL_PATH = Path("models/model.joblib")
+DEFAULT_REVIEW_POLICY_PATH = Path("models/policy.json")
 
 STOPWORDS = {
     "a", "an", "and", "are", "as", "at", "be", "by", "for", "from", "has", "in",
@@ -206,14 +206,14 @@ def compute_metrics(y_true, y_pred):
 class JobMatchingSystem:
     def __init__(
         self,
-        data_path="data/data_jobs_msba_project_sample_100k.csv",
+        data_path="jobs.csv",
         top_k=TOP_K,
         model_path=DEFAULT_MODEL_PATH,
         review_policy_path=DEFAULT_REVIEW_POLICY_PATH,
     ):
         self.data_path = Path(data_path)
-        if not self.data_path.exists() and self.data_path.name == "data_jobs_msba_project_sample_100k.csv":
-            self.data_path = Path("data_jobs_msba_project_sample_100k.csv")
+        if not self.data_path.exists() and self.data_path.name == "jobs.csv":
+            self.data_path = Path("jobs.csv")
         self.model_path = Path(model_path) if model_path else None
         if self.model_path and not self.model_path.exists() and self.model_path.name == DEFAULT_MODEL_PATH.name:
             candidate = Path(__file__).resolve().parents[1] / DEFAULT_MODEL_PATH

@@ -41,12 +41,12 @@ def process_batch_frame(frame, system, text_column="text", mode_column="mode"):
 def main():
     parser = argparse.ArgumentParser(description="Run the MSBA job matcher over a CSV review queue.")
     parser.add_argument("--input", required=True, help="CSV with text and optional mode columns.")
-    parser.add_argument("--output", default="outputs/batch_review_results.csv")
+    parser.add_argument("--output", default="outputs/batch.csv")
     parser.add_argument("--text-column", default="text")
     parser.add_argument("--mode-column", default="mode")
-    parser.add_argument("--data", default="data/data_jobs_msba_project_sample_100k.csv")
-    parser.add_argument("--model", default="models/job_fit_tfidf_svc.joblib")
-    parser.add_argument("--review-policy", default="models/review_policy.json")
+    parser.add_argument("--data", default="jobs.csv")
+    parser.add_argument("--model", default="models/model.joblib")
+    parser.add_argument("--review-policy", default="models/policy.json")
     args = parser.parse_args()
 
     source = pd.read_csv(args.input, keep_default_na=False)

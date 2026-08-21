@@ -90,7 +90,7 @@ def main():
     print("System  : Route -> retrieve -> classify -> govern -> advisor review.")
     print("Boundary: A high role-fit score never overrides explicit No OPT/CPT evidence.")
     print("\nLIVE COMMAND")
-    print("python -m msba_job_matcher.final_demo --recording")
+    print("python -m jobmatch.demo --recording")
     hold(delay)
 
     heading(
@@ -98,13 +98,13 @@ def main():
         "The following initialization is executing now, not replaying saved output.",
         clear=clear,
     )
-    print("Loading data_jobs_msba_project_sample_100k.csv ...", flush=True)
-    print("Loading models/job_fit_tfidf_svc.joblib and models/review_policy.json ...", flush=True)
+    print("Loading jobs.csv ...", flush=True)
+    print("Loading models/model.joblib and models/policy.json ...", flush=True)
     started = time.perf_counter()
     system = JobMatchingSystem(
-        data_path=ROOT / "data_jobs_msba_project_sample_100k.csv",
-        model_path=ROOT / "models" / "job_fit_tfidf_svc.joblib",
-        review_policy_path=ROOT / "models" / "review_policy.json",
+        data_path=ROOT / "jobs.csv",
+        model_path=ROOT / "models" / "model.joblib",
+        review_policy_path=ROOT / "models" / "policy.json",
     )
     load_seconds = time.perf_counter() - started
     print("\nLIVE INITIALIZATION COMPLETE")
@@ -129,7 +129,7 @@ def main():
     started = time.perf_counter()
     search_result = system.run(search_payload["query"], input_mode="search")
     search_seconds = time.perf_counter() - started
-    write_json(output_dir / "final_demo_output.json", search_result)
+    write_json(output_dir / "search.json", search_result)
     print(f"Completed in {search_seconds:.2f} seconds; JSON output written successfully.")
     hold(delay)
 
@@ -169,7 +169,7 @@ def main():
     started = time.perf_counter()
     edge_result = system.run(edge_payload["query"], input_mode="posting")
     edge_seconds = time.perf_counter() - started
-    write_json(output_dir / "final_edge_case_output.json", edge_result)
+    write_json(output_dir / "edge.json", edge_result)
     print(f"Completed in {edge_seconds:.2f} seconds; JSON output written successfully.")
     hold(delay)
 
@@ -194,13 +194,13 @@ def main():
         clear=clear,
     )
     print("INPUT : demo/batch.csv")
-    print("OUTPUT: outputs/batch_review_results.csv")
+    print("OUTPUT: outputs/batch.csv")
     print("\nExecuting process_batch_frame(...) now ...", flush=True)
     batch_source = pd.read_csv(batch_path, keep_default_na=False)
     started = time.perf_counter()
     batch_result = process_batch_frame(batch_source, system)
     batch_seconds = time.perf_counter() - started
-    batch_result.to_csv(output_dir / "batch_review_results.csv", index=False)
+    batch_result.to_csv(output_dir / "batch.csv", index=False)
     print(f"Completed {len(batch_result)} rows in {batch_seconds:.2f} seconds.\n")
     print("Row  Mode     Label       Review  Recommended action")
     for _, row in batch_result.iterrows():
@@ -217,11 +217,11 @@ def main():
         "These are held-out weak-label agreement metrics, not advisor-ground-truth accuracy.",
         clear=clear,
     )
-    baseline = load_json(output_dir / "milestone2_baseline_results.json")
-    final_eval = load_json(output_dir / "final_evaluation_results.json")
-    temporal = load_json(output_dir / "temporal_validation_results.json")
-    review = load_json(ROOT / "models" / "review_policy.json")
-    search_audit = load_json(output_dir / "search_constraint_audit.json")
+    baseline = load_json(output_dir / "m2.json")
+    final_eval = load_json(output_dir / "eval.json")
+    temporal = load_json(output_dir / "time.json")
+    review = load_json(ROOT / "models" / "policy.json")
+    search_audit = load_json(output_dir / "search-audit.json")
     print(f"M2 TF-IDF baseline macro F1       : {baseline['metrics']['macro_f1']:.4f}")
     print(f"Final classifier macro F1         : {final_eval['metrics']['macro_f1']:.4f}")
     print(f"Measured absolute improvement     : {final_eval['metrics']['macro_f1'] - baseline['metrics']['macro_f1']:.4f}")
